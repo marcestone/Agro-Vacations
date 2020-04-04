@@ -13,19 +13,6 @@
 <script>
 
 export default {
-  name: "Home",
-  data: function() {
-    return {
-      client: null
-    };
-  },
-  mounted() {
-    db.collection("client")
-      .doc("PZXYLuSsZyL87X5fYh9c")
-      .get()
-      .then(snapshot => {
-        this.client = snapshot.data().lastName;
-      });
-  }
+  name: "Home"
 };
 </script>
