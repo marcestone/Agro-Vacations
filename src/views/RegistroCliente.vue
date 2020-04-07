@@ -2,11 +2,17 @@
   <div>
     <form class="mt-5" @submit.prevent="register">
       <div class="container">
-        <h4 class="text-center font-weight-light mb-3">Registrate como cliente</h4>
+        <h4 class="text-center font-weight-light mb-3">
+          Registrate como cliente
+        </h4>
         <div class="form-row">
-          <div v-if="error" class="col-12 alert alert-danger px-3">{{ error }}</div>
+          <div v-if="error" class="col-12 alert alert-danger px-3">
+            {{ error }}
+          </div>
           <section class=" mt-5 col-sm-12 form-group">
-            <label class="form-control-label sr-only" for="displayName">Display Name</label>
+            <label class="form-control-label sr-only" for="displayName"
+              >Display Name</label
+            >
             <input
               class="form-control"
               type="text"
@@ -32,7 +38,12 @@
         </section>
         <section class="form-group">
           <label class="form-control-label sr-only"></label>
-          <input class="form-control" type="password" placeholder="Contraseña" v-model="passOne" />
+          <input
+            class="form-control"
+            type="password"
+            placeholder="Contraseña"
+            v-model="passOne"
+          />
         </section>
         <section class="form-group">
           <label class="form-control-label sr-only"></label>

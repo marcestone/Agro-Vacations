@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <Navigation/>
+    <Navigation />
     <router-view class="container" />
   </div>
 </template>
@@ -9,8 +9,12 @@
 import Navigation from "@/components/Navigation.vue";
 // eslint-disable-next-line
 import Firebase from "firebase";
+import Vue from 'vue'
+import { BootstrapVue, BootstrapVueIcons } from 'bootstrap-vue'
 import db from "./db.js";
 
+Vue.use(BootstrapVue)
+Vue.use(BootstrapVueIcons)
 export default {
   name: "App",
   data: function() {
@@ -29,11 +33,11 @@ export default {
 
   components: {
     Navigation
-  }  
+  }
 };
 </script>
 
 <style lang="scss">
-$primary:#61b254;
+$primary: #61b254;
 @import "node_modules/bootstrap/scss/bootstrap";
 </style>
