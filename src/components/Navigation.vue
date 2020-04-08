@@ -1,11 +1,12 @@
 <template>
   <div>
-    <div class="shadow bg-white rounded">
+    <header class="header">
+    <div class="shadow-lg  bg-white rounded">
       
-      <b-navbar toggleable="md" type="dark" variant="primary">
+      <b-navbar toggleable="lg" type="light" variant="white" >
         
         <b-navbar-brand  to="/">
-          <img src="https://placekitten.com/g/40/40" class="d-inline-block align-top" alt="Kitten" >
+          <img src="https://placekitten.com/g/40/40" class="d-inline-block align-top"  >
           AgroVacations
         </b-navbar-brand>
 
@@ -13,7 +14,7 @@
 
         <b-collapse id="nav-collapse" is-nav>
           <!-- Right aligned nav items -->
-          <b-navbar-nav class="ml-auto">  
+          <b-navbar-nav class="ml-auto">   
             
             <b-navbar-nav>
               <b-nav-item href="#" to="/logincliente" ><b-icon icon="person-fill"></b-icon> 
@@ -40,15 +41,20 @@
 
             </b-nav-item-dropdown>
             
-            <router-link type="button" class="btn btn-dark" to="/registrocliente"
-                >Start Now</router-link> 
-            <router-link type="button" class="btn btn-dark" to="/registrocliente"
+             
+            
+            <router-link type="button" class="btn btn-success" 
+            style="margin-right: 60px; margin-left: 50px; " to="/registrocliente"
+                >Discover adventures</router-link>
+            <router-link type="button" class="btn btn-success" 
+            style="margin-right: 60px; margin-left: 50px; " to="/registrocliente"
                 >Publish Now</router-link>
                 
           </b-navbar-nav>
         </b-collapse>
       </b-navbar>
     </div>
+    </header>
 </div>
 </template>
 <script>
@@ -57,6 +63,27 @@ export default {
   name: "Home"
 };
 </script>
-<style>
- 
+<style lang="scss">
+.header .navbar {
+  background-color: transparent !important;
+}
+
+
+
+
+.navbar-light .navbar-nav .nav-link {
+    color: #000000 !important;
+}
+
+.navbar {
+    -webkit-box-shadow: 0 8px 6px -6px #999;
+    -moz-box-shadow: 0 8px 6px -6px #999;
+    box-shadow: 0 8px 6px -6px #999;
+
+}
+
+.navbar-expand-md .navbar-nav .nav-link {
+    padding-right: 0.9rem !important;
+    padding-left: 0.9rem !important;
+}
 </style>
