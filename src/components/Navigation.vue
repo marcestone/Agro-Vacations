@@ -1,21 +1,89 @@
 <template>
-    <div>
-        <nav class="site-nav navbar navbar-expand bg-primary navbar-dark">
+  <div>
+    <header class="header">
+    <div class="shadow-lg  bg-white rounded">
+      
+      <b-navbar toggleable="lg" type="light" variant="white" >
+        
+        <b-navbar-brand  to="/">
+          <img src="https://placekitten.com/g/40/40" class="d-inline-block align-top"  >
+          AgroVacations
+        </b-navbar-brand>
 
-            <div class="container-fluid">
-                <router-link class="navbar-brand" to="/">AgroVacations</router-link>
-                <div class="navbar-nav ml-auto" >
-                    <router-link class="nav-item nav-link" to="/logincliente">Login Cliente</router-link>
-                    <router-link class="nav-item nav-link" to="/loginentidad">Login Entidad</router-link>
-                    <router-link class="nav-item nav-link" to="/registrocliente">Registro Cliente</router-link>
-                    <router-link class="nav-item nav-link" to="/registroentidad">Registro Entidad</router-link>
-                    
-                </div>
-            </div>
+        <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
-        </nav>
+        <b-collapse id="nav-collapse" is-nav>
+          <!-- Right aligned nav items -->
+          <b-navbar-nav class="ml-auto">   
+            
+            <b-navbar-nav>
+              <b-nav-item href="#" to="/logincliente" ><b-icon icon="person-fill"></b-icon> 
+              Log In</b-nav-item>
+              <b-nav-item href="#" to="/registrocliente"><b-icon icon="person-plus-fill"></b-icon> 
+              Sign In</b-nav-item>
+              <b-nav-item href="#" to="/"><b-icon icon="exclamation-circle"></b-icon>
+              Help</b-nav-item>
+            </b-navbar-nav>
 
+            <b-nav-item-dropdown text="Me" right > 
+              <template v-slot:button-content>
+                <b-icon icon="person-fill" aria-hidden="true"></b-icon> Me
+                </template>
+              <b-dropdown-item href="#" to="/perfilcliente">
+                <b-icon icon="person-lines-fill"></b-icon> Profile</b-dropdown-item>
+              <b-dropdown-item href="#">
+                <b-icon icon="calendar"></b-icon> My Activities</b-dropdown-item>
+              <b-dropdown-item href="#">
+                <b-icon icon="gear-fill"></b-icon> Settigs</b-dropdown-item>
+              <b-dropdown-divider></b-dropdown-divider>
+              <b-dropdown-item href="#" variant="danger">
+                <b-icon icon="power"></b-icon> Log Out</b-dropdown-item>
 
-
+            </b-nav-item-dropdown>
+            
+             
+            
+            <router-link type="button" class="btn btn-success" 
+            style="margin-right: 60px; margin-left: 50px; " to="/registrocliente"
+                >Discover adventures</router-link>
+            <router-link type="button" class="btn btn-success" 
+            style="margin-right: 60px; margin-left: 50px; " to="/registrocliente"
+                >Publish Now</router-link>
+                
+          </b-navbar-nav>
+        </b-collapse>
+      </b-navbar>
     </div>
+    </header>
+</div>
 </template>
+<script>
+
+export default {
+  name: "Home"
+};
+</script>
+<style lang="scss">
+.header .navbar {
+  background-color: transparent !important;
+}
+
+
+
+
+.navbar-light .navbar-nav .nav-link {
+    color: #000000 !important;
+}
+
+.navbar {
+    -webkit-box-shadow: 0 8px 6px -6px #999;
+    -moz-box-shadow: 0 8px 6px -6px #999;
+    box-shadow: 0 8px 6px -6px #999;
+
+}
+
+.navbar-expand-md .navbar-nav .nav-link {
+    padding-right: 0.9rem !important;
+    padding-left: 0.9rem !important;
+}
+</style>

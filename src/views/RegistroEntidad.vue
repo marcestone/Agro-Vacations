@@ -30,7 +30,12 @@
         </section>
         <section class="col-sm-9 form-group">
           <label class="form-control-label sr-only"></label>
-          <input class="form-control" type="password" placeholder="Contraseña" v-model="passOne" />
+          <input
+            class="form-control"
+            type="password"
+            placeholder="Contraseña"
+            v-model="passOne"
+          />
         </section>
         <section class="col-sm-9 form-group">
           <label class="form-control-label sr-only"></label>
