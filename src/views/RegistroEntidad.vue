@@ -60,6 +60,7 @@
 <script>
 // eslint-disable-next-line
 import Firebase from "firebase";
+import db from "../db.js";
 
 export default {
   data: function() {
@@ -95,6 +96,20 @@ export default {
               this.error = error.message;
             }
           );
+
+      Firebase.auth().onAuthStateChanged(user => {
+          if (user) {
+            var UID = user.uid;
+
+            db.collection("user")
+              .doc(UID)
+              .set({
+                name: info.displayName,
+                email: info.email,
+                uid: UID
+              });
+          }
+        });
       }
     }
   },
