@@ -1,24 +1,22 @@
 <template>
-  <div>
+  <div class="container">
     <form class="mt-5" @submit.prevent="register">
-      <div class="container">
-        <h4 class="text-center font-weight-light mb-3">Registrate como entidad</h4>
-        <div class="form-row">
-          <div v-if="error" class="col-12 alert alert-danger px-3">{{ error }}</div>
-          <section class="mt-5 col-sm-12 form-group">
-            <label class="form-control-label sr-only" for="displayName">Display Name</label>
-            <input
-              class="form-control"
-              type="text"
-              id="displayName"
-              placeholder="Nombres y apellidos"
-              name="displayName"
-              required
-              v-model="displayName"
-            />
-          </section>
-        </div>
-        <section class="form-group">
+      <h4 class="text-center font-weight-light mb-3">Registrate como entidad</h4>
+      <div class="row justify-content-center">
+        <div v-if="error" class="col-12 alert alert-danger px-3">{{ error }}</div>
+        <section class="mt-5 col-sm-9 form-group">
+          <label class="form-control-label sr-only" for="displayName">Display Name</label>
+          <input
+            class="form-control"
+            type="text"
+            id="displayName"
+            placeholder="Nombres y apellidos"
+            name="displayName"
+            required
+            v-model="displayName"
+          />
+        </section>
+        <section class="col-sm-9 form-group">
           <label class="form-control-label sr-only" for="email">Email</label>
           <input
             class="form-control"
@@ -30,11 +28,11 @@
             v-model="email"
           />
         </section>
-        <section class="form-group">
+        <section class="col-sm-9 form-group">
           <label class="form-control-label sr-only"></label>
           <input class="form-control" type="password" placeholder="Contraseña" v-model="passOne" />
         </section>
-        <section class="form-group">
+        <section class="col-sm-9 form-group">
           <label class="form-control-label sr-only"></label>
           <input
             class="form-control"
@@ -44,10 +42,9 @@
             v-model="passTwo"
           />
         </section>
-
-        <div class="form-group text-center mt-5">
-          <button class="btn btn-primary" type="submit">Registrarse</button>
-        </div>
+      </div>
+      <div class="form-group text-center mt-5">
+        <button class="btn btn-primary" type="submit">Registrarse</button>
       </div>
     </form>
     <p class="text-center mt-2">
@@ -97,7 +94,7 @@ export default {
             }
           );
 
-      Firebase.auth().onAuthStateChanged(user => {
+        Firebase.auth().onAuthStateChanged(user => {
           if (user) {
             var UID = user.uid;
 
@@ -128,11 +125,3 @@ export default {
   }
 };
 </script>
-
-<style lang="scss">
-.container {
-  margin-top: 8%;
-  padding-left: 200px;
-  padding-right: 200px;
-}
-</style>
