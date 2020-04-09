@@ -1,63 +1,88 @@
 <template>
+<div class="bg">
   <div class="container">
-    <form class="mt-5" @submit.prevent="register">
-      <h4 class="text-center font-weight-light mb-3">Registrate como cliente</h4>
-      <div class="row justify-content-center">
-        <div v-if="error" class="col-12 alert alert-danger px-3">{{ error }}</div>
-        <section class="mt-5 col-sm-9 form-group">
-          <label class="form-control-label sr-only" for="displayName">Display Name</label>
-          <input
-            class="form-control"
-            type="text"
-            id="displayName"
-            placeholder="Nombres y apellidos"
-            name="displayName"
-            required
-            v-model="displayName"
-          />
-        </section>
-        <section class="col-sm-9 form-group">
-          <label class="form-control-label sr-only" for="email">Email</label>
-          <input
-            class="form-control"
-            type="email"
-            id="email"
-            placeholder="Correo electrónico"
-            required
-            name="email"
-            v-model="email"
-          />
-        </section>
-        <section class="col-sm-9 form-group">
-          <label class="form-control-label sr-only"></label>
-          <input
-            class="form-control"
-            type="password"
-            placeholder="Contraseña"
-            v-model="passOne"
-          />
-        </section>
-        <section class="col-sm-9 form-group">
-          <label class="form-control-label sr-only"></label>
-          <input
-            class="form-control"
-            type="password"
-            required
-            placeholder="Repetir contraseña"
-            v-model="passTwo"
-          />
-        </section>
+    <div class="card mt-1" style="width: 50%;margin-left: 55%; border: white;">
+      <div class="card-body ">
+        <form class="mt-5" @submit.prevent="register">
+          <h2 class="text-center font-weight-bold mb-3 text-success">Join the community</h2>
+          <div class="row justify-content-center">
+            <div v-if="error" class="col-12 alert alert-danger px-3">{{ error }}</div>
+            <section class="mt-5 col-sm-9 form-group">
+              <label class="form-control-label sr-only" for="displayName">Display Name</label>
+              <input
+                class="form-control border-success"
+                type="text"
+                id="displayName"
+                placeholder="Name"
+                name="displayName"
+                required
+                v-model="displayName"
+              />
+            </section>
+            <section class="mt-3 col-sm-9 form-group">
+              <label class="form-control-label sr-only" for="email">Email</label>
+              <input
+                class="form-control border-success"
+                type="email"
+                id="email"
+                placeholder="E-mail"
+                required
+                name="email"
+                v-model="email"
+              />
+            </section>
+            <section class="mt-3 col-sm-9 form-group">
+              <label class="form-control-label sr-only"></label>
+              <input
+                class="form-control border-success"
+                type="password"
+                placeholder="Password"
+                v-model="passOne"
+              />
+            </section>
+            <section class="mt-3 col-sm-9 form-group">
+              <label class="form-control-label sr-only"></label>
+              <input
+                class="form-control border-success "
+                type="password"
+                required
+                placeholder="Repeat password"
+                v-model="passTwo"
+              />
+            </section>
+          </div>
+          <div class="form-group text-center mt-5">
+            <button class="btn btn-outline-success " type="submit">Register</button>
+          </div>
+        </form>
+        <p class="text-center mt-2">
+          or
+          <router-link to="/logincliente">Log in</router-link>
+        </p>
       </div>
-      <div class="form-group text-center mt-5">
-        <button class="btn btn-primary" type="submit">Registrarse</button>
-      </div>
-    </form>
-    <p class="text-center mt-2">
-      o
-      <router-link to="/logincliente">Ingresar</router-link>
-    </p>
+    </div>
+  </div>
   </div>
 </template>
+
+<style lang="css" scoped>
+body, html {
+  height: 100%;
+}
+.bg {
+  /* The image used */
+  background-image: url("../assets/RegisterBg.jpg");
+
+  /* Full height */
+  height: 100%;
+
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+</style>
+
 <script>
 // eslint-disable-next-line
 import Firebase from "firebase";
