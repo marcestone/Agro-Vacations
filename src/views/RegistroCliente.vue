@@ -3,7 +3,7 @@
   <div class="container">
     <div class="card mt-1" style="width: 50%;margin-left: 55%; border: white;">
       <div class="card-body ">
-        <form class="mt-5" @submit.prevent="register">
+        <form class="mt-4" @submit.prevent="register">
           <h2 class="text-center font-weight-bold mb-3 text-success">Join the community</h2>
           <div class="row justify-content-center">
             <div v-if="error" class="col-12 alert alert-danger px-3">{{ error }}</div>

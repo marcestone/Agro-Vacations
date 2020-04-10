@@ -2,8 +2,8 @@
 
   
   <div class="wrapper">
-    <b-img src="../assets/background.jpg" width="1366" height="559" aling="top" ></b-img>
-    <div class="box">
+    <b-img src="../assets/background.jpg" width="1366" height="578" aling="top" ></b-img>
+    <div class="box" id="boxHome">
 
       <b-form inline>
 
@@ -107,7 +107,7 @@ export default {
     position:relative;
 }
 
-.box {
+#boxHome {
     position:absolute;
     top:340px;
     left:183px;
