@@ -2,15 +2,15 @@
 
   
   <div class="wrapper">
-    <b-img src="../assets/landscape.jpg" width="1366" height="559" aling="top" ></b-img>
+    <b-img src="../assets/background.jpg" width="1366" height="559" aling="top" ></b-img>
     <div class="box">
 
       <b-form inline>
 
         <b-input
-        id="InputSearchA"
+        id="InputSearchA" 
         class="w-25 p-3 mb-1 h-100 d-inline-block "
-        placeholder="Search activity or destination"
+        placeholder=" ✈ Search activity or destination"
         ></b-input>
 
         <b-form-datepicker
@@ -34,10 +34,10 @@
         <b-input
         id="InputGuests"
         class="w-sm p-3 mb-1 h-100 d-inline-block "
-        placeholder="Guests"
+        placeholder="👥 Guests"
         ></b-input>
 
-        <b-button id="SearchBtn" variant="success"><b-icon icon="search"></b-icon> Search</b-button>
+        <b-button id="SearchBtn" variant="success" style="float: right;"><b-icon icon="search"></b-icon> Search</b-button>
 
       </b-form>
 
@@ -75,16 +75,34 @@ export default {
 
 
 <style lang="scss">
+#InputSearchA{
+  width: 320px !important;
+  margin-top: 13px;
+  margin-left: 15px;
+}
+#InputGuests{
+  margin-top: 13px;
+  margin-left: 15px;
+  height: 60px;
+  width: 120px;
+}
+.form-control-lg {
+  font-size: 1rem;
+  margin-left: 15px;
+  margin-top: 13px;
+}
+.b-form-btn-label-control > label.form-control-lg {
+    min-height: calc(calc(1.5em + 1rem + 2px) - 2px);
+    width: 115px;
+}
 #SearchBtn {
   height: 60px;
-  width: 150px;
+  width: 130px;
   border-radius: 35px;
   margin-top: 13px;
+  margin-left: 15px;
+}
 
-  }
-/*input, button, select, optgroup, textarea {
-    margin: 15px;
-}*/
 .wrapper {
     position:relative;
 }

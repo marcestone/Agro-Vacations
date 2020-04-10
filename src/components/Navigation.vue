@@ -6,8 +6,8 @@
       <b-navbar toggleable="lg" type="light" variant="white" >
         
         <b-navbar-brand  to="/">
-          <img src="https://placekitten.com/g/40/40" class="d-inline-block align-top"  >
-          AgroVacations
+          <img src="../assets/BannerB.png" class="d-inline-block align-top"  height="50px">
+          
         </b-navbar-brand>
 
         <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
@@ -46,9 +46,7 @@
             <router-link type="button" class="btn btn-success" 
             style="margin-right: 60px; margin-left: 50px; " to="/registrocliente"
                 >Discover adventures</router-link>
-            <router-link type="button" class="btn btn-success" 
-            style="margin-right: 60px; margin-left: 50px; " to="/registrocliente"
-                >Publish Now</router-link>
+            
                 
           </b-navbar-nav>
         </b-collapse>
