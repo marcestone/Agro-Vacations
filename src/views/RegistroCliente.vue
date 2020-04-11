@@ -125,17 +125,21 @@ export default {
 
         Firebase.auth().onAuthStateChanged(user => {
           if (user) {
-            var UID = user.uid;
-
-            db.collection("user")
-              .doc(UID)
-              .set({
-                name: info.displayName,
-                email: info.email,
-                uid: UID
-              });
+            if(user.email == info.email){
+              var UID = user.uid;
+              db.collection("user")
+                .doc(UID)
+                .set({
+                  name: info.displayName,
+                  email: info.email,
+                  uid: UID,
+                  phone: null,
+                  address: null,
+                });
+            }
           }
         });
+
       }
     }
   },
