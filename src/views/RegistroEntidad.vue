@@ -1,11 +1,17 @@
 <template>
   <div class="container">
     <form class="mt-5" @submit.prevent="register">
-      <h4 class="text-center font-weight-light mb-3">Registrate como entidad</h4>
+      <h4 class="text-center font-weight-light mb-3">
+        Registrate como entidad
+      </h4>
       <div class="row justify-content-center">
-        <div v-if="error" class="col-12 alert alert-danger px-3">{{ error }}</div>
+        <div v-if="error" class="col-12 alert alert-danger px-3">
+          {{ error }}
+        </div>
         <section class="mt-5 col-sm-9 form-group">
-          <label class="form-control-label sr-only" for="displayName">Display Name</label>
+          <label class="form-control-label sr-only" for="displayName"
+            >Display Name</label
+          >
           <input
             class="form-control"
             type="text"

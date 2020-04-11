@@ -6,8 +6,12 @@
         <div class="card bg-light">
           <div class="card-body">
             <section class="form-group">
-              <div class="col-12 alert alert-danger px-3" v-if="error">{{error}}</div>
-              <label class="form-control-label sr-only" for="Email">Email</label>
+              <div class="col-12 alert alert-danger px-3" v-if="error">
+                {{ error }}
+              </div>
+              <label class="form-control-label sr-only" for="Email"
+                >Email</label
+              >
               <input
                 required
                 class="form-control"

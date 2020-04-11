@@ -1,72 +1,86 @@
 <template>
-<div class="bg">
-  <div class="container">
-    <div class="card mt-1" style="width: 50%;margin-left: 55%; border: white;">
-      <div class="card-body ">
-        <form class="mt-4" @submit.prevent="register">
-          <h2 class="text-center font-weight-bold mb-3 text-success">Join the community</h2>
-          <div class="row justify-content-center">
-            <div v-if="error" class="col-12 alert alert-danger px-3">{{ error }}</div>
-            <section class="mt-5 col-sm-9 form-group">
-              <label class="form-control-label sr-only" for="displayName">Display Name</label>
-              <input
-                class="form-control border-success"
-                type="text"
-                id="displayName"
-                placeholder="Name"
-                name="displayName"
-                required
-                v-model="displayName"
-              />
-            </section>
-            <section class="mt-3 col-sm-9 form-group">
-              <label class="form-control-label sr-only" for="email">Email</label>
-              <input
-                class="form-control border-success"
-                type="email"
-                id="email"
-                placeholder="E-mail"
-                required
-                name="email"
-                v-model="email"
-              />
-            </section>
-            <section class="mt-3 col-sm-9 form-group">
-              <label class="form-control-label sr-only"></label>
-              <input
-                class="form-control border-success"
-                type="password"
-                placeholder="Password"
-                v-model="passOne"
-              />
-            </section>
-            <section class="mt-3 col-sm-9 form-group">
-              <label class="form-control-label sr-only"></label>
-              <input
-                class="form-control border-success "
-                type="password"
-                required
-                placeholder="Repeat password"
-                v-model="passTwo"
-              />
-            </section>
-          </div>
-          <div class="form-group text-center mt-5">
-            <button class="btn btn-outline-success " type="submit">Register</button>
-          </div>
-        </form>
-        <p class="text-center mt-2">
-          or
-          <router-link to="/logincliente">Log in</router-link>
-        </p>
+  <div class="bg">
+    <div class="container">
+      <div
+        class="card mt-1"
+        style="width: 50%;margin-left: 55%; border: white;"
+      >
+        <div class="card-body ">
+          <form class="mt-4" @submit.prevent="register">
+            <h2 class="text-center font-weight-bold mb-3 text-success">
+              Join the community
+            </h2>
+            <div class="row justify-content-center">
+              <div v-if="error" class="col-12 alert alert-danger px-3">
+                {{ error }}
+              </div>
+              <section class="mt-5 col-sm-9 form-group">
+                <label class="form-control-label sr-only" for="displayName"
+                  >Display Name</label
+                >
+                <input
+                  class="form-control border-success"
+                  type="text"
+                  id="displayName"
+                  placeholder="Name"
+                  name="displayName"
+                  required
+                  v-model="displayName"
+                />
+              </section>
+              <section class="mt-3 col-sm-9 form-group">
+                <label class="form-control-label sr-only" for="email"
+                  >Email</label
+                >
+                <input
+                  class="form-control border-success"
+                  type="email"
+                  id="email"
+                  placeholder="E-mail"
+                  required
+                  name="email"
+                  v-model="email"
+                />
+              </section>
+              <section class="mt-3 col-sm-9 form-group">
+                <label class="form-control-label sr-only"></label>
+                <input
+                  class="form-control border-success"
+                  type="password"
+                  placeholder="Password"
+                  v-model="passOne"
+                />
+              </section>
+              <section class="mt-3 col-sm-9 form-group">
+                <label class="form-control-label sr-only"></label>
+                <input
+                  class="form-control border-success "
+                  type="password"
+                  required
+                  placeholder="Repeat password"
+                  v-model="passTwo"
+                />
+              </section>
+            </div>
+            <div class="form-group text-center mt-5">
+              <button class="btn btn-outline-success " type="submit">
+                Register
+              </button>
+            </div>
+          </form>
+          <p class="text-center mt-2">
+            or
+            <router-link to="/logincliente">Log in</router-link>
+          </p>
+        </div>
       </div>
     </div>
-  </div>
   </div>
 </template>
 
 <style lang="css" scoped>
-body, html {
+body,
+html {
   height: 100%;
 }
 .bg {
@@ -158,4 +172,3 @@ export default {
   }
 };
 </script>
-
