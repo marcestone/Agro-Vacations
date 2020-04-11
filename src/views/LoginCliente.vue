@@ -1,16 +1,26 @@
 <template>
   <div class="w3-container">
-    <div class="wrapper">
-      <b-img src="../assets/background.jpg" width="1366" height="578" aling="top" ></b-img>
+      <b-img
+        src="../assets/91352.jpg"
+        width="1365"
+        height="587"
+        aling="top"
+      ></b-img>
       <div class="box" id="boxLogin">
         <form class="mt-4" @submit.prevent="login">
           <div class="row justify-content-center">
-            <h4 class="text-center font-weight-light mb-3">Ingresa como cliente</h4>
+            <h5>
+              Log into your account
+            </h5>
             <div class="card bg-light">
               <div class="card-body">
                 <section class="form-group">
-                  <div class="col-12 alert alert-danger px-3" v-if="error">{{error}}</div>
-                  <label class="form-control-label sr-only" for="Email">Email</label>
+                  <div class="col-12 alert alert-danger px-3" v-if="error">
+                    {{ error }}
+                  </div>
+                  <label class="form-control-label sr-only" for="Email"
+                    >Email</label
+                  >
                   <input
                     required
                     class="form-control"
@@ -20,7 +30,7 @@
                     v-model="email"
                   />
                 </section>
-                <section class="form-group">
+                <section class="form-group" variant="success">
                   <input
                     required
                     class="form-control"
@@ -30,19 +40,20 @@
                   />
                 </section>
                 <div class="form-group text-center mt-4">
-                  <button class="btn btn-primary" type="submit">Ingresar</button>
+                  <b-button pill variant="success" size="lg" type="submit">
+                    <hbotton>Log in</hbotton>
+                  </b-button>
                 </div>
               </div>
             </div>
           </div>
         </form>
-        <p class="text-center mt-2">
-          o
-          <router-link to="/registrocliente">regístrate</router-link> ahora
+        <p class="text-center mt-1">
+          or
+          <router-link to="/registrocliente">register</router-link> now
         </p>
       </div>
     </div>
-  </div>
 </template>
 
 <script>
@@ -78,19 +89,29 @@ export default {
 </script>
 <style lang="scss">
 .wrapper {
-    position:relative;
+  position: relative;
 }
-#boxLogin{
-    position:absolute;
-    top:170px;
-    left:483px;
-    width:400px;
-    height:350px;
-    border-radius: 5px;
-    border:2px solid #61b254;
-    background-color: #f5f4f3;
+h5 {
+  color: #092c09;
+  font-size: 23px;
+  font-family: Impact;
+  font-weight: normal;
 }
-
-
+hbotton {
+  color: #ffffff;
+  font-size: 20px;
+  font-family: Rockwell;
+  font-weight: normal;
+}
+#boxLogin {
+  position: absolute;
+  top: 200px;
+  left: 483px;
+  width: 400px;
+  height: 340px;
+  border-radius: 70px;
+  border: 3px solid #044715;
+  background-color: #ebfff4a1;
+}
 
 </style>
