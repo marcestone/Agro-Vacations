@@ -1,6 +1,8 @@
 <template>
   <div id="app">
-    <Navigation />
+    <Navigation 
+      :client="client"
+      @logout="logout"/>
     <router-view />
   </div>
 </template>
@@ -11,6 +13,7 @@ import Navigation from "@/components/Navigation.vue";
 import Firebase from "firebase";
 import Vue from "vue";
 import { BootstrapVue, BootstrapVueIcons } from "bootstrap-vue";
+// eslint-disable-next-line
 import db from "./db.js";
 
 Vue.use(BootstrapVue);
@@ -22,15 +25,23 @@ export default {
       client: null
     };
   },
-  mounted() {
-    db.collection("client")
-      .doc("PZXYLuSsZyL87X5fYh9c")
-      .get()
-      .then(snapshot => {
-        this.client = snapshot.data().lastName;
-      });
+  methods: {
+    logout: function() {
+      Firebase.auth()
+        .signOut()
+        .then(() => {
+          this.client = null;
+          this.$router.push("home");
+        });
+    }
   },
-
+  mounted() {
+    Firebase.auth().onAuthStateChanged(client => {
+      if (client) {
+        this.client = client.displayName;
+      }
+    });
+  },
   components: {
     Navigation
   }

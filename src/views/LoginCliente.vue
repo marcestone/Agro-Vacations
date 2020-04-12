@@ -76,6 +76,7 @@ export default {
       Firebase.auth()
         .signInWithEmailAndPassword(info.email, info.password)
         .then(
+          
           () => {
             this.$router.push("home");
           },
@@ -95,12 +96,6 @@ h5 {
   color: #092c09;
   font-size: 23px;
   font-family: Impact;
-  font-weight: normal;
-}
-hbotton {
-  color: #ffffff;
-  font-size: 20px;
-  font-family: Rockwell;
   font-weight: normal;
 }
 #boxLogin {

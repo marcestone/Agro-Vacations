@@ -59,6 +59,7 @@
 <script>
 export default {
   name: "Home",
+  props: ["client"],
   data() {
     const now = new Date();
     const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
