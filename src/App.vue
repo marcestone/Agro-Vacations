@@ -1,7 +1,9 @@
 <template>
   <div id="app">
-    <Navigation/>
-    <router-view class="container" />
+    <Navigation 
+      :client="client"
+      @logout="logout"/>
+    <router-view />
   </div>
 </template>
 
@@ -9,8 +11,13 @@
 import Navigation from "@/components/Navigation.vue";
 // eslint-disable-next-line
 import Firebase from "firebase";
+import Vue from "vue";
+import { BootstrapVue, BootstrapVueIcons } from "bootstrap-vue";
+// eslint-disable-next-line
 import db from "./db.js";
 
+Vue.use(BootstrapVue);
+Vue.use(BootstrapVueIcons);
 export default {
   name: "App",
   data: function() {
@@ -18,22 +25,30 @@ export default {
       client: null
     };
   },
-  mounted() {
-    db.collection("client")
-      .doc("PZXYLuSsZyL87X5fYh9c")
-      .get()
-      .then(snapshot => {
-        this.client = snapshot.data().lastName;
-      });
+  methods: {
+    logout: function() {
+      Firebase.auth()
+        .signOut()
+        .then(() => {
+          this.client = null;
+          this.$router.push("home");
+        });
+    }
   },
-
+  mounted() {
+    Firebase.auth().onAuthStateChanged(client => {
+      if (client) {
+        this.client = client.displayName;
+      }
+    });
+  },
   components: {
     Navigation
-  }  
+  }
 };
 </script>
 
 <style lang="scss">
-$primary:#61b254;
+$primary: #47803e;
 @import "node_modules/bootstrap/scss/bootstrap";
 </style>
