@@ -2,7 +2,7 @@
   <div class="wrapper">
     <b-img
       src="../assets/background.jpg"
-      width="1366"
+      width=1349%
       height="578"
       aling="top"
     ></b-img>
@@ -53,13 +53,26 @@
         >
       </b-form>
     </div>
-  </div>
+    <div class="box" id="boxFilters">
+      <h3 align="center">-------------------- Filtros --------------------</h3>
+    </div>
+      <b-container id="ContainerActivities" >
+        <b-row align-v="center" align-h="between">
+          <Activity 
+            v-for="activity in activities" 
+            :key="activity.id"
+            :nameActivity="activity.nameActivity"
+            :prize="activity.prize"></Activity>     
+        </b-row>
+      </b-container>
+    </div>
 </template>
 
 <script>
+import Activity from "@/components/Activity.vue";
 export default {
   name: "Home",
-  props: ["client"],
+  props: ["client","activities"],
   data() {
     const now = new Date();
     const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
@@ -73,6 +86,9 @@ export default {
       valueD: "",
       min: minDate
     };
+  },
+  components: {
+    Activity
   }
 };
 </script>
@@ -120,4 +136,19 @@ export default {
   border: 2px solid #f5f4f3;
   background-color: #f5f4f3;
 }
+#boxFilters {
+  width: 1349px;
+  height: 40px;
+  border-radius: 1px;
+  border: 2px solid #47803e;
+  border-left: transparent;
+  border-right: transparent;
+}
+#ContainerActivities{ 
+  margin-top: 2rem;
+}
+#boxFilters{
+  margin-top: 2rem;
+}
+
 </style>

@@ -3,7 +3,10 @@
     <Navigation 
       :client="client"
       @logout="logout"/>
-    <router-view />
+    
+    <router-view 
+      :client="client"
+      :activities="activities"/>
   </div>
 </template>
 
@@ -12,17 +15,21 @@ import Navigation from "@/components/Navigation.vue";
 // eslint-disable-next-line
 import Firebase from "firebase";
 import Vue from "vue";
-import { BootstrapVue, BootstrapVueIcons } from "bootstrap-vue";
+import { BootstrapVue, BootstrapVueIcons ,BFormRating} from "bootstrap-vue";
+
 // eslint-disable-next-line
 import db from "./db.js";
 
 Vue.use(BootstrapVue);
 Vue.use(BootstrapVueIcons);
+Vue.component('b-form-rating', BFormRating)
+
 export default {
-  name: "App",
+  name: "app",
   data: function() {
     return {
-      client: null
+      client: null,
+      activities: []
     };
   },
   methods: {
@@ -38,8 +45,20 @@ export default {
   mounted() {
     Firebase.auth().onAuthStateChanged(client => {
       if (client) {
-        this.client = client.displayName;
+        this.client = client;
       }
+      db.collection("activities")
+      .onSnapshot(snapshot => {
+        const snapData = [];
+        snapshot.forEach(doc => {
+          snapData.push({
+            id: doc.id,
+            nameActivity: doc.data().nameActivity,
+            prize: doc.data().prize
+          });
+        });
+        this.activities = snapData;
+      });
     });
   },
   components: {
