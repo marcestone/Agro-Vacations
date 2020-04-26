@@ -1,16 +1,11 @@
 <template>
   <div class="wrapper">
-    <b-img
-      src="../assets/background.jpg"
-      width="1366"
-      height="578"
-      aling="top"
-    ></b-img>
+    <b-img src="../assets/background.jpg" width="1349%" height="578" aling="top"></b-img>
     <div class="box" id="boxHome">
       <b-form inline>
         <b-input
           id="InputSearchA"
-          class="w-25 p-3 mb-1 h-100 d-inline-block "
+          class="w-25 p-3 mb-1 h-100 d-inline-block"
           placeholder=" ✈ Search activity or destination"
         ></b-input>
 
@@ -44,22 +39,41 @@
 
         <b-input
           id="InputGuests"
-          class="w-sm p-3 mb-1 h-100 d-inline-block "
+          class="w-sm p-3 mb-1 h-100 d-inline-block"
           placeholder="👥 Guests"
         ></b-input>
 
-        <b-button id="SearchBtn" variant="success" style="float: right;"
-          ><b-icon icon="search"></b-icon> Search</b-button
-        >
+        <b-button id="SearchBtn" variant="success" style="float: right;">
+          <b-icon icon="search"></b-icon>Search
+        </b-button>
       </b-form>
     </div>
+    <div class="box" id="boxFilters">
+      <h3 align="center">-------------------- Filtros --------------------</h3>
+    </div>
+    <b-container id="ContainerActivities">
+      <b-row align-v="center" align-h="between">
+        <Activity
+          v-for="activity in activities"
+          :key="activity.id"
+          :nameActivity="activity.nameActivity"
+          :description="activity.description"
+          :datePublish="activity.datePublish"
+          :userCreatorName="activity.userCreatorName"
+          :prize="activity.prize"
+
+        ></Activity>
+
+      </b-row>
+    </b-container>
   </div>
 </template>
 
 <script>
+import Activity from "@/components/Activity.vue";
 export default {
   name: "Home",
-  props: ["client"],
+  props: ["client", "activities"],
   data() {
     const now = new Date();
     const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
@@ -73,11 +87,15 @@ export default {
       valueD: "",
       min: minDate
     };
+  },
+  components: {
+    Activity
   }
 };
 </script>
 
 <style lang="scss">
+
 #InputSearchA {
   width: 320px !important;
   margin-top: 13px;
@@ -119,5 +137,19 @@ export default {
   border-radius: 5px;
   border: 2px solid #f5f4f3;
   background-color: #f5f4f3;
+}
+#boxFilters {
+  width: 1349px;
+  height: 40px;
+  border-radius: 1px;
+  border: 2px solid #47803e;
+  border-left: transparent;
+  border-right: transparent;
+}
+#ContainerActivities {
+  margin-top: 2rem;
+}
+#boxFilters {
+  margin-top: 2rem;
 }
 </style>

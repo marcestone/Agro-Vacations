@@ -1,9 +1,8 @@
 <template>
   <div id="app">
-    <Navigation 
-      :client="client"
-      @logout="logout"/>
-    <router-view />
+    <Navigation :client="client" @logout="logout" />
+
+    <router-view :client="client" :activities="activities" />
   </div>
 </template>
 
@@ -12,17 +11,23 @@ import Navigation from "@/components/Navigation.vue";
 // eslint-disable-next-line
 import Firebase from "firebase";
 import Vue from "vue";
-import { BootstrapVue, BootstrapVueIcons } from "bootstrap-vue";
+import { BootstrapVue, BootstrapVueIcons, BFormRating } from "bootstrap-vue";
+
+
+
 // eslint-disable-next-line
 import db from "./db.js";
 
 Vue.use(BootstrapVue);
 Vue.use(BootstrapVueIcons);
+Vue.component("b-form-rating", BFormRating);
+
 export default {
-  name: "App",
+  name: "app",
   data: function() {
     return {
-      client: null
+      client: null,
+      activities: []
     };
   },
   methods: {
@@ -38,8 +43,33 @@ export default {
   mounted() {
     Firebase.auth().onAuthStateChanged(client => {
       if (client) {
-        this.client = client.displayName;
+        this.client = client;
       }
+      db.collection("activities").onSnapshot(snapshot => {
+        const snapData = [];
+        snapshot.forEach(doc => {
+
+          let unix_timestamp = doc.data().datePublish;
+          var date = new Date(unix_timestamp * 1000);
+          var hours = date.getHours();
+          var day = date.getDate();
+          var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+          var month = months[date.getMonth()];
+          var minutes = "0" + date.getMinutes();
+          var seconds = "0" + date.getSeconds();
+          var formattedTime = month + " " + day + " at " + hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
+          
+          snapData.push({
+            id: doc.id,
+            description: doc.data().description,
+            userCreatorName: doc.data().userCreatorName,
+            datePublish: formattedTime,
+            nameActivity: doc.data().nameActivity,
+            prize: doc.data().prize
+          });
+        });
+        this.activities = snapData;
+      });
     });
   },
   components: {

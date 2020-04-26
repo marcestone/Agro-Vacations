@@ -169,6 +169,6 @@ export default {
         this.error = null;
       }
     }
-  }
+  },
 };
 </script>
