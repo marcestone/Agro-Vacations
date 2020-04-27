@@ -64,8 +64,8 @@ export default {
             description: doc.data().description,
             userCreatorName: doc.data().userCreatorName,
             datePublish: formattedTime,
-            nameActivity: doc.data().nameActivity,
-            prize: doc.data().prize
+            nameActivity: doc.data().activityName,
+            prize: doc.data().price
           });
         });
         this.activities = snapData;
