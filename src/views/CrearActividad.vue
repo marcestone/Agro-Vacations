@@ -60,7 +60,9 @@
             <div class="container">
               <img id="activityImage" />
               <button type="submit" class="btn btn-outline-success" id="addImage">+</button>
-              <font-awesome-icon icon="star"></font-awesome-icon>
+              <!--
+                <font-awesome-icon icon="star"></font-awesome-icon>
+              -->
             </div>
             <textarea
               id="description"
@@ -83,7 +85,8 @@
 import Firebase from "firebase";
 import db from "../db.js";
 
-import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+//import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+
 export default {
   data: function() {
     return {
@@ -112,42 +115,91 @@ export default {
         dateEnd: this.dateEnd,
         activityTransport: this.activityTransport,
         activityLocation: this.activityLocation,
-        activityPrice: this.activityPrice,
+        activityPrice: this.activityPrice
       };
 
       //var date = new Date(document.getElementById("time1").value);
       //var timestamp = date.getTime();
       Firebase.auth().onAuthStateChanged(user => {
         if (user) {
+          let checkActivities;
 
           db.collection("user")
-          .doc(user.uid)
-          .get()
-          .then((snapshot) => {
-              db.collection("activities")
-                .doc()
-                .set({
-                datePublish: new Date(),
-                description: info.description,
-                activityName: info.activityName,
-                price: parseInt(info.activityPrice),
-                userClient: [{
+            .doc(user.uid)
+            .get()
+            .then(snapshot => {
+              checkActivities = snapshot.data().activitiesName;
+
+              let document;
+              let newActivity = true;
+              let newActivitiesName = [];
+              let activityID;
+
+              if (checkActivities != null) {
+                newActivitiesName = checkActivities;
+                checkActivities.forEach(function(element) {
+                  if (element.name.localeCompare(info.activityName) == 0) {
+                    newActivity = false;
+                    activityID = element.id;
+                  }
+                });
+              }
+              
+              if (newActivity == true) {
+                document = db.collection("activities").doc();
+
+                newActivitiesName.push(
+                  { name: info.activityName,
+                    id: document.id
+                  });
+
+                document.set({
+                  datePublish: new Date(),
+                  description: info.description,
+                  activityName: info.activityName,
+                  price: parseInt(info.activityPrice),
+                  userClient: [
+                    {
+                      dataStart: new Date(info.dateStart),
+                      dataEnd: new Date(info.dateEnd),
+                      activityTransport: info.activityTransport,
+                      activityRate: null,
+                      userId: null
+                    }
+                  ],
+                  userCreator: user.uid,
+                  userCreatorName: snapshot.data().name
+                });
+              } else {
+                let newUserClient;
+                document = db.collection("activities").doc(activityID);
+                document.get().then(snapshot => {
+                  newUserClient = snapshot.data().userClient;
+                  newUserClient.push({
                     dataStart: new Date(info.dateStart),
                     dataEnd: new Date(info.dateEnd),
                     activityTransport: info.activityTransport,
                     activityRate: null,
                     userId: null
-                }],
-                userCreator: user.uid,
-                userCreatorName: snapshot.data().name,
+                  });
+                  document.update({
+                    userClient: newUserClient
+                  });
                 });
-          });
+              }
+
+              db.collection("user")
+                .doc(user.uid)
+                .update({
+                  activitiesName: newActivitiesName
+                });
+            });
         }
       });
     }
   },
   components: {
-    FontAwesomeIcon
+    //FontAwesomeIcon
   }
 };
 </script>
