@@ -65,7 +65,7 @@
                 type="button"
                 class="btn btn-success"
                 style="margin-right: 60px; margin-left: 50px; "
-                to="/registrocliente"
+                to="/crearactividad"
                 v-if="client"
                 >Publish Now</router-link
               >
