@@ -21,7 +21,24 @@
         <div class="modal-body">
           <div class="row">
             <div class="col-5">
-              <img src="https://picsum.photos/600/500/?image=61" class="img-fluid mt-4" alt />
+              <b-carousel
+                id="carousel-fade"
+                style="text-shadow: 0px 0px 2px #000"
+                fade
+                indicators
+                img-width="600"
+                img-height="500 "
+              >
+                <b-carousel-slide
+                  img-src="https://picsum.photos/600/500/?image=61"
+                ></b-carousel-slide>
+                <b-carousel-slide
+                  img-src="https://picsum.photos/600/500/?image=62"
+                ></b-carousel-slide>
+                <b-carousel-slide
+                  img-src="https://picsum.photos/600/500/?image=63"
+                ></b-carousel-slide>
+              </b-carousel>
             </div>
             <div class="col-7">
               <p style="text-align:justify">{{description}}</p>
@@ -36,13 +53,25 @@
                   <small>Publication date: {{datePublish}}</small>
                 </i>
               </p>
+              <b-form-datepicker
+                id="reservationDate"
+                v-model="ReservationValue"
+                :min="min"
+                size="sm"
+                placeholder="Choose reservation date"
+                :date-format-options="{
+                year: 'numeric',
+                month: 'numeric',
+                day: 'numeric'
+                }"
+                locale="en"
+              ></b-form-datepicker>
             </div>
           </div>
         </div>
-
         <template v-slot:modal-footer="{cancel}">
           <b-button variant="secondary" @click="cancel()">Cancel</b-button>
-          <b-button variant="primary">
+          <b-button variant="primary" @click="showMsgBoxTwo">
             <b-icon icon="briefcase"></b-icon>Reserve
           </b-button>
         </template>
@@ -52,6 +81,9 @@
 </template>
 
 <script>
+import Firebase from "firebase";
+import db from "../db.js";
+
 export default {
   name: "activity",
   props: [
@@ -64,6 +96,7 @@ export default {
   ],
   data() {
     return {
+      boxTwo: "",
       show: false,
       variants: [
         "primary",
@@ -78,9 +111,83 @@ export default {
       headerBgVariant: "primary",
       headerTextVariant: "light"
     };
+  },
+  methods:{
+    showMsgBoxTwo() {
+      this.boxTwo = "";
+      this.$bvModal
+        .msgBoxOk("Data was submitted successfully", {
+          title: "Confirmation",
+          size: "sm",
+          buttonSize: "sm",
+          okVariant: "success",
+          headerClass: "p-2 border-bottom-0",
+          footerClass: "p-2 border-top-0",
+          centered: true
+        })
+        .then(value => {
+          this.boxTwo = value;
+        });
+    },
+    reserve() {
+      const info = {
+        activityName: this.activityName,
+        activityType: this.activityType,
+        datePublish: this.datePublish,
+        description: this.description,
+        dateStart: this.dateStart,
+        dateEnd: this.dateEnd,
+        activityTransport: this.activityTransport,
+        activityLocation: this.activityLocation,
+        activityPrice: this.activityPrice
+      };
+
+      Firebase.auth().onAuthStateChanged(user => {
+        if (user) {
+          let checkActivities;
+
+          db.collection("user")
+            .doc(user.uid)
+            .get()
+            .then(snapshot => {
+              checkActivities = snapshot.data().activitiesReserved;
+
+              let document;
+              let newReservation = true;
+              let newActivitiesReservation = [];
+              let activitiyId;
+
+              if (checkActivities != null) {
+                newActivitiesReservation = checkActivities;
+                for (let index = 0; index < checkActivities.length; index++) {
+                  if (checkActivities.name.localeCompare(info.activityName)) {
+                    newReservation = false;
+                    activitiyId = checkActivities.id;
+                  }
+                }
+              }
+
+              if (newReservation == true) {
+                document = db.collection("activities").doc();
+                console.log(newActivitiesReservation);
+                newActivitiesReservation.push({
+                  name: info.activityName,
+                  id: document.id
+                });
+
+                document = db.collection("activities").doc(activitiyId);
+                document.update({
+                  userClient: user.uid
+                });
+              }
+            });
+        }
+      });
+    }
   }
 };
 </script>
+
 <style>
 .activityCard {
   transition-duration: 0.2s;
