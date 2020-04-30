@@ -9,8 +9,7 @@
               class="d-inline-block align-top"
               height="50px"
             />
-          </b-navbar-brand>
-          
+          </b-navbar-brand>  
           <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
           <b-collapse id="nav-collapse" is-nav>
