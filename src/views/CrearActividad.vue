@@ -8,7 +8,7 @@
           </div>
         </div>
       </div>
-      <form class="mt-4" @submit.prevent="addActivity">
+      <form class="mt-4" id="regForm" @submit.prevent="addActivity">
         <div class="row">
           <div class="justify-content-center areas col-md-6" id="area2">
             <section class="col-md-8">
@@ -30,6 +30,8 @@
                     placeholder="Start Date"
                     v-model="dateStart"
                   ></b-form-datepicker>
+                  <div class="col-md-2">
+                  </div>
                   <b-form-datepicker
                     type="time"
                     class="dateP col-md-5"
@@ -58,7 +60,7 @@
           </div>
           <div class="areas col-md-6" id="area1">
             <div class="container">
-              <img id="activityImage" />
+              <img id="activityImage" placeholder="Set an image"/>
               <button type="submit" class="btn btn-outline-success" id="addImage">+</button>
               <!--
                 <font-awesome-icon icon="star"></font-awesome-icon>
@@ -122,71 +124,37 @@ export default {
       //var timestamp = date.getTime();
       Firebase.auth().onAuthStateChanged(user => {
         if (user) {
-          let checkActivities;
-
           db.collection("user")
             .doc(user.uid)
             .get()
             .then(snapshot => {
-              checkActivities = snapshot.data().activitiesName;
-
               let document;
-              let newActivity = true;
-              let newActivitiesName = [];
-              let activityID;
+              let newActivitiesName = snapshot.data().activitiesName;
 
-              if (checkActivities != null) {
-                newActivitiesName = checkActivities;
-                checkActivities.forEach(function(element) {
-                  if (element.name.localeCompare(info.activityName) == 0) {
-                    newActivity = false;
-                    activityID = element.id;
-                  }
-                });
+              if(newActivitiesName == null){
+                newActivitiesName = [];
               }
-              
-              if (newActivity == true) {
-                document = db.collection("activities").doc();
 
-                newActivitiesName.push(
-                  { name: info.activityName,
-                    id: document.id
-                  });
+              document = db.collection("activities").doc();
 
-                document.set({
-                  datePublish: new Date(),
-                  description: info.description,
-                  activityName: info.activityName,
-                  price: parseInt(info.activityPrice),
-                  userClient: [
-                    {
-                      dataStart: new Date(info.dateStart),
-                      dataEnd: new Date(info.dateEnd),
-                      activityTransport: info.activityTransport,
-                      activityRate: null,
-                      userId: null
-                    }
-                  ],
-                  userCreator: user.uid,
-                  userCreatorName: snapshot.data().name
-                });
-              } else {
-                let newUserClient;
-                document = db.collection("activities").doc(activityID);
-                document.get().then(snapshot => {
-                  newUserClient = snapshot.data().userClient;
-                  newUserClient.push({
-                    dataStart: new Date(info.dateStart),
-                    dataEnd: new Date(info.dateEnd),
-                    activityTransport: info.activityTransport,
-                    activityRate: null,
-                    userId: null
-                  });
-                  document.update({
-                    userClient: newUserClient
-                  });
-                });
-              }
+              newActivitiesName.push({
+                name: info.activityName,
+                id: document.id
+              });
+
+              document.set({
+                datePublish: new Date(),
+                description: info.description,
+                activityName: info.activityName,
+                price: parseInt(info.activityPrice),
+                dataStart: new Date(info.dateStart),
+                dataEnd: new Date(info.dateEnd),
+                activityTransport: info.activityTransport,
+                activityRate: null,
+                userClient: [],
+                userCreator: user.uid,
+                userCreatorName: snapshot.data().name
+              });
 
               db.collection("user")
                 .doc(user.uid)
@@ -216,10 +184,17 @@ export default {
 }
 #area1 {
   width: 65%;
+  margin: 3% 0px 3% 0px;
 }
 
 #titleA {
   margin: 40px 0 40px 0;
+}
+
+#regForm .row{
+  background-image: url('../assets/travel.jpg');
+  background-size: cover;
+  background-position-y: center;
 }
 
 .container {
@@ -246,11 +221,15 @@ export default {
 }
 #area2 {
   width: 25%;
+  margin: 3% 0px 3% 0px;
 }
 section {
-  margin-top: 20px;
-  margin-left: 10%;
-  margin-right: 10%;
+  margin: 20px 10% 0px 10%;
+  padding: 1px 0px 10px 0px;
+  background-color: #f8f9fa;
+  border-radius: 2%;
+  border-color: green !important;
+  border-radius: 0.5rem;
 }
 
 input {
@@ -261,6 +240,10 @@ input {
   margin: 0px 10px 0px 0px;
 }
 
+#dateRow div{
+  background-color: #f8f9fa;
+}
+
 .dateP {
   width: 40%;
   height: 10px;
@@ -269,6 +252,8 @@ input {
 #publish {
   margin: 40px 0px 20px 0px;
 }
+
+
 input,
 select,
 textarea {
