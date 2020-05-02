@@ -65,6 +65,7 @@
         <p style='text-align:right'>
           Telefono: <br>
           Estado civil: <br>
+          Género: <br>
           Ubicación: <br>
           e-mail: 
         </p>
@@ -74,6 +75,7 @@
         <p style='text-align:left'>
           +57 3333333333 <br>
           Casado <br>
+          Hombre <br>
           Bogotá <br>
           {{client.email}} 
         </p>
@@ -83,7 +85,7 @@
         <b-img
         src="../assets/Rect.png"
         width="40"
-        height="100"
+        height="150"
         ></b-img>
       </div>
 
@@ -178,7 +180,7 @@ h1 {
 
 #boxImage4 {
   position: absolute;
-  top: 1000px;
+  top: 988px;
   left: 675px;
   width: 50px;
   height: 200px;
