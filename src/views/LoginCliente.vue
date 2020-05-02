@@ -9,9 +9,9 @@
       <div class="box" id="boxLogin">
         <form class="mt-4" @submit.prevent="login">
           <div class="row justify-content-center">
-            <h4>
+            <div class="h4" id="h4_">
               Log into your account
-            </h4>
+            </div>
             <div class="card bg-light">
               <div class="card-body">
                 <section class="form-group">
@@ -92,8 +92,8 @@ export default {
 .wrapper {
   position: relative;
 }
-h4 {
-  color: #105710;
+#h4_ {
+  color: #051a05;
   font-size: 23px;
   font-family: Impact;
   font-weight: normal;
@@ -106,7 +106,7 @@ h4 {
   height: 340px;
   border-radius: 70px;
   border: 3px solid #eaf1ec;
-  background-color: #ebfff4ec;
+  background-color: #f7f7f7ec;
 }
 
 </style>

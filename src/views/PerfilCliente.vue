@@ -8,13 +8,13 @@
       ></b-img>
       <div class="box" id="boxProfile">
 
-        <h5 align="center" class="bold" color="Teal">
+        <div class="h5" id="h5_">
           <br>{{client.displayName}}
-        </h5>
+        </div>
 
-        <h1 align="center" class="bold" color="Teal">
+        <div class="h1" id="h1_">
           Profesión
-        </h1>   
+        </div>   
 
       </div>
 
@@ -35,9 +35,9 @@
       </div>
 
       <div class="box" id="box3">
-        <h3>
+        <div class="h3" id="h3_">
           About me
-        </h3>
+        </div>
       </div>      
 
       <div class="box" id="boxProfile2" >
@@ -56,9 +56,9 @@
       </div>
 
       <div class="box" id="box4">
-        <h3>
+        <div class="h3" id="h3_">
           Personal INFO
-        </h3>
+        </div>
       </div>
 
       <div class="box" id="Info">
@@ -90,7 +90,7 @@
       </div>
 
       <div class="box" id="button">
-        <button class="button button1">Edit</button>
+        <buttonSa class="buttonSa button1S">Edit</buttonSa>
       </div>
 
   </div>
@@ -99,32 +99,34 @@
 
 <style lang="scss">
 
-h5 {
+#h5_ {
   color: #68b313;
   font-size: 50px;
   font-family: 'Lucida Sans';
   font-weight: bold;
+  text-align: center;
 }
 
-h3 {
+#h3_ {
   color: #68b313;
   font-size: 15px;
   line-height:0px;
   font-family: 'Lucida Sans';
 }
 
-h2 {
+#h2_{
   color: #000000cc;
   font-size: 15px;
   line-height:0px;
   font-family: 'Courier New';
 }
 
-h1 {
+#h1_ {
   color: #405541c9;
   font-size: 15px;
   line-height:0px;
   font-family: 'Courier New';
+  text-align: center;
 }
 
 #boxProfile {
@@ -235,7 +237,7 @@ h1 {
 
 }
 
-.button {
+.buttonSa {
   background-color: #4CAF50; /* Green */
   border: none;
   color: white;
@@ -249,13 +251,13 @@ h1 {
   cursor: pointer;
 }
 
-.button1 {
+.button1S {
   background-color: white; 
   color: black; 
   border: 2px solid #68b313;
 }
 
-.button1:hover {
+.button1S:hover {
   background-color:#68b313;
   color: white;
 }
