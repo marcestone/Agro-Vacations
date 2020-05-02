@@ -2,16 +2,16 @@
   <div class="w3-container">
       <b-img
         src="../assets/91352.jpg"
-        width="1365"
+        width="1366"
         height="587"
         aling="top"
       ></b-img>
       <div class="box" id="boxLogin">
         <form class="mt-4" @submit.prevent="login">
           <div class="row justify-content-center">
-            <h5>
+            <h4>
               Log into your account
-            </h5>
+            </h4>
             <div class="card bg-light">
               <div class="card-body">
                 <section class="form-group">
@@ -92,8 +92,8 @@ export default {
 .wrapper {
   position: relative;
 }
-h5 {
-  color: #092c09;
+h4 {
+  color: #105710;
   font-size: 23px;
   font-family: Impact;
   font-weight: normal;
@@ -105,8 +105,8 @@ h5 {
   width: 400px;
   height: 340px;
   border-radius: 70px;
-  border: 3px solid #044715;
-  background-color: #ebfff4a1;
+  border: 3px solid #eaf1ec;
+  background-color: #ebfff4ec;
 }
 
 </style>

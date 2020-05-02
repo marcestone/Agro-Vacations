@@ -59,7 +59,7 @@
         <h3>
           Personal INFO
         </h3>
-      </div> 
+      </div>
 
       <div class="box" id="Info">
         <p style='text-align:right'>
