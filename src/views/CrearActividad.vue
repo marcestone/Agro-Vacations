@@ -137,6 +137,7 @@ export default {
 
               document = db.collection("activities").doc();
 
+
               newActivitiesName.push({
                 name: info.activityName,
                 id: document.id
@@ -260,4 +261,4 @@ textarea {
   border-color: #28a745 !important;
   border-radius: 0.5rem;
 }
-</style>>
+</style>
