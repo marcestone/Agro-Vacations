@@ -30,8 +30,6 @@
                     placeholder="Start Date"
                     v-model="dateStart"
                   ></b-form-datepicker>
-                  <div class="col-md-2">
-                  </div>
                   <b-form-datepicker
                     type="time"
                     class="dateP col-md-5"
@@ -47,15 +45,19 @@
               <b-input type="text" placeholder="Location" id="input" v-model="activityLocation" />
             </section>
             <section class="col-md-8">
-              <p>Transport</p>
-              <select v-model="activityTransport">
-                <option value="Yes">Yes</option>
-                <option value="No">No</option>
-              </select>
-            </section>
-            <section class="col-md-8">
-              <p>Enter event price</p>
-              <b-input type="number" placeholder="Price Name" id="input" v-model="activityPrice" />
+              <div class="row justify-content-between" style="background:transparent">
+                <section class="col-md-5" style="margin:0">
+                  <p>Enter event price</p>
+                  <b-input type="number" placeholder="Price Name" id="input" v-model="activityPrice" />
+                </section>
+                <section class="col-md-5" style="margin:0">
+                  <p>Transport</p>
+                  <select v-model="activityTransport">
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
+                  </select>
+                </section>
+              </div>
             </section>
           </div>
           <div class="areas col-md-6" id="area1">
@@ -162,7 +164,25 @@ export default {
                 .update({
                   activitiesName: newActivitiesName
                 });
-            });
+            })
+            .then(
+              this.$bvModal
+              .msgBoxOk("Activity published successfully", {
+                title: "Confirmation",
+                size: "sm",
+                buttonSize: "sm",
+                okVariant: "success",
+                headerClass: "p-2 border-bottom-0",
+                footerClass: "p-2 border-top-0",
+                centered: true
+              })
+              .then(
+              () => {
+                this.$router.push("home");
+              }
+            )
+            )
+            
         }
       });
     }
@@ -193,9 +213,15 @@ export default {
 }
 
 #regForm .row{
-  background-image: url('../assets/travel.jpg');
-  background-size: cover;
+  background: linear-gradient(rgba(255,255,255,.5), rgba(255,255,255,.5)), 
+              url("/img/travel.d977301a.jpg");
+  background-size: cover !important;
   background-position-y: center;
+}
+
+p {
+  font-weight: 700;
+  color: #01a026;
 }
 
 .container {
@@ -227,7 +253,7 @@ export default {
 section {
   margin: 20px 10% 0px 10%;
   padding: 1px 0px 10px 0px;
-  background-color: #f8f9fa;
+  //background-color: #f8f9fa;
   border-radius: 2%;
   border-color: green !important;
   border-radius: 0.5rem;
@@ -239,6 +265,7 @@ input {
 
 #dateRow {
   margin: 0px 10px 0px 0px;
+  background: transparent !important;
 }
 
 #dateRow div{
