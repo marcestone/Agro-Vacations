@@ -160,8 +160,8 @@ export default {
                   price: parseInt(info.activityPrice),
                   userClient: [
                     {
-                      dataStart: new Date(info.dateStart),
-                      dataEnd: new Date(info.dateEnd),
+                      dataStart: new Date(this.dateStart),
+                      dataEnd: new Date(this.dateEnd),
                       activityTransport: info.activityTransport,
                       activityRate: null,
                       userId: null

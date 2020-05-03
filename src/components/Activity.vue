@@ -2,20 +2,20 @@
   <b-col md="3">
     <b-card
       :title="nameActivity"
-      img-src="https://picsum.photos/600/500/?image=61"
+      img-src="https://picsum.photos/600/500/?image=62"
       img-alt="Image"
       img-top
       tag="article"
       style="max-width: 20rem;"
       class="activityCard mb-2"
     >
-      <b-card-text>${{prize}}</b-card-text>
+      <b-card-text>${{ prize }}</b-card-text>
       <a href="javascript:void(0)" class="stretched-link" v-b-modal="nameActivity"></a>
 
       <b-modal v-bind:id="nameActivity" centered size="lg">
         <template v-slot:modal-header>
           <h3>
-            <strong>{{nameActivity}}</strong>
+            <strong>{{ nameActivity }}</strong>
           </h3>
         </template>
         <div class="modal-body">
@@ -41,39 +41,40 @@
               </b-carousel>
             </div>
             <div class="col-7">
-              <p style="text-align:justify">{{description}}</p>
-              <strong style="color: green;">$ {{prize}}</strong>
+              <p style="text-align:justify">{{ description }}</p>
+              <strong style="color: green;">$ {{ prize }}</strong>
               <p class="mt-4" style="text-align:justify">
                 <i>
-                  <small>Host: {{userCreatorName}}</small>
+                  <small>Host: {{ userCreatorName }}</small>
                 </i>
               </p>
               <p style="text-align:justify">
                 <i>
-                  <small>Publication date: {{datePublish}}</small>
+                  <small>Publication date: {{ datePublish }}</small>
                 </i>
               </p>
               <b-form-datepicker
                 id="reservationDate"
                 v-model="ReservationValue"
-                :min="min"
                 size="sm"
                 placeholder="Choose reservation date"
                 :date-format-options="{
-                year: 'numeric',
-                month: 'numeric',
-                day: 'numeric'
+                  year: 'numeric',
+                  month: 'numeric',
+                  day: 'numeric'
                 }"
                 locale="en"
               ></b-form-datepicker>
             </div>
           </div>
         </div>
-        <template v-slot:modal-footer="{cancel}">
+        <template v-slot:modal-footer="{ cancel }">
           <b-button variant="secondary" @click="cancel()">Cancel</b-button>
-          <b-button variant="primary" @click="showMsgBoxTwo">
-            <b-icon icon="briefcase"></b-icon>Reserve
-          </b-button>
+          <form @submit.prevent="reserve">
+            <b-button variant="primary" type="submit"  @click="showMsgBoxTwo">
+              <b-icon icon="briefcase" type></b-icon>Reserve
+            </b-button>
+          </form>
         </template>
       </b-modal>
     </b-card>
@@ -81,10 +82,11 @@
 </template>
 
 <script>
+import * as firebase from "firebase/app";
 import Firebase from "firebase";
 import db from "../db.js";
-
 export default {
+  
   name: "activity",
   props: [
     "client",
@@ -97,6 +99,7 @@ export default {
   data() {
     return {
       boxTwo: "",
+      ReservationValue: null,
       show: false,
       variants: [
         "primary",
@@ -109,7 +112,7 @@ export default {
         "dark"
       ],
       headerBgVariant: "primary",
-      headerTextVariant: "light"
+      headerTextVariant: "light",
     };
   },
   methods:{
@@ -130,54 +133,90 @@ export default {
         });
     },
     reserve() {
-      const info = {
-        activityName: this.activityName,
-        activityType: this.activityType,
-        datePublish: this.datePublish,
-        description: this.description,
-        dateStart: this.dateStart,
-        dateEnd: this.dateEnd,
-        activityTransport: this.activityTransport,
-        activityLocation: this.activityLocation,
-        activityPrice: this.activityPrice
-      };
-
       Firebase.auth().onAuthStateChanged(user => {
         if (user) {
           let checkActivities;
-
+          let unix_timestamp = this.ReservationValue;
+          var date = new Date(unix_timestamp);
+          var hours = date.getHours();
+          var day = date.getDate() + 1;
+          var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+          var month = months[date.getMonth()];
+          var minutes = "0" + date.getMinutes();
+          var seconds = "0" + date.getSeconds();
+          var formattedTime = month + " " + day + " at " + hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
+          let document;
+          let activityIdentify;
+          let nameReservation = this.nameActivity;
+          db.collection("activities")
+            .where("activityName", "==", nameReservation)
+            .get()
+            .then(function(querySnapshot) {
+              querySnapshot.forEach(function(doc) {
+                activityIdentify = doc.id;
+              });
+            });
           db.collection("user")
             .doc(user.uid)
             .get()
             .then(snapshot => {
               checkActivities = snapshot.data().activitiesReserved;
-
-              let document;
-              let newReservation = true;
-              let newActivitiesReservation = [];
-              let activitiyId;
-
-              if (checkActivities != null) {
-                newActivitiesReservation = checkActivities;
-                for (let index = 0; index < checkActivities.length; index++) {
-                  if (checkActivities.name.localeCompare(info.activityName)) {
-                    newReservation = false;
-                    activitiyId = checkActivities.id;
-                  }
-                }
-              }
-
-              if (newReservation == true) {
-                document = db.collection("activities").doc();
-                console.log(newActivitiesReservation);
-                newActivitiesReservation.push({
-                  name: info.activityName,
-                  id: document.id
-                });
-
-                document = db.collection("activities").doc(activitiyId);
+              document = db.collection("activities").doc(activityIdentify);
+              if (checkActivities.id == null) {
+                db.collection("user")
+                  .doc(user.uid)
+                  .update({
+                    activitiesReserved: firebase.firestore.FieldValue.arrayRemove(
+                      {
+                        id: "",
+                        name: "",
+                        reservationDate: ""
+                      }
+                    )
+                  });
                 document.update({
-                  userClient: user.uid
+                  userClient: firebase.firestore.FieldValue.arrayRemove({
+                    userId: "",
+                    name: "",
+                    reservationDate: ""
+                  })
+                });
+                db.collection("user")
+                  .doc(user.uid)
+                  .update({
+                    activitiesReserved: firebase.firestore.FieldValue.arrayUnion(
+                      {
+                        id: activityIdentify,
+                        name: this.nameActivity,
+                        reservationDate: formattedTime
+                      }
+                    )
+                  });
+                document.update({
+                  userClient: firebase.firestore.FieldValue.arrayUnion({
+                    userId: user.uid,
+                    name: nameReservation,
+                    reservationDate: formattedTime
+                  })
+                });
+              } else {
+                db.collection("user")
+                  .doc(user.uid)
+                  .update({
+                    activitiesReserved: firebase.firestore.FieldValue.arrayUnion(
+                      {
+                        id: activityIdentify,
+                        name: this.nameActivity,
+                        reservationDate: formattedTime
+                      }
+                    )
+                  });
+                document.update({
+                  userClient: firebase.firestore.FieldValue.arrayUnion({
+                    userId: user.uid,
+                    name: nameReservation,
+                    reservationDate: formattedTime
+                  })
                 });
               }
             });

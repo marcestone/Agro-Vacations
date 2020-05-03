@@ -52,7 +52,7 @@ export default {
           let unix_timestamp = doc.data().datePublish;
           var date = new Date(unix_timestamp * 1000);
           var hours = date.getHours();
-          var day = date.getDate();
+          var day = date.getDate() + 1;
           var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
           var month = months[date.getMonth()];
           var minutes = "0" + date.getMinutes();
