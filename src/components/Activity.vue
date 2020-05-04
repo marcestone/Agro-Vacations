@@ -46,7 +46,8 @@
                 <b-carousel-slide
                   img-src="https://picsum.photos/600/500/?image=63"
                 ></b-carousel-slide>
-              </b-carousel>
+              </b-carousel><br>
+              <center style="color: green;">Did you take it? ¡Vote now!</center>
               <span><b-form-rating 
               v-model="ratingClient" 
               variant="success" 
