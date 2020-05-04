@@ -140,6 +140,7 @@ export default {
               document = db.collection("activities").doc();
 
 
+
               newActivitiesName.push({
                 name: info.activityName,
                 id: document.id
@@ -158,6 +159,7 @@ export default {
                 userCreator: user.uid,
                 userCreatorName: snapshot.data().name
               });
+
 
               db.collection("user")
                 .doc(user.uid)
