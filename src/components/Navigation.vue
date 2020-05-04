@@ -9,13 +9,12 @@
               class="d-inline-block align-top"
               height="50px"
             />
-          </b-navbar-brand>
-          
+          </b-navbar-brand>  
           <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
           <b-collapse id="nav-collapse" is-nav>
           <b-nav-item id="welcome" href="#" to="/perfilcliente" v-if="client" > 
-            Welcome back <span class="font-weight-bold text-success">{{client}}</span> 
+            Welcome back <span class="font-weight-bold text-success">{{client.displayName}}</span> 
             </b-nav-item>
             <!-- Right aligned nav items -->
             <b-navbar-nav class="ml-auto">
@@ -65,7 +64,7 @@
                 type="button"
                 class="btn btn-success"
                 style="margin-right: 60px; margin-left: 50px; "
-                to="/registrocliente"
+                to="/crearactividad"
                 v-if="client"
                 >Publish Now</router-link
               >
@@ -96,7 +95,9 @@ export default {
   -moz-box-shadow: 0 8px 6px -6px #999;
   box-shadow: 0 8px 6px -6px #999;
 }
-
+#nav a.router-link-exact-active{
+  color: #47803e !important;
+}
 .navbar-expand-md .navbar-nav .nav-link {
   padding-right: 0.9rem !important;
   padding-left: 0.9rem !important;
