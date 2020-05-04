@@ -1,13 +1,11 @@
 <template>
   <div class="w3-container">
-
       <b-img
         src="../assets/backgroundProfile.jpg"
         width="1348"
         height="1280"
         aling="top"
       ></b-img>
-
       <div class="box" id="boxTitle">
         <div class="h5" id="title">
           <b-icon icon="person-fill" aria-hidden="true"></b-icon>
@@ -90,10 +88,10 @@
       </div>
 
       <div class="box" id="boxButton">
-        <router-link type="buttonSa" class="buttonSa button1S" to="/editarPerfil">
-          Edit
-          <b-icon-pencil-square id="icon"></b-icon-pencil-square>
-        </router-link>
+        <a href="#modal" class="buttonSa button1S">
+          Editar
+          <b-icon-pencil-square id="icon"></b-icon-pencil-square> 
+        </a>
       </div>
 
   </div>
@@ -101,6 +99,13 @@
 
 
 <style lang="scss">
+*{
+  margin: 0;
+  padding: 0;
+  text-decoration: none;
+  box-sizing: border-box;
+}
+
 #icon{
   width: 15px;
   height: 15px;
@@ -134,7 +139,7 @@
   width: 880px;
   height: 160px;
   border: #ffffff00;
-  background-color: #ffffffda;
+  background-color: #ffffff00;
 }
 
 #boxImage {
@@ -153,10 +158,10 @@
   top: 700px;
   left: 245px;
   width: 880px;
-  height: 380px;
+  height: 150px;
   border-radius: 50px;
-  border: #11131200;
-  background-color: #ffffffda;
+  border: #ffffff00;
+  background-color: #ffffff00;
 }
 
 #rectangule1 {
@@ -226,7 +231,7 @@
 #boxButton {
   position: absolute;
   top: 1200px;
-  left: 640px;
+  left: 643px;
   width: 200px;
   height: 150px;
   border-radius: 0px;
@@ -237,12 +242,14 @@
   background-color: #0d8517; /* Green */
   border: none;
   color: white;
-  padding: 10px 15px;
+  padding: 5px 10px;
   text-align: center;
   display: inline-block;
-  font-size: 16px;
+  font-size: 14px;
   margin: 4px 2px;
   transition-duration: 0.4s;
+  text-decoration: none;
+  border-radius: 50px;
   cursor: pointer;
 }
 
@@ -250,11 +257,13 @@
   background-color: white; 
   color: black; 
   border: 2px solid #0d8517;
+  text-decoration: none;
 }
 
 .button1S:hover {
   background-color:#0d8517;
   color: white;
+  text-decoration: none;
 }
 </style>
 
