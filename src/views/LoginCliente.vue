@@ -1,9 +1,13 @@
 <template>
   <div class="w3-container">
       <b-img
+
+
+
         src="../assets/backgroundLogin.jpg"
         width="1366"
         height="587"
+
         aling="top"
       ></b-img>
       <div class="box" id="boxLogin">
@@ -125,6 +129,8 @@ export default {
 
 #boxLogin {
   position: absolute;
+
+
   top: 170px;
   left: 450px;
   width: 460px;
@@ -184,6 +190,7 @@ export default {
   left: 400px;
   width: 300px;
   height: 100px;
+
   border-radius: 70px;
   border: 3px solid #eaf1ec00;
   background-color: #f7f7f700;
