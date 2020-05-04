@@ -3,7 +3,7 @@
       <b-img
         src="../assets/backgroundProfile.jpg"
         width="1348"
-        height="1280"
+        height="1180"
         aling="top"
       ></b-img>
       <div class="box" id="boxTitle">
@@ -12,15 +12,15 @@
           <br>{{client.displayName}}
         </div>
         <div class="h1" id="subtitle">
-          Ingeriero de sistemas y computación
+          Profesion
         </div>   
       </div>
 
       <div class="box" id="boxImage">
         <b-img
-        src="../assets/foto_perfil.jpg"
-        width="250"
-        height="250"
+        src="../assets/defaultprofile.png"
+        width="252"
+        height="252"
         ></b-img>  
       </div>
 
@@ -39,9 +39,8 @@
       </div>      
 
       <div class="box" id="boxAboutMe">
-        <p align="center">
-          Estoy interesad@ en actividades de campo como: ordeñar vacas, montar a caballo, sembrado, caminatas, senderismo, etc.
-          Soy padre de familia, tengo 2 hijos y realizamos estas actividades juntos cada vez que se presenta la oportunidad.
+        <p align="center" id="sinrellenar">
+          About me...
         </p> 
       </div>
 
@@ -70,11 +69,11 @@
       </div> 
 
       <div class="box" id="personalInfo2">
-        <p style='text-align:left'>
-          +57 3333333333 <br>
-          Soltero <br>
-          Hombre <br>
-          Bogotá <br>
+        <p style='text-align:left' id="sinrellenar">
+          Telefono usuario <br>
+          Estado civil usuario <br>
+          Sexo usuario <br>
+          Ubicación usuario <br>
           {{client.email}} 
         </p>
       </div>
@@ -99,11 +98,11 @@
 
 
 <style lang="scss">
-*{
-  margin: 0;
-  padding: 0;
-  text-decoration: none;
-  box-sizing: border-box;
+
+#sinrellenar{
+  color: #48574a8f;
+  font-size: 16px;
+  font-family: 'Lucida Sans';
 }
 
 #icon{
@@ -150,7 +149,7 @@
   height: 254px;
   border-radius: 0px;
   border: 1px solid #363636a8;
-  background-color: #ffffffda;
+  background-color: #dfdfdf00;
 }
 
 #boxAboutMe {
@@ -161,7 +160,7 @@
   height: 150px;
   border-radius: 50px;
   border: #ffffff00;
-  background-color: #ffffff00;
+  background-color: #c7c7c700;
 }
 
 #rectangule1 {
@@ -231,9 +230,9 @@
 #boxButton {
   position: absolute;
   top: 1200px;
-  left: 643px;
+  left: 640px;
   width: 200px;
-  height: 150px;
+  height: 50px;
   border-radius: 0px;
 
 }
