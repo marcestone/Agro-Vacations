@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper">
-    <b-img src="../assets/background.jpg" width="1349%" height="578" aling="top"></b-img>
+    <b-img src="../assets/background1.png" width="1349%" height="678" aling="top"></b-img>
     <div class="box" id="boxHome">
       <b-form inline>
         <b-input
@@ -52,28 +52,76 @@
       <h3 align="center">-------------------- Filtros --------------------</h3>
     </div>
     <b-container id="ContainerActivities">
-      <b-row align-v="center" align-h="between">
+      <b-row align-v="center" align-h="start">
         <Activity
-          v-for="activity in activities"
+          v-for="activity in displayActivities"
           :key="activity.id"
           :nameActivity="activity.nameActivity"
           :description="activity.description"
           :datePublish="activity.datePublish"
           :userCreatorName="activity.userCreatorName"
           :prize="activity.prize"
-
+          :rating="activity.rating"
         ></Activity>
 
       </b-row>
+      <b-pagination
+      v-model="currentPage"
+      pills :total-rows="rows"
+      :per-page="perPage"
+      first-text="First"
+      prev-text="Prev"
+      next-text="Next"
+      last-text="Last"
+      align=center
+      @input="paginate(currentPage)"
+    ></b-pagination>
     </b-container>
   </div>
 </template>
 
 <script>
+import db from "../db.js";
 import Activity from "@/components/Activity.vue";
 export default {
   name: "Home",
   props: ["client", "activities"],
+  mounted(){
+    
+    db.collection("activities").onSnapshot(snapshot => {
+        const snapData = [];
+        snapshot.forEach(doc => {
+          
+          let unix_timestamp = doc.data().datePublish;
+          var date = new Date(unix_timestamp * 1000);
+          var hours = date.getHours();
+          var day = date.getDate();
+          var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+          var month = months[date.getMonth()];
+          var minutes = "0" + date.getMinutes();
+          var seconds = "0" + date.getSeconds();
+          var formattedTime = month + " " + day + " at " + hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
+          
+          snapData.push({
+             id: doc.id,
+            description: doc.data().description,
+            userCreatorName: doc.data().userCreatorName,
+            datePublish: formattedTime,
+            nameActivity: doc.data().activityName,
+            prize: doc.data().price,
+            rating: doc.data().activityRate
+          });
+        });
+        this.activitiesD = snapData;
+        this.rows = this.activitiesD.length;
+        this.displayActivities = this.activitiesD.slice(0,12);
+        this.paginate(this.currentPage);
+        
+        
+        
+        
+      });
+  },
   data() {
     const now = new Date();
     const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
@@ -83,10 +131,22 @@ export default {
     minDate.setDate(minDate.getDay() + 5);
 
     return {
+    
+      activityD: [],
+      displayActivities: [],
+      currentPage: 1,
+      rows: 1,
+      perPage: 12,
       valueA: "",
       valueD: "",
       min: minDate
     };
+  },
+  methods:{
+    paginate(currentPage){
+      const start =(currentPage-1)*this.perPage;
+      this.displayActivities = this.activitiesD.slice(start,start+12);
+    }
   },
   components: {
     Activity
@@ -98,11 +158,11 @@ export default {
 
 #InputSearchA {
   width: 320px !important;
-  margin-top: 13px;
+  margin-top: 17px;
   margin-left: 15px;
 }
 #InputGuests {
-  margin-top: 13px;
+  margin-top: 17px;
   margin-left: 15px;
   height: 60px;
   width: 120px;
@@ -117,8 +177,8 @@ export default {
   width: 115px;
 }
 #SearchBtn {
-  height: 60px;
-  width: 130px;
+  height: 40px;
+  width: 100px;
   border-radius: 35px;
   margin-top: 13px;
   margin-left: 15px;
@@ -131,8 +191,8 @@ export default {
 #boxHome {
   position: absolute;
   top: 340px;
-  left: 183px;
-  width: 1000px;
+  left: 175px;
+  width: 1030px;
   height: 90px;
   border-radius: 5px;
   border: 2px solid #f5f4f3;
@@ -149,7 +209,8 @@ export default {
 #ContainerActivities {
   margin-top: 2rem;
 }
-#boxFilters {
-  margin-top: 2rem;
+#InputGuests,#InputSearchA{
+  border-color: #e2e2e2 !important;
 }
+
 </style>
