@@ -87,9 +87,9 @@ export default {
   name: "Home",
   props: ["client", "activities"],
   mounted(){
-    const snapData = [];
+    
     db.collection("activities").onSnapshot(snapshot => {
-        
+        const snapData = [];
         snapshot.forEach(doc => {
           
           let unix_timestamp = doc.data().datePublish;
