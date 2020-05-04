@@ -1,15 +1,27 @@
 <template>
   <b-col md="3">
-    <b-card
+    <b-card id=cardActivity
       :title="nameActivity"
       img-src="https://picsum.photos/600/500/?image=62"
       img-alt="Image"
       img-top
       tag="article"
       style="max-width: 20rem;"
+      
       class="activityCard mb-2"
     >
-      <b-card-text>${{ prize }}</b-card-text>
+
+
+      <b-card-text>${{prize}}<br>
+            <b-form-rating 
+              id="rating-inline" 
+              inline  
+              v-model="rating" 
+              variant="success" 
+              no-border size="sm">
+            </b-form-rating>
+      </b-card-text>
+
       <a href="javascript:void(0)" class="stretched-link" v-b-modal="nameActivity"></a>
 
       <b-modal v-bind:id="nameActivity" centered size="lg">
@@ -38,7 +50,13 @@
                 <b-carousel-slide
                   img-src="https://picsum.photos/600/500/?image=63"
                 ></b-carousel-slide>
-              </b-carousel>
+              </b-carousel><br>
+              <center style="color: green;">Did you take it? ¡Vote now!</center>
+              <span><b-form-rating 
+              v-model="ratingClient" 
+              variant="success" 
+              class="mb-2">
+              </b-form-rating></span>
             </div>
             <div class="col-7">
               <p style="text-align:justify">{{ description }}</p>
@@ -49,6 +67,7 @@
                 </i>
               </p>
               <p style="text-align:justify">
+                
                 <i>
                   <small>Publication date: {{ datePublish }}</small>
                 </i>
@@ -65,16 +84,20 @@
                 }"
                 locale="en"
               ></b-form-datepicker>
+              
             </div>
           </div>
         </div>
         <template v-slot:modal-footer="{ cancel }">
           <b-button variant="secondary" @click="cancel()">Cancel</b-button>
+
           <form @submit.prevent="reserve">
             <b-button variant="primary" type="submit"  @click="showMsgBoxTwo">
               <b-icon icon="briefcase" type></b-icon>Reserve
             </b-button>
           </form>
+
+
         </template>
       </b-modal>
     </b-card>
@@ -94,10 +117,12 @@ export default {
     "description",
     "datePublish",
     "userCreatorName",
-    "prize"
+    "prize",
+    "rating"
   ],
   data() {
     return {
+      ratingClient: 1,
       boxTwo: "",
       ReservationValue: null,
       show: false,
@@ -228,11 +253,16 @@ export default {
 </script>
 
 <style>
+ 
 .activityCard {
   transition-duration: 0.2s;
   transition: box-shadow 0, 2s;
+  width: 100%!important;
+   height: 360px!important;
+   object-fit: cover;
+
 }
 .activityCard:hover {
-  box-shadow: 0px 0px 10px 2px rgba(46, 124, 1, 0.5);
+  box-shadow: 0px 0px 5px 1px rgba(46, 124, 1, 0.5);
 }
 </style>

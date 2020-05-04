@@ -1,26 +1,18 @@
 <template>
   <div id="app">
     <Navigation :client="client" @logout="logout" />
-
     <router-view :client="client" :activities="activities" />
   </div>
 </template>
 
 <script>
+// eslint-disable-next-line
+import db from "./db.js";
 import Navigation from "@/components/Navigation.vue";
 // eslint-disable-next-line
 import Firebase from "firebase";
-import Vue from "vue";
-import { BootstrapVue, BootstrapVueIcons, BFormRating } from "bootstrap-vue";
 
 
-
-// eslint-disable-next-line
-import db from "./db.js";
-
-Vue.use(BootstrapVue);
-Vue.use(BootstrapVueIcons);
-Vue.component("b-form-rating", BFormRating);
 
 export default {
   name: "app",
@@ -45,6 +37,7 @@ export default {
       if (client) {
         this.client = client;
       }
+      // no se está usando Principio
       db.collection("activities").onSnapshot(snapshot => {
         const snapData = [];
         snapshot.forEach(doc => {
@@ -70,10 +63,12 @@ export default {
         });
         this.activities = snapData;
       });
+      // No se esta usando FIN
     });
   },
   components: {
     Navigation
+   
   }
 };
 </script>

@@ -5,6 +5,7 @@ import LoginCliente from "../views/LoginCliente.vue";
 import LoginEntidad from "../views/LoginEntidad.vue";
 import PerfilCliente from "../views/PerfilCliente.vue";
 import PerfilEntidad from "../views/PerfilEntidad.vue";
+import EditarPerfil from "../views/EditarPerfil.vue";
 import RegistroCliente from "../views/RegistroCliente.vue";
 import RegistroEntidad from "../views/RegistroEntidad.vue";
 import CrearActividad from "../views/CrearActividad.vue";
@@ -36,6 +37,11 @@ const routes = [
     path: "/perfilentidad",
     name: "PerfilEntidad",
     component: PerfilEntidad
+  },
+  {
+    path: "/editarperfil",
+    name: "EditarPerfil",
+    component: EditarPerfil
   },
   {
     path: "/registrocliente",

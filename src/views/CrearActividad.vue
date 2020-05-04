@@ -8,7 +8,7 @@
           </div>
         </div>
       </div>
-      <form class="mt-4" @submit.prevent="addActivity">
+      <form class="mt-4" id="regForm" @submit.prevent="addActivity">
         <div class="row">
           <div class="justify-content-center areas col-md-6" id="area2">
             <section class="col-md-8">
@@ -45,20 +45,24 @@
               <b-input type="text" placeholder="Location" id="input" v-model="activityLocation" />
             </section>
             <section class="col-md-8">
-              <p>Transport</p>
-              <select v-model="activityTransport">
-                <option value="Yes">Yes</option>
-                <option value="No">No</option>
-              </select>
-            </section>
-            <section class="col-md-8">
-              <p>Enter event price</p>
-              <b-input type="number" placeholder="Price Name" id="input" v-model="activityPrice" />
+              <div class="row justify-content-between" style="background:transparent">
+                <section class="col-md-5" style="margin:0">
+                  <p>Enter event price</p>
+                  <b-input type="number" placeholder="Price Name" id="input" v-model="activityPrice" />
+                </section>
+                <section class="col-md-5" style="margin:0">
+                  <p>Transport</p>
+                  <select v-model="activityTransport">
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
+                  </select>
+                </section>
+              </div>
             </section>
           </div>
           <div class="areas col-md-6" id="area1">
             <div class="container">
-              <img id="activityImage" />
+              <img id="activityImage" placeholder="Set an image"/>
               <button type="submit" class="btn btn-outline-success" id="addImage">+</button>
               <!--
                 <font-awesome-icon icon="star"></font-awesome-icon>
@@ -122,78 +126,65 @@ export default {
       //var timestamp = date.getTime();
       Firebase.auth().onAuthStateChanged(user => {
         if (user) {
-          let checkActivities;
-
           db.collection("user")
             .doc(user.uid)
             .get()
             .then(snapshot => {
-              checkActivities = snapshot.data().activitiesName;
-
               let document;
-              let newActivity = true;
-              let newActivitiesName = [];
-              let activityID;
+              let newActivitiesName = snapshot.data().activitiesName;
 
-              if (checkActivities != null) {
-                newActivitiesName = checkActivities;
-                checkActivities.forEach(function(element) {
-                  if (element.name.localeCompare(info.activityName) == 0) {
-                    newActivity = false;
-                    activityID = element.id;
-                  }
-                });
+              if(newActivitiesName == null){
+                newActivitiesName = [];
               }
 
-              if (newActivity == true) {
-                document = db.collection("activities").doc();
+              document = db.collection("activities").doc();
 
-                newActivitiesName.push({
-                  name: info.activityName,
-                  id: document.id
-                });
 
-                document.set({
-                  datePublish: new Date(),
-                  description: info.description,
-                  activityName: info.activityName,
-                  price: parseInt(info.activityPrice),
-                  userClient: [
-                    {
-                      dataStart: new Date(this.dateStart),
-                      dataEnd: new Date(this.dateEnd),
-                      activityTransport: info.activityTransport,
-                      activityRate: null,
-                      userId: null
-                    }
-                  ],
-                  userCreator: user.uid,
-                  userCreatorName: snapshot.data().name
-                });
-              } else {
-                let newUserClient;
-                document = db.collection("activities").doc(activityID);
-                document.get().then(snapshot => {
-                  newUserClient = snapshot.data().userClient;
-                  newUserClient.push({
-                    dataStart: new Date(info.dateStart),
-                    dataEnd: new Date(info.dateEnd),
-                    activityTransport: info.activityTransport,
-                    activityRate: null,
-                    userId: null
-                  });
-                  document.update({
-                    userClient: newUserClient
-                  });
-                });
-              }
+
+              newActivitiesName.push({
+                name: info.activityName,
+                id: document.id
+              });
+
+              document.set({
+                datePublish: new Date(),
+                description: info.description,
+                activityName: info.activityName,
+                price: parseInt(info.activityPrice),
+                dataStart: new Date(info.dateStart),
+                dataEnd: new Date(info.dateEnd),
+                activityTransport: info.activityTransport,
+                activityRate: null,
+                userClient: [],
+                userCreator: user.uid,
+                userCreatorName: snapshot.data().name
+              });
+
 
               db.collection("user")
                 .doc(user.uid)
                 .update({
                   activitiesName: newActivitiesName
                 });
-            });
+            })
+            .then(
+              this.$bvModal
+              .msgBoxOk("Activity published successfully", {
+                title: "Confirmation",
+                size: "sm",
+                buttonSize: "sm",
+                okVariant: "success",
+                headerClass: "p-2 border-bottom-0",
+                footerClass: "p-2 border-top-0",
+                centered: true
+              })
+              .then(
+              () => {
+                this.$router.push("home");
+              }
+            )
+            )
+            
         }
       });
     }
@@ -216,10 +207,23 @@ export default {
 }
 #area1 {
   width: 65%;
+  margin: 3% 0px 3% 0px;
 }
 
 #titleA {
   margin: 40px 0 40px 0;
+}
+
+#regForm .row{
+  background: linear-gradient(rgba(255,255,255,.5), rgba(255,255,255,.5)), 
+              url("/img/travel.d977301a.jpg");
+  background-size: cover !important;
+  background-position-y: center;
+}
+
+p {
+  font-weight: 700;
+  color: #01a026;
 }
 
 .container {
@@ -246,11 +250,15 @@ export default {
 }
 #area2 {
   width: 25%;
+  margin: 3% 0px 3% 0px;
 }
 section {
-  margin-top: 20px;
-  margin-left: 10%;
-  margin-right: 10%;
+  margin: 20px 10% 0px 10%;
+  padding: 1px 0px 10px 0px;
+  //background-color: #f8f9fa;
+  border-radius: 2%;
+  border-color: green !important;
+  border-radius: 0.5rem;
 }
 
 input {
@@ -259,6 +267,11 @@ input {
 
 #dateRow {
   margin: 0px 10px 0px 0px;
+  background: transparent !important;
+}
+
+#dateRow div{
+  background-color: #f8f9fa;
 }
 
 .dateP {
@@ -269,6 +282,8 @@ input {
 #publish {
   margin: 40px 0px 20px 0px;
 }
+
+
 input,
 select,
 textarea {
