@@ -158,11 +158,11 @@ export default {
 
 #InputSearchA {
   width: 320px !important;
-  margin-top: 13px;
+  margin-top: 17px;
   margin-left: 15px;
 }
 #InputGuests {
-  margin-top: 13px;
+  margin-top: 17px;
   margin-left: 15px;
   height: 60px;
   width: 120px;
@@ -177,8 +177,8 @@ export default {
   width: 115px;
 }
 #SearchBtn {
-  height: 60px;
-  width: 130px;
+  height: 40px;
+  width: 100px;
   border-radius: 35px;
   margin-top: 13px;
   margin-left: 15px;
@@ -191,8 +191,8 @@ export default {
 #boxHome {
   position: absolute;
   top: 340px;
-  left: 183px;
-  width: 1000px;
+  left: 175px;
+  width: 1030px;
   height: 90px;
   border-radius: 5px;
   border: 2px solid #f5f4f3;

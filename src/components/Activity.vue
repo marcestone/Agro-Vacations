@@ -7,6 +7,7 @@
       img-top
       tag="article"
       style="max-width: 20rem;"
+      
       class="activityCard mb-2"
     >
       <b-card-text>${{prize}}<br>
