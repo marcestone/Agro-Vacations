@@ -1,30 +1,31 @@
 <template>
   <b-col md="3">
-    <b-card id=cardActivity
+    <b-card
+      id="cardActivity"
       :title="nameActivity"
       img-src="https://picsum.photos/600/500/?image=62"
       img-alt="Image"
       img-top
       tag="article"
       style="max-width: 20rem;"
-      
       class="activityCard mb-2"
     >
-
-
-      <b-card-text>${{prize}}<br>
-            <b-form-rating 
-              id="rating-inline" 
-              inline  
-              v-model="rating" 
-              variant="success" 
-              no-border size="sm">
-            </b-form-rating>
+      <b-card-text>
+        ${{prize}}
+        <br />
+        <b-form-rating
+          id="rating-inline"
+          inline
+          v-model="rating"
+          variant="success"
+          no-border
+          size="sm"
+        ></b-form-rating>
       </b-card-text>
 
-      <a href="javascript:void(0)" class="stretched-link" v-b-modal="nameActivity"></a>
+      <a href="javascript:void(0)" class="stretched-link" v-b-modal="datePublish"></a>
 
-      <b-modal v-bind:id="nameActivity" centered size="lg">
+      <b-modal v-bind:id="datePublish" centered size="lg">
         <template v-slot:modal-header>
           <h3>
             <strong>{{ nameActivity }}</strong>
@@ -41,22 +42,15 @@
                 img-width="600"
                 img-height="500 "
               >
-                <b-carousel-slide
-                  img-src="https://picsum.photos/600/500/?image=61"
-                ></b-carousel-slide>
-                <b-carousel-slide
-                  img-src="https://picsum.photos/600/500/?image=62"
-                ></b-carousel-slide>
-                <b-carousel-slide
-                  img-src="https://picsum.photos/600/500/?image=63"
-                ></b-carousel-slide>
-              </b-carousel><br>
+                <b-carousel-slide img-src="https://picsum.photos/600/500/?image=61"></b-carousel-slide>
+                <b-carousel-slide img-src="https://picsum.photos/600/500/?image=62"></b-carousel-slide>
+                <b-carousel-slide img-src="https://picsum.photos/600/500/?image=63"></b-carousel-slide>
+              </b-carousel>
+              <br />
               <center style="color: green;">Did you take it? ¡Vote now!</center>
-              <span><b-form-rating 
-              v-model="ratingClient" 
-              variant="success" 
-              class="mb-2">
-              </b-form-rating></span>
+              <span>
+                <b-form-rating v-model="ratingClient" variant="success" class="mb-2"></b-form-rating>
+              </span>
             </div>
             <div class="col-7">
               <p style="text-align:justify">{{ description }}</p>
@@ -67,7 +61,6 @@
                 </i>
               </p>
               <p style="text-align:justify">
-                
                 <i>
                   <small>Publication date: {{ datePublish }}</small>
                 </i>
@@ -84,7 +77,6 @@
                 }"
                 locale="en"
               ></b-form-datepicker>
-              
             </div>
           </div>
         </div>
@@ -92,12 +84,10 @@
           <b-button variant="secondary" @click="cancel()">Cancel</b-button>
 
           <form @submit.prevent="reserve">
-            <b-button variant="primary" type="submit"  @click="showMsgBoxTwo">
+            <b-button variant="primary" type="submit" @click="showMsgBoxTwo">
               <b-icon icon="briefcase" type></b-icon>Reserve
             </b-button>
           </form>
-
-
         </template>
       </b-modal>
     </b-card>
@@ -109,7 +99,6 @@ import * as firebase from "firebase/app";
 import Firebase from "firebase";
 import db from "../db.js";
 export default {
-  
   name: "activity",
   props: [
     "client",
@@ -137,10 +126,10 @@ export default {
         "dark"
       ],
       headerBgVariant: "primary",
-      headerTextVariant: "light",
+      headerTextVariant: "light"
     };
   },
-  methods:{
+  methods: {
     showMsgBoxTwo() {
       this.boxTwo = "";
       this.$bvModal
@@ -165,11 +154,33 @@ export default {
           var date = new Date(unix_timestamp);
           var hours = date.getHours();
           var day = date.getDate() + 1;
-          var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+          var months = [
+            "Jan",
+            "Feb",
+            "Mar",
+            "Apr",
+            "May",
+            "Jun",
+            "Jul",
+            "Aug",
+            "Sep",
+            "Oct",
+            "Nov",
+            "Dec"
+          ];
           var month = months[date.getMonth()];
           var minutes = "0" + date.getMinutes();
           var seconds = "0" + date.getSeconds();
-          var formattedTime = month + " " + day + " at " + hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
+          var formattedTime =
+            month +
+            " " +
+            day +
+            " at " +
+            hours +
+            ":" +
+            minutes.substr(-2) +
+            ":" +
+            seconds.substr(-2);
           let document;
           let activityIdentify;
           let nameReservation = this.nameActivity;
@@ -181,14 +192,19 @@ export default {
                 activityIdentify = doc.id;
               });
             });
+          let userName;
+         // userName = db.collection("user").doc(user.uid).data();
+         // console.log(userName.name);
           db.collection("user")
             .doc(user.uid)
             .get()
             .then(snapshot => {
+              userName = snapshot.data().name;
+              console.log(userName);
               checkActivities = snapshot.data().activitiesReserved;
               document = db.collection("activities").doc(activityIdentify);
-              if (checkActivities.id == null) {
-                db.collection("user")
+              if (checkActivities == null) {
+                /* db.collection("user")
                   .doc(user.uid)
                   .update({
                     activitiesReserved: firebase.firestore.FieldValue.arrayRemove(
@@ -198,7 +214,7 @@ export default {
                         reservationDate: ""
                       }
                     )
-                  });
+                  });*/
                 document.update({
                   userClient: firebase.firestore.FieldValue.arrayRemove({
                     userId: "",
@@ -220,7 +236,7 @@ export default {
                 document.update({
                   userClient: firebase.firestore.FieldValue.arrayUnion({
                     userId: user.uid,
-                    name: nameReservation,
+                    name: userName,
                     reservationDate: formattedTime
                   })
                 });
@@ -239,7 +255,7 @@ export default {
                 document.update({
                   userClient: firebase.firestore.FieldValue.arrayUnion({
                     userId: user.uid,
-                    name: nameReservation,
+                    name: userName,
                     reservationDate: formattedTime
                   })
                 });
@@ -253,14 +269,12 @@ export default {
 </script>
 
 <style>
- 
 .activityCard {
   transition-duration: 0.2s;
   transition: box-shadow 0, 2s;
-  width: 100%!important;
-   height: 360px!important;
-   object-fit: cover;
-
+  width: 100% !important;
+  height: 360px !important;
+  object-fit: cover;
 }
 .activityCard:hover {
   box-shadow: 0px 0px 5px 1px rgba(46, 124, 1, 0.5);

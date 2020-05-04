@@ -8,19 +8,19 @@
           </div>
         </div>
       </div>
-      <form class="mt-4" id="regForm" @submit.prevent="addActivity">
+      <form class="mt-4" id="regForm">
         <div class="row">
           <div class="justify-content-center areas col-md-6" id="area2">
             <section class="col-md-8">
-              <p>Enter event name</p>
+              <p style="  font-weight: 700;color: #01a026;">Enter event name</p>
               <b-input type="text" placeholder="Activity Name" id="input" v-model="activityName" />
             </section>
             <section class="col-md-8">
-              <p>Enter event Type</p>
+              <p style="  font-weight: 700;color: #01a026;">Enter event Type</p>
               <b-input type="text" placeholder="Activity Type" id="input" v-model="activityType" />
             </section>
             <section class="col-md-8">
-              <p>Enter event date</p>
+              <p style="  font-weight: 700;color: #01a026;">Enter event date</p>
               <div>
                 <div class="row justify-content-between" id="dateRow">
                   <b-form-datepicker
@@ -41,17 +41,22 @@
               </div>
             </section>
             <section class="col-md-8">
-              <p>Enter event location</p>
+              <p style="  font-weight: 700;color: #01a026;">Enter event location</p>
               <b-input type="text" placeholder="Location" id="input" v-model="activityLocation" />
             </section>
             <section class="col-md-8">
               <div class="row justify-content-between" style="background:transparent">
                 <section class="col-md-5" style="margin:0">
-                  <p>Enter event price</p>
-                  <b-input type="number" placeholder="Price Name" id="input" v-model="activityPrice" />
+                  <p style="  font-weight: 700;color: #01a026;">Enter event price</p>
+                  <b-input
+                    type="number"
+                    placeholder="Price Name"
+                    id="input"
+                    v-model="activityPrice"
+                  />
                 </section>
                 <section class="col-md-5" style="margin:0">
-                  <p>Transport</p>
+                  <p style="  font-weight: 700;color: #01a026;">Transport</p>
                   <select v-model="activityTransport">
                     <option value="Yes">Yes</option>
                     <option value="No">No</option>
@@ -62,9 +67,10 @@
           </div>
           <div class="areas col-md-6" id="area1">
             <div class="container">
-              <img id="activityImage" placeholder="Set an image"/>
-              <button type="submit" class="btn btn-outline-success" id="addImage">+</button>
+              <img id="activityImage" placeholder="Set an image" />
               <!--
+                <button type="submit" class="btn btn-outline-success" id="addImage">+</button>
+            
                 <font-awesome-icon icon="star"></font-awesome-icon>
               -->
             </div>
@@ -76,7 +82,7 @@
               v-model="description"
             ></textarea>
             <div class="form-group text-center" id="publish">
-              <button type="submit" class="btn btn-outline-success">Publish</button>
+              <button v-on:click="addActivity" class="btn btn-outline-success">Publish</button>
             </div>
           </div>
         </div>
@@ -121,54 +127,52 @@ export default {
         activityLocation: this.activityLocation,
         activityPrice: this.activityPrice
       };
-
       //var date = new Date(document.getElementById("time1").value);
       //var timestamp = date.getTime();
-      Firebase.auth().onAuthStateChanged(user => {
-        if (user) {
-          db.collection("user")
-            .doc(user.uid)
-            .get()
-            .then(snapshot => {
-              let document;
-              let newActivitiesName = snapshot.data().activitiesName;
 
-              if(newActivitiesName == null){
-                newActivitiesName = [];
-              }
+      var user = Firebase.auth().currentUser;
 
-              document = db.collection("activities").doc();
+      if (user != null) {
+        db.collection("user")
+          .doc(user.uid)
+          .get()
+          .then(snapshot => {
+            let document;
+            let newActivitiesName = snapshot.data().activitiesName;
 
+            if (newActivitiesName == null) {
+              newActivitiesName = [];
+            }
 
+            document = db.collection("activities").doc();
 
-              newActivitiesName.push({
-                name: info.activityName,
-                id: document.id
+            newActivitiesName.push({
+              name: info.activityName,
+              id: document.id
+            });
+
+            document.set({
+              datePublish: new Date(),
+              description: info.description,
+              activityName: info.activityName,
+              price: parseInt(info.activityPrice),
+              dataStart: new Date(info.dateStart),
+              dataEnd: new Date(info.dateEnd),
+              activityTransport: info.activityTransport,
+              activityRate: null,
+              userClient: [],
+              userCreator: user.uid,
+              userCreatorName: snapshot.data().name
+            });
+
+            db.collection("user")
+              .doc(user.uid)
+              .update({
+                activitiesName: newActivitiesName
               });
-
-              document.set({
-                datePublish: new Date(),
-                description: info.description,
-                activityName: info.activityName,
-                price: parseInt(info.activityPrice),
-                dataStart: new Date(info.dateStart),
-                dataEnd: new Date(info.dateEnd),
-                activityTransport: info.activityTransport,
-                activityRate: null,
-                userClient: [],
-                userCreator: user.uid,
-                userCreatorName: snapshot.data().name
-              });
-
-
-              db.collection("user")
-                .doc(user.uid)
-                .update({
-                  activitiesName: newActivitiesName
-                });
-            })
-            .then(
-              this.$bvModal
+          })
+          .then(
+            this.$bvModal
               .msgBoxOk("Activity published successfully", {
                 title: "Confirmation",
                 size: "sm",
@@ -178,15 +182,11 @@ export default {
                 footerClass: "p-2 border-top-0",
                 centered: true
               })
-              .then(
-              () => {
+              .then(() => {
                 this.$router.push("home");
-              }
-            )
-            )
-            
-        }
-      });
+              })
+          );
+      }
     }
   },
   components: {
@@ -214,16 +214,14 @@ export default {
   margin: 40px 0 40px 0;
 }
 
-#regForm .row{
-  background: linear-gradient(rgba(255,255,255,.5), rgba(255,255,255,.5)), 
-              url("/img/travel.d977301a.jpg");
+#regForm .row {
+  background: linear-gradient(
+      rgba(255, 255, 255, 0.5),
+      rgba(255, 255, 255, 0.5)
+    ),
+    url("/img/travel.d977301a.jpg");
   background-size: cover !important;
   background-position-y: center;
-}
-
-p {
-  font-weight: 700;
-  color: #01a026;
 }
 
 .container {
@@ -270,7 +268,7 @@ input {
   background: transparent !important;
 }
 
-#dateRow div{
+#dateRow div {
   background-color: #f8f9fa;
 }
 
@@ -282,7 +280,6 @@ input {
 #publish {
   margin: 40px 0px 20px 0px;
 }
-
 
 input,
 select,
