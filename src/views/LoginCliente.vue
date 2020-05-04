@@ -2,8 +2,8 @@
   <div class="w3-container">
       <b-img
         src="../assets/91352.jpg"
-        width="1365"
-        height="587"
+        width="1366"
+        height="549"
         aling="top"
       ></b-img>
       <div class="box" id="boxLogin">
@@ -103,7 +103,7 @@ h5 {
   top: 200px;
   left: 483px;
   width: 400px;
-  height: 340px;
+  height: 360px;
   border-radius: 70px;
   border: 3px solid #044715;
   background-color: #ebfff4a1;
