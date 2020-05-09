@@ -6,6 +6,7 @@ import PerfilCliente from "../views/PerfilCliente.vue";
 import EditarPerfil from "../views/EditarPerfil.vue";
 import RegistroCliente from "../views/RegistroCliente.vue";
 import CrearActividad from "../views/CrearActividad.vue";
+import imageHandler from "../views/imageHandler.vue";
 
 Vue.use(VueRouter);
 
@@ -39,6 +40,11 @@ const routes = [
     path: "/crearactividad",
     name: "CrearActividad",
     component: CrearActividad
+  },
+  {
+    path: "/imageHandler",
+    name: "ImageHandler",
+    component: imageHandler
   },
   {
     path: "*",
