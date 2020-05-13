@@ -6,6 +6,8 @@ import PerfilCliente from "../views/PerfilCliente.vue";
 import EditarPerfil from "../views/EditarPerfil.vue";
 import RegistroCliente from "../views/RegistroCliente.vue";
 import CrearActividad from "../views/CrearActividad.vue";
+import MisActividades from "../views/MisActividades.vue";
+
 
 Vue.use(VueRouter);
 
@@ -39,6 +41,11 @@ const routes = [
     path: "/crearactividad",
     name: "CrearActividad",
     component: CrearActividad
+  },
+  {
+    path: "/misactividades",
+    name: "MisActividades",
+    component: MisActividades
   },
   {
     path: "*",
