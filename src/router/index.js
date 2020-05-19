@@ -7,6 +7,8 @@ import EditarPerfil from "../views/EditarPerfil.vue";
 import RegistroCliente from "../views/RegistroCliente.vue";
 import CrearActividad from "../views/CrearActividad.vue";
 import imageHandler from "../views/imageHandler.vue";
+import MisActividades from "../views/MisActividades.vue";
+
 
 Vue.use(VueRouter);
 
@@ -45,6 +47,11 @@ const routes = [
     path: "/imageHandler",
     name: "ImageHandler",
     component: imageHandler
+   },
+  {
+    path: "/misactividades",
+    name: "MisActividades",
+    component: MisActividades
   },
   {
     path: "*",
