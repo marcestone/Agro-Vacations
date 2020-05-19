@@ -64,16 +64,69 @@
                 </section>
               </div>
             </section>
+            <b-row align-h="center" style="background:transparent">
+              <div class="form-group text-center" id="publish">
+                <button v-on:click="addActivity" class="btn btn-success" style="width:100px;height:40px">Publish</button>
+              </div>
+            </b-row>
           </div>
           <div class="areas col-md-6" id="area1">
             <div class="container">
-              <img id="activityImage" placeholder="Set an image" />
               <!--
+              <img id="activityImage" placeholder="Set an image" />
+              
                 <button type="submit" class="btn btn-outline-success" id="addImage">+</button>
             
                 <font-awesome-icon icon="star"></font-awesome-icon>
               -->
+
+              <div>
+                <b-row align-h="center" style="background:transparent">
+                  <b-carousel
+                  id="carousel-fade"
+                  style="text-shadow: 0px 0px 2px #000"
+                  fade
+                  indicators
+                  img-width="1000"
+                  img-height="20"
+                >
+                  <b-carousel-slide
+                    caption=""
+                    img-src="../assets/landscape1.jpg"
+                    id="image1"
+                  >
+                </b-carousel-slide>
+                  <b-carousel-slide
+                    caption=""
+                    img-src="../assets/landscape2.jpg"
+                    id="image2"
+                  ></b-carousel-slide>
+                  <b-carousel-slide
+                    caption=""
+                    img-src="../assets/landscape3.jpg"
+                    id="image3"
+                  ></b-carousel-slide>
+                </b-carousel>
+                </b-row>
+              </div>
             </div>
+            <b-row style="background:transparent;margin:5%" align-h="between">
+              <b-form-file 
+                align-h="center" 
+                size="sm"
+                placeholder="Drop your activity images"
+                drop-placeholder="Drop the image file"
+                style="width:50%;;height:100%;margin:0 5% 0 5%"
+                @change="onSelectedFile"
+                >
+              </b-form-file>
+              <b-button 
+                style="margin:0 5% 0 5%" 
+                align-h="center" 
+                variant="success"
+                v-on:click="addFile"
+              >Add Image</b-button>
+            </b-row>
             <textarea
               id="description"
               rows="10"
@@ -81,9 +134,6 @@
               placeholder="Activity Description"
               v-model="description"
             ></textarea>
-            <div class="form-group text-center" id="publish">
-              <button v-on:click="addActivity" class="btn btn-outline-success">Publish</button>
-            </div>
           </div>
         </div>
       </form>
@@ -111,7 +161,11 @@ export default {
       activityTransport: null,
       activityPrice: null,
       userCreatorName: null,
-      activityRate: null
+      activityRate: null,
+      selectedFile: null,
+      UploadValue: 0,
+      picture: null,
+      images: [],
     };
   },
   methods: {
@@ -170,6 +224,9 @@ export default {
               .update({
                 activitiesName: newActivitiesName
               });
+            
+            this.createFileFolder(document.id);
+
           })
           .then(
             this.$bvModal
@@ -187,6 +244,52 @@ export default {
               })
           );
       }
+    },
+    onSelectedFile: function(event){
+      this.selectedFile = event.target.files[0];
+    },
+    addFile: function(){
+
+      this.images.push(this.selectedFile);
+
+      if(this.images.length <= 3){
+        var preview = null;
+        if(this.images.length == 1){
+          preview = document.getElementById("image1").querySelector('img');
+        }else if(this.images.length == 2){
+          preview = document.getElementById("image2").querySelector('img'); 
+        }else if(this.images.length == 3){
+          preview = document.getElementById("image3").querySelector('img');     
+        }
+
+        var file = this.selectedFile;
+        var reader = new FileReader();
+
+        reader.addEventListener("load", function () {
+          preview.src = reader.result;
+          preview.style.width = "600px";
+          preview.style.height = "400px";
+        }, false);
+
+        if (file) {
+          reader.readAsDataURL(file);
+        }
+      }
+
+      console.log(this.images.length);
+    },
+    createFileFolder(id){
+      
+      this.images.forEach(function(file){
+
+        var storageRef = Firebase.storage().ref();
+
+        var path = 'activities/' + id + "/activitiesImages/" + file.name; 
+
+        var task = storageRef.child(path).put(file);   
+
+        console.log(task);
+      }); 
     }
   },
   components: {
@@ -219,7 +322,7 @@ export default {
       rgba(255, 255, 255, 0.5),
       rgba(255, 255, 255, 0.5)
     ),
-    url("/img/travel.d977301a.jpg");
+    url("../assets/travel.jpg");
   background-size: cover !important;
   background-position-y: center;
 }
@@ -236,10 +339,8 @@ export default {
   border-radius: 50%;
 }
 
-#activityImage {
-  width: 80%;
-  height: 300px;
-  margin: 20px 10% 20px 10%;
+.carousel-inner {
+  border-radius: 20px;
 }
 #description {
   width: 80%;

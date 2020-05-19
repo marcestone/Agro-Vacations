@@ -1,4 +1,5 @@
 import firebase from "firebase";
+import "firebase/storage";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCW5upxm20LsmiWCxnQnXsEJtZ8_kQz0Co",
@@ -13,4 +14,3 @@ const firebaseConfig = {
 // Initialize Firebase
 const firebaseApp = firebase.initializeApp(firebaseConfig);
 export default firebaseApp.firestore();
-// Esta es una mouseHerramienta que nos servira para mas tarde
