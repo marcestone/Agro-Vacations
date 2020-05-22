@@ -103,6 +103,9 @@
 import * as firebase from "firebase/app";
 import Firebase from "firebase";
 import db from "../db.js";
+import Vue from 'vue'
+import { BootstrapVue} from 'bootstrap-vue'
+Vue.use(BootstrapVue)
 export default {
   name: "activity",
   props: [
