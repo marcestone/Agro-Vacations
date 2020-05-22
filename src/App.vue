@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <Navigation :client="client" @logout="logout" />
-    <router-view :client="client" :activities="activities" />
+    <Navigation :client="client" @logout="logout"/>
+    <router-view :client="client" :activities="activities"/>
   </div>
 </template>
 

@@ -54,12 +54,17 @@
             </div>
             <div class="col-7">
               <p style="text-align:justify">{{ description }}</p>
-              <strong style="color: green;">$ {{ prize }}</strong>
-              <p class="mt-4" style="text-align:justify">
+              <strong style="color: green;">$ {{ prize }}</strong><br>
+              <!--<b-button variant="link" id="ButtonHost"  href="#" :to="'/perfilcliente/'+ userCreator">
                 <i>
                   <small>Host: {{ userCreatorName }}</small>
                 </i>
-              </p>
+              </b-button> -->
+              <router-link :to="'/perfilmiembros/' + userCreator">
+                <i>
+                  <small>Host: {{ userCreatorName }}</small>
+                </i>
+              </router-link>
               <p style="text-align:justify">
                 <i>
                   <small>Publication date: {{ datePublish }}</small>
@@ -106,12 +111,15 @@ export default {
     "description",
     "datePublish",
     "userCreatorName",
+    "userCreator",
     "prize",
     "activityKey",
     "rating"
   ],
+  
   data() {
     return {
+      hostClient: null,
       ratingClient: 1,
       boxTwo: "",
       ReservationValue: null,
@@ -266,10 +274,12 @@ export default {
       });
     }
   }
+
 };
 </script>
 
 <style>
+
 .activityCard {
   transition-duration: 0.2s;
   transition: box-shadow 0, 2s;

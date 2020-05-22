@@ -11,7 +11,7 @@
       <div class="box" id="boxTitle">
         <div class="h5" id="title">
           <b-icon icon="person-fill" aria-hidden="true"></b-icon>
-          <br>{{client.displayName}}
+          <br>{{host.name}}
         </div>
         <div class="h1" id="subtitle">
           Ingeriero de sistemas y computación
@@ -20,7 +20,7 @@
 
       <div class="box" id="boxImage">
         <b-img
-        src="../assets/foto_perfil.jpg"
+        src="../assets/foto_perfil1.jpg"
         width="250"
         height="250"
         ></b-img>  
@@ -63,6 +63,8 @@
 
       <div class="box" id="personalInfo">
         <p style='text-align:right'>
+          
+          userID: <br>
           Telefono: <br>
           Estado civil: <br>
           Género: <br>
@@ -73,11 +75,13 @@
 
       <div class="box" id="personalInfo2">
         <p style='text-align:left'>
+          
+          {{userID}}<br>
           +57 3333333333 <br>
           Soltero <br>
           Hombre <br>
           Bogotá <br>
-          {{client.email}} 
+          {{host.email}} 
         </p>
       </div>
 
@@ -89,22 +93,52 @@
         ></b-img>
       </div>
 
-      <div class="box" id="boxButton">
-        <router-link type="buttonSa" class="buttonSa button1S" to="/editarPerfil">
-          Edit
-          <b-icon-pencil-square id="icon"></b-icon-pencil-square>
-        </router-link>
-      </div>
+      
 
   </div>
 </template>
 
+<script>
+import db from "../db.js";
+export default {
+  name: "profile",
+  props: ["client","userID"],
+  data(){
+    return{
+      host: null
+    }
+  },
+  mounted(){
+    db.collection("user").onSnapshot(snapshot => {
+        const snapData = this.client;
+        snapshot.forEach(doc => {
+          console.log(this.userID,doc.data().uid, this.userID == doc.data().uid);
+          if(this.userID == doc.data().uid){
+            
+              snapData.uid = doc.id,
+              snapData.phone = doc.data().phone,
+              snapData.name = doc.data().name,
+              snapData.email = doc.data().email,
+              snapData.address = doc.data().address
+              
+            
+          }
+        });
+        this.host = snapData;
+        
+      });
+  },
+  methods: {
+  },
+};
+</script>
 
 <style lang="scss">
 #icon{
   width: 15px;
   height: 15px;
 }
+
 #title {
   color: #0d8517;
   font-size: 50px;
@@ -112,17 +146,20 @@
   font-weight: bold;
   text-align: center;
 }
+
 #subtitle {
   color: #405541c9;
   font-size: 15px;
   font-family: 'Courier New';
   text-align: center;
 }
+
 #title_short {
   color: #0d8517;
   font-size: 15px;
   font-family: 'Lucida Sans';
 }
+
 #boxTitle {
   position: absolute;
   top: 100px;
@@ -132,6 +169,7 @@
   border: #ffffff00;
   background-color: #ffffffda;
 }
+
 #boxImage {
   position: absolute;
   top: 280px;
@@ -142,6 +180,7 @@
   border: 1px solid #363636a8;
   background-color: #ffffffda;
 }
+
 #boxAboutMe {
   position: absolute;
   top: 700px;
@@ -152,6 +191,7 @@
   border: #11131200;
   background-color: #ffffffda;
 }
+
 #rectangule1 {
   position: absolute;
   top: 580px;
@@ -159,6 +199,7 @@
   width: 54px;
   height: 54px;
 }
+
 #rectangule2 {
   position: absolute;
   top: 850px;
@@ -167,6 +208,7 @@
   height: 54px;
   border-radius: 0px;
 }
+
 #boxImage4 {
   position: absolute;
   top: 988px;
@@ -175,6 +217,7 @@
   height: 200px;
   border-radius: 0px;
 }
+
 #pre-aboutme {
   position: absolute;
   top: 630px;
@@ -183,6 +226,7 @@
   height: 54px;
   border-radius: 0px;
 }
+
 #pre-personalInfo {
   position: absolute;
   top: 900px;
@@ -191,6 +235,7 @@
   height: 54px;
   border-radius: 0px;
 }
+
 #personalInfo {
   position: absolute;
   top: 1000px;
@@ -198,7 +243,9 @@
   width: 150px;
   height: 150px;
   border-radius: 0px;
+
 }
+
 #personalInfo2 {
   position: absolute;
   top: 1000px;
@@ -206,7 +253,9 @@
   width: 200px;
   height: 150px;
   border-radius: 0px;
+
 }
+
 #boxButton {
   position: absolute;
   top: 1200px;
@@ -214,7 +263,9 @@
   width: 200px;
   height: 150px;
   border-radius: 0px;
+
 }
+
 .buttonSa {
   background-color: #0d8517; /* Green */
   border: none;
@@ -227,20 +278,15 @@
   transition-duration: 0.4s;
   cursor: pointer;
 }
+
 .button1S {
   background-color: white; 
   color: black; 
   border: 2px solid #0d8517;
 }
+
 .button1S:hover {
   background-color:#0d8517;
   color: white;
 }
 </style>
-
-<script>
-export default {
-  name: "profile",
-  props: ["client"]
-};
-</script>
