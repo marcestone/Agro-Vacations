@@ -56,6 +56,7 @@
         <Activity
           v-for="activity in displayActivities"
           :key="activity.id"
+          :activityKey="activity.id"
           :nameActivity="activity.nameActivity"
           :description="activity.description"
           :datePublish="activity.datePublish"

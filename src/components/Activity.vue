@@ -23,9 +23,9 @@
         ></b-form-rating>
       </b-card-text>
 
-      <a href="javascript:void(0)" class="stretched-link" v-b-modal="datePublish"></a>
+      <a href="javascript:void(0)" class="stretched-link" v-b-modal="activityKey"></a>
 
-      <b-modal v-bind:id="datePublish" centered size="lg">
+      <b-modal v-bind:id="activityKey" centered size="lg">
         <template v-slot:modal-header>
           <h3>
             <strong>{{ nameActivity }}</strong>
@@ -113,6 +113,7 @@ export default {
     "userCreatorName",
     "userCreator",
     "prize",
+    "activityKey",
     "rating"
   ],
   
