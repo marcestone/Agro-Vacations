@@ -9,7 +9,7 @@ import EditarPerfil from "../views/EditarPerfil.vue";
 import RegistroCliente from "../views/RegistroCliente.vue";
 import RegistroEntidad from "../views/RegistroEntidad.vue";
 import CrearActividad from "../views/CrearActividad.vue";
-
+import PerfilMiembros from "../views/PerfilMiembros.vue"
 Vue.use(VueRouter);
 
 const routes = [
@@ -31,7 +31,14 @@ const routes = [
   {
     path: "/perfilcliente",
     name: "PerfilCliente",
-    component: PerfilCliente
+    component: PerfilCliente,
+    props: true
+  },
+  {
+    path: "/perfilmiembros/:userID",
+    name: "PerfilMiembros",
+    component: PerfilMiembros,
+    props: true
   },
   {
     path: "/perfilentidad",

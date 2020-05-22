@@ -59,6 +59,7 @@
           :nameActivity="activity.nameActivity"
           :description="activity.description"
           :datePublish="activity.datePublish"
+          :userCreator="activity.userCreator"
           :userCreatorName="activity.userCreatorName"
           :prize="activity.prize"
           :rating="activity.rating"
@@ -88,6 +89,7 @@ export default {
   props: ["client", "activities"],
   mounted(){
     
+
     db.collection("activities").onSnapshot(snapshot => {
         const snapData = [];
         snapshot.forEach(doc => {
@@ -103,8 +105,9 @@ export default {
           var formattedTime = month + " " + day + " at " + hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
           
           snapData.push({
-             id: doc.id,
+            id: doc.id,
             description: doc.data().description,
+            userCreator: doc.data().userCreator,
             userCreatorName: doc.data().userCreatorName,
             datePublish: formattedTime,
             nameActivity: doc.data().activityName,
@@ -121,6 +124,7 @@ export default {
         
         
       });
+
   },
   data() {
     const now = new Date();
