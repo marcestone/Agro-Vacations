@@ -1,4 +1,4 @@
-<template >
+<template>
   <div>
     <div class="sidenav text-center">
       <h5 style=" margin-left:3%; margin-right:3%; margin-top:15%;">
@@ -15,6 +15,13 @@
       <h2 style=" margin-left:3%; margin-top: 2%; margin-right: 8%;">
         <strong style="color:  green;">Actividades creadas</strong>
       </h2>
+      <h5 style=" margin-left:3%; margin-top: 2%; margin-right: 8%;">
+        <p>
+          Tienes
+          <strong>{{ numberOfReservations }}</strong> reservas en total de tus
+          actividades
+        </p>
+      </h5>
       <b-col v-for="item in createdActivities" :key="item.id">
         <b-card
           style=" margin-left:3%; margin-top: 2%; margin-right: 8%;border-block-color:  rgba(46, 124, 1, 0.5);"
@@ -30,14 +37,53 @@
                 img-width="600"
                 img-height="500 "
               >
-                <b-carousel-slide img-src="https://picsum.photos/600/500/?image=61"></b-carousel-slide>
-                <b-carousel-slide img-src="https://picsum.photos/600/500/?image=62"></b-carousel-slide>
-                <b-carousel-slide img-src="https://picsum.photos/600/500/?image=63"></b-carousel-slide>
+                <b-carousel-slide
+                  img-src="https://picsum.photos/600/500/?image=61"
+                ></b-carousel-slide>
+                <b-carousel-slide
+                  img-src="https://picsum.photos/600/500/?image=62"
+                ></b-carousel-slide>
+                <b-carousel-slide
+                  img-src="https://picsum.photos/600/500/?image=63"
+                ></b-carousel-slide>
               </b-carousel>
               <br />
+              <div class="text-center">
+                <b-button v-b-modal="item.modalId" variant="success">
+                  <b-icon-person-check-fill></b-icon-person-check-fill>Reservas
+                </b-button>
+              </div>
+
+              <b-modal v-bind:id="item.modalId" centered size="md">
+                <template v-slot:modal-header>
+                  <h3>
+                    <small style="color:green"
+                      >Contacta a quienes han reservado tu actividad</small
+                    >
+                  </h3>
+                </template>
+                <div class="modal-body">
+                  <div
+                    v-for="item2 in item.activityReservationList"
+                    :key="item2.id"
+                  >
+                    <a
+                      href="#"
+                      class="list-group-item list-group-item-action"
+                      style=":hover { background-color: green;}"
+                      ><b-icon-person-check-fill></b-icon-person-check-fill>
+                      {{ item2.name }},
+                      {{ item2.createdActivityReservationDate }}
+                    </a>
+                  </div>
+                </div>
+                <template v-slot:modal-footer="{ cancel }">
+                  <b-button variant="secondary" @click="cancel()">Ok</b-button>
+                </template>
+              </b-modal>
             </div>
             <div class="col-8">
-              <h2>{{item.nameActivity}}</h2>
+              <h2>{{ item.nameActivity }}</h2>
               <p style="text-align:justify">{{ item.description }}</p>
               <strong style="color: green;">$ {{ item.price }}</strong>
 
@@ -46,9 +92,7 @@
                   <small>Publish date: {{ item.datePublish }}</small>
                 </i>
               </p>
-              <b-button variant="danger">
-                Eliminar
-              </b-button>
+              <b-button variant="danger">Eliminar</b-button>
             </div>
           </div>
         </b-card>
@@ -74,14 +118,25 @@
                 img-width="600"
                 img-height="500 "
               >
-                <b-carousel-slide img-src="https://picsum.photos/600/500/?image=61"></b-carousel-slide>
-                <b-carousel-slide img-src="https://picsum.photos/600/500/?image=62"></b-carousel-slide>
-                <b-carousel-slide img-src="https://picsum.photos/600/500/?image=63"></b-carousel-slide>
+                <b-carousel-slide
+                  img-src="https://picsum.photos/600/500/?image=61"
+                ></b-carousel-slide>
+                <b-carousel-slide
+                  img-src="https://picsum.photos/600/500/?image=62"
+                ></b-carousel-slide>
+                <b-carousel-slide
+                  img-src="https://picsum.photos/600/500/?image=63"
+                ></b-carousel-slide>
               </b-carousel>
               <br />
+              <div class="text-center">
+                <b-button variant="danger"
+                  ><b-icon-dash-circle></b-icon-dash-circle> Cancelar</b-button
+                >
+              </div>
             </div>
             <div class="col-8">
-              <h2>{{item.nameActivity}}</h2>
+              <h2>{{ item.nameActivity }}</h2>
               <p style="text-align:justify">{{ item.description }}</p>
               <strong style="color: green;">$ {{ item.price }}</strong>
               <p class="mt-4" style="text-align:justify">
@@ -96,19 +151,23 @@
               </p>
               <p style="text-align:justify">
                 <i>
-                  <small>Reservation date: {{ item.currentReservationDate }} / 2020</small>
+                  <small
+                    >Reservation date: {{ item.currentReservationDate }} /
+                    2020</small
+                  >
                 </i>
               </p>
-              <b-button variant="danger">
-                Cancelar
-              </b-button>
             </div>
           </div>
         </b-card>
       </b-col>
     </div>
 
-    <div id="finishedActivities" class="mt-4;" style="margin-left:15%; margin-bottom:50%;">
+    <div
+      id="finishedActivities"
+      class="mt-4;"
+      style="margin-left:15%; margin-bottom:50%;"
+    >
       <h2 style=" margin-left:3%; margin-top: 2%; margin-right: 8%;">
         <strong style="color:  green;">Actividades culminadas</strong>
       </h2>
@@ -127,14 +186,25 @@
                 img-width="600"
                 img-height="500 "
               >
-                <b-carousel-slide img-src="https://picsum.photos/600/500/?image=61"></b-carousel-slide>
-                <b-carousel-slide img-src="https://picsum.photos/600/500/?image=62"></b-carousel-slide>
-                <b-carousel-slide img-src="https://picsum.photos/600/500/?image=63"></b-carousel-slide>
+                <b-carousel-slide
+                  img-src="https://picsum.photos/600/500/?image=61"
+                ></b-carousel-slide>
+                <b-carousel-slide
+                  img-src="https://picsum.photos/600/500/?image=62"
+                ></b-carousel-slide>
+                <b-carousel-slide
+                  img-src="https://picsum.photos/600/500/?image=63"
+                ></b-carousel-slide>
               </b-carousel>
               <br />
+              <div class="text-center">
+                <b-button variant="info">
+                  <b-icon-star></b-icon-star>Calificar
+                </b-button>
+              </div>
             </div>
             <div class="col-8">
-              <h2>{{item.nameActivity}}</h2>
+              <h2>{{ item.nameActivity }}</h2>
               <p style="text-align:justify">{{ item.description }}</p>
               <strong style="color: green;">$ {{ item.price }}</strong>
               <p class="mt-4" style="text-align:justify">
@@ -149,7 +219,10 @@
               </p>
               <p style="text-align:justify">
                 <i>
-                  <small>Reservation date: {{ item.currentReservationDate }} / 2020</small>
+                  <small
+                    >Reservation date: {{ item.currentReservationDate }} /
+                    2020</small
+                  >
                 </i>
               </p>
             </div>
@@ -160,11 +233,13 @@
   </div>
 </template>
 
-
-
 <script>
 import Firebase from "firebase";
 import db from "../db.js";
+import Vue from "vue";
+import { BootstrapVue, BootstrapVueIcons } from "bootstrap-vue";
+Vue.use(BootstrapVue);
+Vue.use(BootstrapVueIcons);
 
 export default {
   name: "MisActividades",
@@ -172,7 +247,9 @@ export default {
     return {
       reservedActivities: [],
       createdActivities: [],
-      finishedActivities: []
+      finishedActivities: [],
+      numberOfReservations: 0,
+      currentNumberOfReservations: 0
     };
   },
 
@@ -373,13 +450,29 @@ export default {
                   minutes.substr(-2) +
                   ":" +
                   seconds.substr(-2);
+
+                var activityReservations = [];
+                var l;
+                for (l = 0; l < snapshot.data().userClient.length; l++) {
+                  activityReservations.push({
+                    id: l.toString() + name,
+                    name: snapshot.data().userClient[l].name,
+                    createdActivityReservationDate: snapshot
+                      .data()
+                      .userClient[l].reservationDate.slice(0, 6)
+                  });
+                  this.numberOfReservations = this.numberOfReservations + 1;
+                }
+                //console.log(activityReservations);
                 this.createdActivities.push({
                   id: snapshot.data().id,
                   description: snapshot.data().description,
                   userCreatorName: snapshot.data().userCreatorName,
                   datePublish: formattedTime,
                   nameActivity: snapshot.data().activityName,
-                  price: snapshot.data().price
+                  price: snapshot.data().price,
+                  activityReservationList: activityReservations,
+                  modalId: formattedTime
                 });
               });
           }
