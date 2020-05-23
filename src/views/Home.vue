@@ -94,11 +94,11 @@ export default {
     db.collection("activities").onSnapshot(snapshot => {
       const snapData = [];
       snapshot.forEach(doc => {
-        /*let unix_timestamp = doc.data().datePublish;
+        let unix_timestamp = doc.data().datePublish;
         var date = new Date(unix_timestamp * 1000);
         //var hours = date.getHours();
         var day = date.getDate();*/
-        /*var months = [
+        var months = [
           "01",
           "02",
           "03",
@@ -111,11 +111,11 @@ export default {
           "10",
           "11",
           "12"
-        ];*/
-        //var month = months[date.getMonth()];
+        ];
+        var month = months[date.getMonth()];
         //var minutes = "0" + date.getMinutes();
         //var seconds = "0" + date.getSeconds();
-        //var formattedTime = "2020" + "-" + month + "-" + day;
+        var formattedTime = "2020" + "-" + month + "-" + day;
         //let unix_timestamp1 = doc.data().dataStart;
         //var date1 = new Date(unix_timestamp1 * 1000);
         //var hours = date.getHours();
@@ -140,7 +140,7 @@ export default {
           description: doc.data().description,
           userCreator: doc.data().userCreator,
           userCreatorName: doc.data().userCreatorName,
-          datePublish: doc.data().dataStart,
+          datePublish: formattedTime,
           dataStart: doc.data().dataStart,
           dataEnd: doc.data().dataEnd,
           nameActivity: doc.data().activityName,
