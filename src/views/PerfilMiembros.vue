@@ -105,26 +105,26 @@ export default {
   props: ["client","userID"],
   data(){
     return{
-      host: null
+      host: {}
     }
   },
   mounted(){
     db.collection("user").onSnapshot(snapshot => {
-        const snapData = this.client;
+        //const snapData = this.client;
         snapshot.forEach(doc => {
-          console.log(this.userID,doc.data().uid, this.userID == doc.data().uid);
+          //console.log(this.userID,doc.data().uid, this.userID == doc.data().uid);
           if(this.userID == doc.data().uid){
-            
-              snapData.uid = doc.id,
-              snapData.phone = doc.data().phone,
-              snapData.name = doc.data().name,
-              snapData.email = doc.data().email,
-              snapData.address = doc.data().address
-              
+              this.host={
+              uid: doc.id,
+              phone: doc.data().phone,
+              name:doc.data().name,
+              email: doc.data().email,
+              address: doc.data().address
+              }
             
           }
         });
-        this.host = snapData;
+        //this.host = snapData;
         
       });
   },
