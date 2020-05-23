@@ -97,7 +97,7 @@ export default {
         let unix_timestamp = doc.data().datePublish;
         var date = new Date(unix_timestamp * 1000);
         //var hours = date.getHours();
-        var day = date.getDate();*/
+        var day = date.getDate();
         var months = [
           "01",
           "02",
