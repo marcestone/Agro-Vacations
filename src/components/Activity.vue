@@ -74,6 +74,8 @@
                 id="reservationDate"
                 v-model="ReservationValue"
                 size="sm"
+                :min="dataStart"
+                :max="dataEnd"
                 placeholder="Choose reservation date"
                 :date-format-options="{
                   year: 'numeric',
@@ -103,9 +105,10 @@
 import * as firebase from "firebase/app";
 import Firebase from "firebase";
 import db from "../db.js";
-import Vue from 'vue'
-import { BootstrapVue} from 'bootstrap-vue'
-Vue.use(BootstrapVue)
+import Vue from "vue";
+import { BootstrapVue } from "bootstrap-vue";
+Vue.use(BootstrapVue);
+
 export default {
   name: "activity",
   props: [
@@ -113,13 +116,14 @@ export default {
     "nameActivity",
     "description",
     "datePublish",
+    "dataStart",
+    "dataEnd",
     "userCreatorName",
     "userCreator",
     "prize",
     "activityKey",
     "rating"
   ],
-  
   data() {
     return {
       hostClient: null,
@@ -138,7 +142,9 @@ export default {
         "dark"
       ],
       headerBgVariant: "primary",
-      headerTextVariant: "light"
+      headerTextVariant: "light",
+      min: null,
+      max: null
     };
   },
   methods: {
@@ -195,18 +201,17 @@ export default {
             seconds.substr(-2);
           let document;
           let activityIdentify;
-          let nameReservation = this.nameActivity;
-          db.collection("activities")
-            .where("activityName", "==", nameReservation)
-            .get()
-            .then(function(querySnapshot) {
-              querySnapshot.forEach(function(doc) {
-                activityIdentify = doc.id;
-              });
-            });
+          let query = db.collection("activities").doc(this.activityKey);
+          query.get().then(function(doc) {
+            if (doc.exists) {
+              activityIdentify = doc.id;
+              console.log("Done, key: " + doc.id);
+            } else {
+              console.log("No such document");
+            }
+          });
+          console.log(activityIdentify);
           let userName;
-         // userName = db.collection("user").doc(user.uid).data();
-         // console.log(userName.name);
           db.collection("user")
             .doc(user.uid)
             .get()
