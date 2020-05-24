@@ -37,9 +37,17 @@
                 img-width="600"
                 img-height="500 "
               >
-                <b-carousel-slide img-src="https://picsum.photos/600/500/?image=61"></b-carousel-slide>
-                <b-carousel-slide img-src="https://picsum.photos/600/500/?image=62"></b-carousel-slide>
-                <b-carousel-slide img-src="https://picsum.photos/600/500/?image=63"></b-carousel-slide>
+
+                <b-carousel-slide
+                  :img-src="item.picture1"
+                ></b-carousel-slide>
+                <b-carousel-slide
+                  :img-src="item.picture2"
+                ></b-carousel-slide>
+                <b-carousel-slide
+                  :img-src="item.picture3"
+                ></b-carousel-slide>
+
               </b-carousel>
               <br />
               <div class="text-center">
@@ -108,9 +116,17 @@
                 img-width="600"
                 img-height="500 "
               >
-                <b-carousel-slide img-src="https://picsum.photos/600/500/?image=61"></b-carousel-slide>
-                <b-carousel-slide img-src="https://picsum.photos/600/500/?image=62"></b-carousel-slide>
-                <b-carousel-slide img-src="https://picsum.photos/600/500/?image=63"></b-carousel-slide>
+
+                <b-carousel-slide
+                  :img-src="item.picture1"
+                ></b-carousel-slide>
+                <b-carousel-slide
+                  :img-src="item.picture2"
+                ></b-carousel-slide>
+                <b-carousel-slide
+                  :img-src="item.picture3"
+                ></b-carousel-slide>
+
               </b-carousel>
               <br />
               <div class="text-center">
@@ -166,9 +182,17 @@
                 img-width="600"
                 img-height="500 "
               >
-                <b-carousel-slide img-src="https://picsum.photos/600/500/?image=61"></b-carousel-slide>
-                <b-carousel-slide img-src="https://picsum.photos/600/500/?image=62"></b-carousel-slide>
-                <b-carousel-slide img-src="https://picsum.photos/600/500/?image=63"></b-carousel-slide>
+
+                <b-carousel-slide
+                  :img-src="item.picture1"
+                ></b-carousel-slide>
+                <b-carousel-slide
+                  :img-src="item.picture2"
+                ></b-carousel-slide>
+                <b-carousel-slide
+                  :img-src="item.picture3"
+                ></b-carousel-slide>
+
               </b-carousel>
               <br />
               <div class="text-center">
@@ -322,15 +346,19 @@ export default {
                       ":" +
                       seconds.substr(-2);
 
-                    this.finishedActivities.push({
-                      id: snapshot.data().id,
-                      description: snapshot.data().description,
-                      userCreatorName: snapshot.data().userCreatorName,
-                      datePublish: formattedTime,
-                      nameActivity: snapshot.data().activityName,
-                      price: snapshot.data().price,
-                      currentReservationDate: currentReservationDate.slice(0, 7)
-                    });
+
+                  this.finishedActivities.push({
+                    id: snapshot.data().id,
+                    description: snapshot.data().description,
+                    userCreatorName: snapshot.data().userCreatorName,
+                    datePublish: formattedTime,
+                    nameActivity: snapshot.data().activityName,
+                    price: snapshot.data().price,
+                    picture1: snapshot.data().pictures[0],
+                    picture2: snapshot.data().pictures[1],
+                    picture3: snapshot.data().pictures[2],
+                    currentReservationDate: currentReservationDate.slice(0, 7)
+
                   });
               if (Date.now() < new Date(realDate).getTime())
                 db.collection("activities")
@@ -450,9 +478,78 @@ export default {
                     datePublish: formattedTime,
                     nameActivity: snapshot.data().activityName,
                     price: snapshot.data().price,
-                    activityReservationList: activityReservations,
-                    modalId: formattedTime
+                    picture1: snapshot.data().pictures[0],
+                    picture2: snapshot.data().pictures[1],
+                    picture3: snapshot.data().pictures[2],
+                    currentReservationDate: currentReservationDate.slice(0, 7)
                   });
+                });
+          }
+
+          for (j = 0; j < snapshot.data().activitiesName.length; j++) {
+            var createdActivityId = snapshot.data().activitiesName[j].id;
+            db.collection("activities")
+              .doc(createdActivityId)
+              .get()
+              .then(snapshot => {
+                let unix_timestamp = snapshot.data().datePublish;
+                var date = new Date(unix_timestamp * 1000);
+                var hours = date.getHours();
+                var day = date.getDate() + 1;
+                var months = [
+                  "Jan",
+                  "Feb",
+                  "Mar",
+                  "Apr",
+                  "May",
+                  "Jun",
+                  "Jul",
+                  "Aug",
+                  "Sep",
+                  "Oct",
+                  "Nov",
+                  "Dec"
+                ];
+                var month = months[date.getMonth()];
+                var minutes = "0" + date.getMinutes();
+                var seconds = "0" + date.getSeconds();
+                var formattedTime =
+                  month +
+                  " " +
+                  day +
+                  " at " +
+                  hours +
+                  ":" +
+                  minutes.substr(-2) +
+                  ":" +
+                  seconds.substr(-2);
+
+                var activityReservations = [];
+                var l;
+                for (l = 0; l < snapshot.data().userClient.length; l++) {
+                  activityReservations.push({
+                    id: l.toString() + name,
+                    name: snapshot.data().userClient[l].name,
+                    createdActivityReservationDate: snapshot
+                      .data()
+                      .userClient[l].reservationDate.slice(0, 6)
+                  });
+                  this.numberOfReservations = this.numberOfReservations + 1;
+                }
+                //console.log(activityReservations);
+                this.createdActivities.push({
+                  id: snapshot.data().id,
+                  description: snapshot.data().description,
+                  userCreatorName: snapshot.data().userCreatorName,
+                  datePublish: formattedTime,
+                  nameActivity: snapshot.data().activityName,
+                  price: snapshot.data().price,
+                  picture1: snapshot.data().pictures[0],
+                  picture2: snapshot.data().pictures[1],
+                  picture3: snapshot.data().pictures[2],
+                  activityReservationList: activityReservations,
+                  modalId: formattedTime
+
                 });
             }
           });
