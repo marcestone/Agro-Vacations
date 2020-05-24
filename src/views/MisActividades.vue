@@ -38,13 +38,13 @@
                 img-height="500 "
               >
                 <b-carousel-slide
-                  img-src="https://picsum.photos/600/500/?image=61"
+                  :img-src="item.picture1"
                 ></b-carousel-slide>
                 <b-carousel-slide
-                  img-src="https://picsum.photos/600/500/?image=62"
+                  :img-src="item.picture2"
                 ></b-carousel-slide>
                 <b-carousel-slide
-                  img-src="https://picsum.photos/600/500/?image=63"
+                  :img-src="item.picture3"
                 ></b-carousel-slide>
               </b-carousel>
               <br />
@@ -119,13 +119,13 @@
                 img-height="500 "
               >
                 <b-carousel-slide
-                  img-src="https://picsum.photos/600/500/?image=61"
+                  :img-src="item.picture1"
                 ></b-carousel-slide>
                 <b-carousel-slide
-                  img-src="https://picsum.photos/600/500/?image=62"
+                  :img-src="item.picture2"
                 ></b-carousel-slide>
                 <b-carousel-slide
-                  img-src="https://picsum.photos/600/500/?image=63"
+                  :img-src="item.picture3"
                 ></b-carousel-slide>
               </b-carousel>
               <br />
@@ -187,13 +187,13 @@
                 img-height="500 "
               >
                 <b-carousel-slide
-                  img-src="https://picsum.photos/600/500/?image=61"
+                  :img-src="item.picture1"
                 ></b-carousel-slide>
                 <b-carousel-slide
-                  img-src="https://picsum.photos/600/500/?image=62"
+                  :img-src="item.picture2"
                 ></b-carousel-slide>
                 <b-carousel-slide
-                  img-src="https://picsum.photos/600/500/?image=63"
+                  :img-src="item.picture3"
                 ></b-carousel-slide>
               </b-carousel>
               <br />
@@ -352,6 +352,9 @@ export default {
                     datePublish: formattedTime,
                     nameActivity: snapshot.data().activityName,
                     price: snapshot.data().price,
+                    picture1: snapshot.data().pictures[0],
+                    picture2: snapshot.data().pictures[1],
+                    picture3: snapshot.data().pictures[2],
                     currentReservationDate: currentReservationDate.slice(0, 7)
                   });
                 });
@@ -408,6 +411,9 @@ export default {
                     datePublish: formattedTime,
                     nameActivity: snapshot.data().activityName,
                     price: snapshot.data().price,
+                    picture1: snapshot.data().pictures[0],
+                    picture2: snapshot.data().pictures[1],
+                    picture3: snapshot.data().pictures[2],
                     currentReservationDate: currentReservationDate.slice(0, 7)
                   });
                 });
@@ -471,6 +477,9 @@ export default {
                   datePublish: formattedTime,
                   nameActivity: snapshot.data().activityName,
                   price: snapshot.data().price,
+                  picture1: snapshot.data().pictures[0],
+                  picture2: snapshot.data().pictures[1],
+                  picture3: snapshot.data().pictures[2],
                   activityReservationList: activityReservations,
                   modalId: formattedTime
                 });

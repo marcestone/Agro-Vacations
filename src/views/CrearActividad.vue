@@ -166,6 +166,8 @@ export default {
       UploadValue: 0,
       picture: null,
       images: [],
+      //picturesUrl: [],
+      //UploadValue: 0
     };
   },
   methods: {
@@ -286,10 +288,20 @@ export default {
 
         var path = 'activities/' + id + "/activitiesImages/" + file.name; 
 
-        var task = storageRef.child(path).put(file);   
-
+        var task = storageRef.child(path).put(file);  
+        /* 
+        task.on('state_changed',snapshot=>{
+          let percentage = (snapshot.bytesTransferred/snapshot.totalBytes)*100;
+          this.UploadValue = percentage; 
+        }, error=>{console.log(error.message)},
+          ()=>{this.UploadValue==100;
+              task.snapshot.ref.getDownloadURL().then((url)=>{
+                this.picture = url;
+              });
+            }); */
         console.log(task);
       }); 
+      //console.log(this.picture);
     }
   },
   components: {

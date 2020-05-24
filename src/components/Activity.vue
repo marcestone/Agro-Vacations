@@ -1,9 +1,11 @@
 <template>
+  
   <b-col md="3">
+   
     <b-card
       id="cardActivity"
       :title="nameActivity"
-      img-src="https://picsum.photos/600/500/?image=62"
+      :img-src="picture1"
       img-alt="Image"
       img-top
       tag="article"
@@ -42,9 +44,9 @@
                 img-width="600"
                 img-height="500 "
               >
-                <b-carousel-slide img-src="https://picsum.photos/600/500/?image=61"></b-carousel-slide>
-                <b-carousel-slide img-src="https://picsum.photos/600/500/?image=62"></b-carousel-slide>
-                <b-carousel-slide img-src="https://picsum.photos/600/500/?image=63"></b-carousel-slide>
+                <b-carousel-slide :img-src="picture1"></b-carousel-slide>
+                <b-carousel-slide :img-src="picture2"></b-carousel-slide>
+                <b-carousel-slide :img-src="picture3"></b-carousel-slide>
               </b-carousel>
               <br />
               <center style="color: green;">Did you take it? ¡Vote now!</center>
@@ -117,11 +119,13 @@ export default {
     "userCreator",
     "prize",
     "activityKey",
-    "rating"
+    "rating",
+    "pictures",
   ],
   
   data() {
     return {
+      picture1: "", picture2: "", picture3: "",
       hostClient: null,
       ratingClient: 1,
       boxTwo: "",
@@ -140,6 +144,11 @@ export default {
       headerBgVariant: "primary",
       headerTextVariant: "light"
     };
+  },
+  mounted(){
+    this.picture1 = this.pictures[0];
+    this.picture2 = this.pictures[1];
+    this.picture3 = this.pictures[2];
   },
   methods: {
     showMsgBoxTwo() {
