@@ -61,25 +61,27 @@
           :nameActivity="activity.nameActivity"
           :description="activity.description"
           :datePublish="activity.datePublish"
+          :dataStart="activity.dataStart"
+          :dataEnd="activity.dataEnd"
           :userCreator="activity.userCreator"
           :userCreatorName="activity.userCreatorName"
           :prize="activity.prize"
           :rating="activity.rating"
           :pictures="activity.pictures"
         ></Activity>
-
       </b-row>
       <b-pagination
-      v-model="currentPage"
-      pills :total-rows="rows"
-      :per-page="perPage"
-      first-text="First"
-      prev-text="Prev"
-      next-text="Next"
-      last-text="Last"
-      align=center
-      @input="paginate(currentPage)"
-    ></b-pagination>
+        v-model="currentPage"
+        pills
+        :total-rows="rows"
+        :per-page="perPage"
+        first-text="First"
+        prev-text="Prev"
+        next-text="Next"
+        last-text="Last"
+        align="center"
+        @input="paginate(currentPage)"
+      ></b-pagination>
     </b-container>
   </div>
   
@@ -92,64 +94,72 @@ import Activity from "@/components/Activity.vue";
 export default {
   name: "Home",
   props: ["client", "activities"],
-  mounted(){
 
-    
-
-
-
+  mounted() {
     db.collection("activities").onSnapshot(snapshot => {
-        const snapData = [];
+      const snapData = [];
+      snapshot.forEach(doc => {
+        let unix_timestamp = doc.data().datePublish;
+        var date = new Date(unix_timestamp * 1000);
+        //var hours = date.getHours();
+        var day = date.getDate();
+        var months = [
+          "01",
+          "02",
+          "03",
+          "04",
+          "05",
+          "06",
+          "07",
+          "08",
+          "09",
+          "10",
+          "11",
+          "12"
+        ];
+        var month = months[date.getMonth()];
+        //var minutes = "0" + date.getMinutes();
+        //var seconds = "0" + date.getSeconds();
+        var formattedTime = "2020" + "-" + month + "-" + day;
+        //let unix_timestamp1 = doc.data().dataStart;
+        //var date1 = new Date(unix_timestamp1 * 1000);
+        //var hours = date.getHours();
+        //var day1 = date1.getDate();
+        //var month1 = months[date1.getMonth()];
+        //var minutes = "0" + date.getMinutes();
+        //var seconds = "0" + date.getSeconds();
+        //var formattedTime1 = "2020" + "-" + "05" + "-" + "03";
 
-        snapshot.forEach(doc => {
-          
-          let unix_timestamp = doc.data().datePublish;
-          var date = new Date(unix_timestamp * 1000);
-          var hours = date.getHours();
-          var day = date.getDate();
-          var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-          var month = months[date.getMonth()];
-          var minutes = "0" + date.getMinutes();
-          var seconds = "0" + date.getSeconds();
-          var formattedTime = month + " " + day + " at " + hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
-          
-          /*
-          var storageRef = firebase.storage().ref();
-          storageRef.child('activities/'+ doc.id +'/activitiesImages/travel.jpg').getDownloadURL().then(function (url) {
+        //let unix_timestamp2 = doc.data().dataEnd;
+        //var date2 = new Date(unix_timestamp2 * 1000);
+        //var hours = date.getHours();
+        //var day2 = date2.getDate();
+        //ar month2 = months[date2.getMonth()];
+        //var minutes = "0" + date.getMinutes();
+        //var seconds = "0" + date.getSeconds();
+        //var formattedTime2 = "2020" + "-" + month2 + "-" + day2;
 
-          var img = document.getElementById('myimg');
-          img.src = url;
-          }).catch(function (error) {
-            console.log("error:" ,error)
-          });
-          */
-          
-          
-          snapData.push({
-            id: doc.id,
-            description: doc.data().description,
-            userCreator: doc.data().userCreator,
-            userCreatorName: doc.data().userCreatorName,
-            datePublish: formattedTime,
-            nameActivity: doc.data().activityName,
-            prize: doc.data().price,
-            rating: doc.data().activityRate,
-            pictures: doc.data().pictures,
-            
-           
-          });
-          
+        
+        //console.log(formattedTime2);
+        snapData.push({
+          id: doc.id,
+          description: doc.data().description,
+          userCreator: doc.data().userCreator,
+          userCreatorName: doc.data().userCreatorName,
+          datePublish: formattedTime,
+          dataStart: doc.data().dataStart,
+          dataEnd: doc.data().dataEnd,
+          nameActivity: doc.data().activityName,
+          prize: doc.data().price,
+          rating: doc.data().activityRate,
+          pictures: doc.data().pictures
         });
-        this.activitiesD = snapData;
-        this.rows = this.activitiesD.length;
-        this.displayActivities = this.activitiesD.slice(0,12);
-        this.paginate(this.currentPage);
-        
-        
-        
-        
       });
-
+      this.activitiesD = snapData;
+      this.rows = this.activitiesD.length;
+      this.displayActivities = this.activitiesD.slice(0, 12);
+      this.paginate(this.currentPage);
+    });
   },
   data() {
     const now = new Date();
@@ -170,10 +180,10 @@ export default {
       min: minDate
     };
   },
-  methods:{
-    paginate(currentPage){
-      const start =(currentPage-1)*this.perPage;
-      this.displayActivities = this.activitiesD.slice(start,start+12);
+  methods: {
+    paginate(currentPage) {
+      const start = (currentPage - 1) * this.perPage;
+      this.displayActivities = this.activitiesD.slice(start, start + 12);
     }
     
   },
@@ -184,7 +194,6 @@ export default {
 </script>
 
 <style lang="scss">
-
 #InputSearchA {
   width: 320px !important;
   margin-top: 17px;
@@ -238,8 +247,8 @@ export default {
 #ContainerActivities {
   margin-top: 2rem;
 }
-#InputGuests,#InputSearchA{
+#InputGuests,
+#InputSearchA {
   border-color: #e2e2e2 !important;
 }
-
 </style>
