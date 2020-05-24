@@ -1,6 +1,6 @@
 //import {mount} from '@vue/test-utils'
 import {shallowMount} from '@vue/test-utils'
-import registro from '../../views/RegistroCliente.vue'
+import registro from '@/views/RegistroCliente.vue'
 import VueRouter from 'vue-router'
 
 describe("registro" , () => {

@@ -1,3 +1,4 @@
+/*
 import { shallowMount, mount } from "@vue/test-utils";
 
 //import MisActividades from "@/views/MisActividades.vue";
@@ -20,6 +21,7 @@ test('Mount Activity vue component', ()=>{
   const wrapper = mount(Activity)
 })
 
-/*test('Mount a vue component', ()=>{
+test('Mount a vue component', ()=>{
   const wrapper = mount(Navigation)
 })*/
+

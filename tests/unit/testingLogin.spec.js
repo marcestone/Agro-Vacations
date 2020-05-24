@@ -1,7 +1,7 @@
 
 //import {mount} from '@vue/test-utils'
 import {shallowMount} from '@vue/test-utils'
-import login from '../../views/LoginCliente.vue'
+import login from '@/views/LoginCliente.vue'
 import VueRouter from 'vue-router'
 
 
