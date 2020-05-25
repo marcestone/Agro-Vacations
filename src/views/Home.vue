@@ -1,6 +1,7 @@
 <template>
   <div class="wrapper">
     <b-img src="../assets/background1.png" width="1349%" height="678" aling="top"></b-img>
+   <!-- <img id="myimg"/>-->
     <div class="box" id="boxHome">
       <b-form inline>
         <b-input
@@ -66,6 +67,7 @@
           :userCreatorName="activity.userCreatorName"
           :prize="activity.prize"
           :rating="activity.rating"
+          :pictures="activity.pictures"
         ></Activity>
       </b-row>
       <b-pagination
@@ -82,14 +84,17 @@
       ></b-pagination>
     </b-container>
   </div>
+  
 </template>
 
 <script>
 import db from "../db.js";
+//import firebase from "firebase";
 import Activity from "@/components/Activity.vue";
 export default {
   name: "Home",
   props: ["client", "activities"],
+
   mounted() {
     db.collection("activities").onSnapshot(snapshot => {
       const snapData = [];
@@ -133,6 +138,7 @@ export default {
         //var minutes = "0" + date.getMinutes();
         //var seconds = "0" + date.getSeconds();
         //var formattedTime2 = "2020" + "-" + month2 + "-" + day2;
+
         
         //console.log(formattedTime2);
         snapData.push({
@@ -145,7 +151,8 @@ export default {
           dataEnd: doc.data().dataEnd,
           nameActivity: doc.data().activityName,
           prize: doc.data().price,
-          rating: doc.data().activityRate
+          rating: doc.data().activityRate,
+          pictures: doc.data().pictures
         });
       });
       this.activitiesD = snapData;
@@ -178,6 +185,7 @@ export default {
       const start = (currentPage - 1) * this.perPage;
       this.displayActivities = this.activitiesD.slice(start, start + 12);
     }
+    
   },
   components: {
     Activity
