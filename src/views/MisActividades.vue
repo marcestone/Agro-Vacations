@@ -66,14 +66,13 @@
                         v-for="item2 in item.activityReservationList"
                         :key="item2.id"
                       >
-                        <a
-                          href="#"
-                          class="list-group-item list-group-item-action"
-                          style=":hover { background-color: green;}"
-                          ><b-icon-person-check-fill></b-icon-person-check-fill>
-                          {{ item2.name }},
-                          {{ item2.createdActivityReservationDate }}
-                        </a>
+                    <router-link class="list-group-item list-group-item-action" :to="'/perfilmiembros/' + item2.reservationUserId">
+
+                      <b-icon-person-check-fill></b-icon-person-check-fill>
+                      {{ item2.name }},
+                      {{ item2.createdActivityReservationDate }}
+                   
+                    </router-link>
                       </div>
                     </div>
                     <template v-slot:modal-footer="{ cancel }">
@@ -450,6 +449,7 @@
                       activityReservations.push({
                         id: l.toString() + name,
                         name: snapshot.data().userClient[l].name,
+                        reservationUserId: snapshot.data().userClient[l].userId,
                         createdActivityReservationDate: snapshot
                           .data()
                           .userClient[l].reservationDate.slice(0, 6)

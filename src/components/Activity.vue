@@ -307,4 +307,9 @@ export default {
 .activityCard:hover {
   box-shadow: 0px 0px 5px 1px rgba(46, 124, 1, 0.5);
 }
+.card-img-top {
+    width: 100%;
+    height: 15vw;
+    object-fit: cover;
+}
 </style>
