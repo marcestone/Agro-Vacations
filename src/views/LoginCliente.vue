@@ -1,15 +1,5 @@
 <template>
-  <div class="w3-container">
-      <b-img
-
-
-
-        src="../assets/backgroundLogin.jpg"
-        width="1366"
-        height="587"
-
-        aling="top"
-      ></b-img>
+  <div class="contenL" >
       <div class="box" id="boxLogin">
         <form class="mt-4" @submit.prevent="login">
           <div class="row justify-content-center">
@@ -63,7 +53,7 @@
         <div class="box" id="boxLogin4">
         <p class="text-center mt-1">
           or
-          <router-link to="/registrocliente">
+          <router-link to="/registrocliente" id="rl">
           register
           </router-link>
           now
@@ -106,13 +96,25 @@ export default {
 };
 </script>
 <style lang="scss">
+
+.contenL{
+  background-image: url("../assets/backgroundLogin.jpg");
+  width: 100%;
+  height: 587px;
+  background-size: cover;
+}
+
+#rl{
+  text-decoration: none;
+}
+
 .wrapper {
   position: relative;
 }
 
 #h4_ {
-  color: #013f01;
-  font-size: 30px;
+  color: #051a05;
+  font-size: 33px;
   font-family: Impact;
   font-weight: normal;
 }
@@ -120,7 +122,7 @@ export default {
 #boxerror {
   position: absolute;
   top: 10px;
-  left: 0px;
+  left: 5px;
   width: 350px;
   height: 20px;
   border: 3px solid #ffffff00;
@@ -132,18 +134,18 @@ export default {
 
 
   top: 170px;
-  left: 450px;
+  left: 460px;
   width: 460px;
   height: 360px;
   border-radius: 70px;
-  border: 3px solid #ffffff;
-  background-color: #f7f7f7fd;
+  border: 3px solid #3b3b3bfd;
+  background-color: #d1cdcd;
 }
 
 #boxLogin2 {
   position: absolute;
   top: 20px;
-  left: 100px;
+  left: 87px;
   width: 300px;
   height: 300px;
   border-radius: 70px;

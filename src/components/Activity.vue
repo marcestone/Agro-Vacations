@@ -1,9 +1,11 @@
 <template>
+  
   <b-col md="3">
+   
     <b-card
       id="cardActivity"
       :title="nameActivity"
-      img-src="https://picsum.photos/600/500/?image=62"
+      :img-src="picture1"
       img-alt="Image"
       img-top
       tag="article"
@@ -23,9 +25,9 @@
         ></b-form-rating>
       </b-card-text>
 
-      <a href="javascript:void(0)" class="stretched-link" v-b-modal="datePublish"></a>
+      <a href="javascript:void(0)" class="stretched-link" v-b-modal="activityKey"></a>
 
-      <b-modal v-bind:id="datePublish" centered size="lg">
+      <b-modal v-bind:id="activityKey" centered size="lg">
         <template v-slot:modal-header>
           <h3>
             <strong>{{ nameActivity }}</strong>
@@ -42,9 +44,9 @@
                 img-width="600"
                 img-height="500 "
               >
-                <b-carousel-slide img-src="https://picsum.photos/600/500/?image=61"></b-carousel-slide>
-                <b-carousel-slide img-src="https://picsum.photos/600/500/?image=62"></b-carousel-slide>
-                <b-carousel-slide img-src="https://picsum.photos/600/500/?image=63"></b-carousel-slide>
+                <b-carousel-slide :img-src="picture1"></b-carousel-slide>
+                <b-carousel-slide :img-src="picture2"></b-carousel-slide>
+                <b-carousel-slide :img-src="picture3"></b-carousel-slide>
               </b-carousel>
               <br />
               <center style="color: green;">Did you take it? ¡Vote now!</center>
@@ -54,12 +56,17 @@
             </div>
             <div class="col-7">
               <p style="text-align:justify">{{ description }}</p>
-              <strong style="color: green;">$ {{ prize }}</strong>
-              <p class="mt-4" style="text-align:justify">
+              <strong style="color: green;">$ {{ prize }}</strong><br>
+              <!--<b-button variant="link" id="ButtonHost"  href="#" :to="'/perfilcliente/'+ userCreator">
                 <i>
                   <small>Host: {{ userCreatorName }}</small>
                 </i>
-              </p>
+              </b-button> -->
+              <router-link :to="'/perfilmiembros/' + userCreator">
+                <i>
+                  <small>Host: {{ userCreatorName }}</small>
+                </i>
+              </router-link>
               <p style="text-align:justify">
                 <i>
                   <small>Publication date: {{ datePublish }}</small>
@@ -69,6 +76,8 @@
                 id="reservationDate"
                 v-model="ReservationValue"
                 size="sm"
+                :min="dataStart"
+                :max="dataEnd"
                 placeholder="Choose reservation date"
                 :date-format-options="{
                   year: 'numeric',
@@ -98,6 +107,10 @@
 import * as firebase from "firebase/app";
 import Firebase from "firebase";
 import db from "../db.js";
+import Vue from "vue";
+import { BootstrapVue } from "bootstrap-vue";
+Vue.use(BootstrapVue);
+
 export default {
   name: "activity",
   props: [
@@ -105,12 +118,19 @@ export default {
     "nameActivity",
     "description",
     "datePublish",
+    "dataStart",
+    "dataEnd",
     "userCreatorName",
+    "userCreator",
     "prize",
-    "rating"
+    "activityKey",
+    "rating",
+    "pictures",
   ],
   data() {
     return {
+      picture1: "", picture2: "", picture3: "",
+      hostClient: null,
       ratingClient: 1,
       boxTwo: "",
       ReservationValue: null,
@@ -126,8 +146,15 @@ export default {
         "dark"
       ],
       headerBgVariant: "primary",
-      headerTextVariant: "light"
+      headerTextVariant: "light",
+      min: null,
+      max: null
     };
+  },
+  mounted(){
+    this.picture1 = this.pictures[0];
+    this.picture2 = this.pictures[1];
+    this.picture3 = this.pictures[2];
   },
   methods: {
     showMsgBoxTwo() {
@@ -183,18 +210,17 @@ export default {
             seconds.substr(-2);
           let document;
           let activityIdentify;
-          let nameReservation = this.nameActivity;
-          db.collection("activities")
-            .where("activityName", "==", nameReservation)
-            .get()
-            .then(function(querySnapshot) {
-              querySnapshot.forEach(function(doc) {
-                activityIdentify = doc.id;
-              });
-            });
+          let query = db.collection("activities").doc(this.activityKey);
+          query.get().then(function(doc) {
+            if (doc.exists) {
+              activityIdentify = doc.id;
+              console.log("Done, key: " + doc.id);
+            } else {
+              console.log("No such document");
+            }
+          });
+          console.log(activityIdentify);
           let userName;
-         // userName = db.collection("user").doc(user.uid).data();
-         // console.log(userName.name);
           db.collection("user")
             .doc(user.uid)
             .get()
@@ -265,10 +291,12 @@ export default {
       });
     }
   }
+
 };
 </script>
 
 <style>
+
 .activityCard {
   transition-duration: 0.2s;
   transition: box-shadow 0, 2s;
@@ -278,5 +306,10 @@ export default {
 }
 .activityCard:hover {
   box-shadow: 0px 0px 5px 1px rgba(46, 124, 1, 0.5);
+}
+.card-img-top {
+    width: 100%;
+    height: 15vw;
+    object-fit: cover;
 }
 </style>

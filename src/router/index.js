@@ -6,6 +6,11 @@ import PerfilCliente from "../views/PerfilCliente.vue";
 import EditarPerfil from "../views/EditarPerfil.vue";
 import RegistroCliente from "../views/RegistroCliente.vue";
 import CrearActividad from "../views/CrearActividad.vue";
+import PerfilMiembros from "../views/PerfilMiembros.vue"
+import imageHandler from "../views/imageHandler.vue";
+import MisActividades from "../views/MisActividades.vue";
+
+
 
 Vue.use(VueRouter);
 
@@ -23,7 +28,14 @@ const routes = [
   {
     path: "/perfilcliente",
     name: "PerfilCliente",
-    component: PerfilCliente
+    component: PerfilCliente,
+    props: true
+  },
+  {
+    path: "/perfilmiembros/:userID",
+    name: "PerfilMiembros",
+    component: PerfilMiembros,
+    props: true
   },
   {
     path: "/editarperfil",
@@ -39,6 +51,16 @@ const routes = [
     path: "/crearactividad",
     name: "CrearActividad",
     component: CrearActividad
+  },
+  {
+    path: "/imageHandler",
+    name: "ImageHandler",
+    component: imageHandler
+   },
+  {
+    path: "/misactividades",
+    name: "MisActividades",
+    component: MisActividades
   },
   {
     path: "*",
