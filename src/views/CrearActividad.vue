@@ -27,6 +27,7 @@
                     type="time"
                     class="dateP col-md-5"
                     id="time1"
+                    :min="min"
                     placeholder="Start Date"
                     v-model="dateStart"
                   ></b-form-datepicker>
@@ -34,6 +35,7 @@
                     type="time"
                     class="dateP col-md-5"
                     id="time2"
+                    :min="min"
                     placeholder="End Date"
                     v-model="dateEnd"
                   ></b-form-datepicker>
@@ -139,6 +141,10 @@ import db from "../db.js";
 
 export default {
   data: function() {
+    const now = new Date();
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    // 15th two months prior
+    const minDate = new Date(today);
     return {
       activityName: null,
       activityType: null,
@@ -156,7 +162,8 @@ export default {
       UploadValue: 0,
       picture: null,
       images: [],
-      imagesURL: []
+      imagesURL: [],
+      min: minDate
     };
   },
   methods: {
@@ -201,8 +208,8 @@ export default {
               description: info.description,
               activityName: info.activityName,
               price: parseInt(info.activityPrice),
-              dataStart: new Date(info.dateStart),
-              dataEnd: new Date(info.dateEnd),
+              dataStart: info.dateStart,
+              dataEnd: info.dateEnd,
               activityTransport: info.activityTransport,
               activityRate: null,
               userClient: [],

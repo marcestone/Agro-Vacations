@@ -14,13 +14,13 @@
           <br>{{host.name}}
         </div>
         <div class="h1" id="subtitle">
-          Ingeriero de sistemas y computación
+          {{host.profession}}
         </div>   
       </div>
 
       <div class="box" id="boxImage">
         <b-img
-        src="../assets/foto_perfil1.jpg"
+        :src="host.pictures"
         width="250"
         height="250"
         ></b-img>  
@@ -42,8 +42,7 @@
 
       <div class="box" id="boxAboutMe">
         <p align="center">
-          Estoy interesad@ en actividades de campo como: ordeñar vacas, montar a caballo, sembrado, caminatas, senderismo, etc.
-          Soy padre de familia, tengo 2 hijos y realizamos estas actividades juntos cada vez que se presenta la oportunidad.
+          {{host.aboutme}}
         </p> 
       </div>
 
@@ -64,7 +63,7 @@
       <div class="box" id="personalInfo">
         <p style='text-align:right'>
           
-          userID: <br>
+          
           Telefono: <br>
           Estado civil: <br>
           Género: <br>
@@ -76,11 +75,11 @@
       <div class="box" id="personalInfo2">
         <p style='text-align:left'>
           
-          {{userID}}<br>
-          +57 3333333333 <br>
-          Soltero <br>
-          Hombre <br>
-          Bogotá <br>
+          
+          {{host.phone}} <br>
+          {{host.status}} <br>
+          {{host.gender}} <br>
+          {{host.ubication}} <br>
           {{host.email}} 
         </p>
       </div>
@@ -109,21 +108,27 @@ export default {
     }
   },
   mounted(){
-    db.collection("user").onSnapshot(snapshot => {
+    db.collection("user").doc(this.userID).get().then(snapshot => {
         //const snapData = this.client;
-        snapshot.forEach(doc => {
-          //console.log(this.userID,doc.data().uid, this.userID == doc.data().uid);
-          if(this.userID == doc.data().uid){
+        
+         // console.log(this.userID,doc.data().uid, this.userID == doc.data().uid);
+          
               this.host={
-              uid: doc.id,
-              phone: doc.data().phone,
-              name:doc.data().name,
-              email: doc.data().email,
-              address: doc.data().address
+              uid: snapshot.id,
+              phone: snapshot.data().phone,
+              name:snapshot.data().name,
+              email: snapshot.data().email,
+              address: snapshot.data().address,
+              pictures: snapshot.data().pictures,
+              aboutme: snapshot.data().aboutme,
+              profession: snapshot.data().profession,
+              ubication: snapshot.data().ubication,
+              gender: snapshot.data().gender,
+              status: snapshot.data().status,    
               }
             
-          }
-        });
+          
+        
         //this.host = snapData;
         
       });
