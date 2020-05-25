@@ -66,7 +66,11 @@
             </section>
             <b-row align-h="center" style="background:transparent">
               <div class="form-group text-center" id="publish">
-                <button v-on:click="addActivity" class="btn btn-success" style="width:100px;height:40px">Publish</button>
+                <button
+                  v-on:click="addActivity"
+                  class="btn btn-success"
+                  style="width:100px;height:40px"
+                >Publish</button>
               </div>
             </b-row>
           </div>
@@ -83,46 +87,32 @@
               <div>
                 <b-row align-h="center" style="background:transparent">
                   <b-carousel
-                  id="carousel-fade"
-                  style="text-shadow: 0px 0px 2px #000"
-                  fade
-                  indicators
-                  img-width="1000"
-                  img-height="20"
-                >
-                  <b-carousel-slide
-                    caption=""
-                    img-src="../assets/landscape1.jpg"
-                    id="image1"
+                    id="carousel-fade"
+                    style="text-shadow: 0px 0px 2px #000"
+                    fade
+                    indicators
+                    img-width="1000"
+                    img-height="20"
                   >
-                </b-carousel-slide>
-                  <b-carousel-slide
-                    caption=""
-                    img-src="../assets/landscape2.jpg"
-                    id="image2"
-                  ></b-carousel-slide>
-                  <b-carousel-slide
-                    caption=""
-                    img-src="../assets/landscape3.jpg"
-                    id="image3"
-                  ></b-carousel-slide>
-                </b-carousel>
+                    <b-carousel-slide caption img-src="../assets/landscape1.jpg" id="image1"></b-carousel-slide>
+                    <b-carousel-slide caption img-src="../assets/landscape2.jpg" id="image2"></b-carousel-slide>
+                    <b-carousel-slide caption img-src="../assets/landscape3.jpg" id="image3"></b-carousel-slide>
+                  </b-carousel>
                 </b-row>
               </div>
             </div>
             <b-row style="background:transparent;margin:5%" align-h="between">
-              <b-form-file 
-                align-h="center" 
+              <b-form-file
+                align-h="center"
                 size="sm"
                 placeholder="Drop your activity images"
                 drop-placeholder="Drop the image file"
                 style="width:50%;;height:100%;margin:0 5% 0 5%"
                 @change="onSelectedFile"
-                >
-              </b-form-file>
-              <b-button 
-                style="margin:0 5% 0 5%" 
-                align-h="center" 
+              ></b-form-file>
+              <b-button
+                style="margin:0 5% 0 5%"
+                align-h="center"
                 variant="success"
                 v-on:click="addFile"
               >Add Image</b-button>
@@ -166,8 +156,7 @@ export default {
       UploadValue: 0,
       picture: null,
       images: [],
-      //picturesUrl: [],
-      //UploadValue: 0
+      imagesURL: []
     };
   },
   methods: {
@@ -212,8 +201,8 @@ export default {
               description: info.description,
               activityName: info.activityName,
               price: parseInt(info.activityPrice),
-              dataStart: info.dateStart,
-              dataEnd: info.dateEnd,
+              dataStart: new Date(info.dateStart),
+              dataEnd: new Date(info.dateEnd),
               activityTransport: info.activityTransport,
               activityRate: null,
               userClient: [],
@@ -226,9 +215,8 @@ export default {
               .update({
                 activitiesName: newActivitiesName
               });
-            
-            this.createFileFolder(document.id);
 
+            this.createFileFolder(document.id);
           })
           .then(
             this.$bvModal
@@ -247,31 +235,34 @@ export default {
           );
       }
     },
-    onSelectedFile: function(event){
+    onSelectedFile: function(event) {
       this.selectedFile = event.target.files[0];
     },
-    addFile: function(){
-
+    addFile: function() {
       this.images.push(this.selectedFile);
 
-      if(this.images.length <= 3){
+      if (this.images.length <= 3) {
         var preview = null;
-        if(this.images.length == 1){
-          preview = document.getElementById("image1").querySelector('img');
-        }else if(this.images.length == 2){
-          preview = document.getElementById("image2").querySelector('img'); 
-        }else if(this.images.length == 3){
-          preview = document.getElementById("image3").querySelector('img');     
+        if (this.images.length == 1) {
+          preview = document.getElementById("image1").querySelector("img");
+        } else if (this.images.length == 2) {
+          preview = document.getElementById("image2").querySelector("img");
+        } else if (this.images.length == 3) {
+          preview = document.getElementById("image3").querySelector("img");
         }
 
         var file = this.selectedFile;
         var reader = new FileReader();
 
-        reader.addEventListener("load", function () {
-          preview.src = reader.result;
-          preview.style.width = "600px";
-          preview.style.height = "400px";
-        }, false);
+        reader.addEventListener(
+          "load",
+          function() {
+            preview.src = reader.result;
+            preview.style.width = "600px";
+            preview.style.height = "400px";
+          },
+          false
+        );
 
         if (file) {
           reader.readAsDataURL(file);
@@ -280,28 +271,35 @@ export default {
 
       console.log(this.images.length);
     },
-    createFileFolder(id){
-      
-      this.images.forEach(function(file){
+    createFileFolder(id) {
+      let arrayImages = [];
 
+      let length = this.images.length;
+
+      this.images.forEach(function(file) {
         var storageRef = Firebase.storage().ref();
 
-        var path = 'activities/' + id + "/activitiesImages/" + file.name; 
+        var path = "activities/" + id + "/activitiesImages/" + file.name;
 
-        var task = storageRef.child(path).put(file);  
-        /* 
-        task.on('state_changed',snapshot=>{
-          let percentage = (snapshot.bytesTransferred/snapshot.totalBytes)*100;
-          this.UploadValue = percentage; 
-        }, error=>{console.log(error.message)},
-          ()=>{this.UploadValue==100;
-              task.snapshot.ref.getDownloadURL().then((url)=>{
-                this.picture = url;
-              });
-            }); */
+        var task = storageRef.child(path).put(file);
+
+        task.on("state_changed", () => {
+          task.snapshot.ref.getDownloadURL().then(url => {
+            arrayImages.push(url.toString());
+
+            if (length == arrayImages.length) {
+              console.log(arrayImages);
+
+              db.collection("activities")
+                .doc(id)
+                .update({
+                  pictures: arrayImages
+                });
+            }
+          });
+        });
         console.log(task);
-      }); 
-      //console.log(this.picture);
+      });
     }
   },
   components: {
