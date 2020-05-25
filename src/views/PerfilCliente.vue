@@ -582,7 +582,6 @@ export default {
   width: 15px;
   height: 15px;
 }
-
 #title {
   color: #0d8517;
   font-size: 50px;
@@ -590,14 +589,12 @@ export default {
   font-weight: bold;
   text-align: center;
 }
-
 #subtitle {
   color: #405541c9;
   font-size: 15px;
   font-family: 'Courier New';
   text-align: center;
 }
-
 #title_short {
   color: #0d8517;
   font-size: 15px;
@@ -624,6 +621,7 @@ export default {
   background-color: #ffffff00;
 }
 
+
 #boxTitle {
   position: absolute;
   top: 100px;
@@ -633,7 +631,6 @@ export default {
   border: #ffffff00;
   background-color: #ffffff00;
 }
-
 #boxImage {
   position: absolute;
   top: 280px;
@@ -644,7 +641,6 @@ export default {
   border: 1px solid #363636a8;
   background-color: #dfdfdf00;
 }
-
 #boxAboutMe {
   position: absolute;
   top: 700px;
@@ -655,7 +651,6 @@ export default {
   border: #ffffff00;
   background-color: #c7c7c700;
 }
-
 #rectangule1 {
   position: absolute;
   top: 580px;
@@ -663,7 +658,6 @@ export default {
   width: 54px;
   height: 54px;
 }
-
 #rectangule2 {
   position: absolute;
   top: 850px;
@@ -672,7 +666,6 @@ export default {
   height: 54px;
   border-radius: 0px;
 }
-
 #boxImage4 {
   position: absolute;
   top: 978px;
@@ -681,7 +674,6 @@ export default {
   height: 200px;
   border-radius: 0px;
 }
-
 #pre-aboutme {
   position: absolute;
   top: 630px;
@@ -690,7 +682,6 @@ export default {
   height: 54px;
   border-radius: 0px;
 }
-
 #pre-personalInfo {
   position: absolute;
   top: 900px;
@@ -699,7 +690,6 @@ export default {
   height: 54px;
   border-radius: 0px;
 }
-
 #personalInfo {
   position: absolute;
   top: 1000px;
@@ -708,7 +698,6 @@ export default {
   height: 150px;
   border-radius: 0px;
 }
-
 #personalInfo2 {
   position: absolute;
   top: 1000px;
@@ -717,7 +706,6 @@ export default {
   height: 150px;
   border-radius: 0px;
 }
-
 #boxButton {
   position: absolute;
   top: 1200px;
@@ -726,7 +714,6 @@ export default {
   height: 100px;
   border-radius: 0px;
 }
-
 .buttonSa {
   background-color: #0d8517; /* Green */
   border: none;
@@ -741,14 +728,12 @@ export default {
   border-radius: 50px;
   cursor: pointer;
 }
-
 .button1S {
   background-color: white; 
   color: black; 
   border: 2px solid #0d8517;
   text-decoration: none;
 }
-
 .button1S:hover {
   background-color:#0d8517;
   color: white;

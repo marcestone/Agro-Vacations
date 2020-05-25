@@ -1,6 +1,5 @@
 <template>
   <div class="contenL" >
-
       <div class="box" id="boxLogin">
         <form class="mt-4" @submit.prevent="login">
           <div class="row justify-content-center">
@@ -132,6 +131,8 @@ export default {
 
 #boxLogin {
   position: absolute;
+
+
   top: 170px;
   left: 460px;
   width: 460px;
@@ -191,6 +192,7 @@ export default {
   left: 400px;
   width: 300px;
   height: 100px;
+
   border-radius: 70px;
   border: 3px solid #eaf1ec00;
   background-color: #f7f7f700;

@@ -39,7 +39,7 @@
                   <b-icon icon="person-lines-fill"></b-icon>
                   Profile</b-dropdown-item
                 >
-                <b-dropdown-item href="#">
+                <b-dropdown-item href="#" to="/misactividades">
                   <b-icon icon="calendar"></b-icon> My
                   Activities</b-dropdown-item
                 >
@@ -77,6 +77,10 @@
   </div>
 </template>
 <script>
+import Vue from 'vue'
+import { BootstrapVue,IconsPlugin} from 'bootstrap-vue'
+Vue.use(BootstrapVue)
+Vue.use(IconsPlugin)
 export default {
   name: "Home"
 };
