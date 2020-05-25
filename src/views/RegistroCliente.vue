@@ -130,6 +130,7 @@ export default {
                 })
                 .then(() => {
                   this.$router.replace("home");
+                  location.reload();
                 });
             },
             error => {
@@ -146,9 +147,15 @@ export default {
                 .set({
                   name: info.displayName,
                   email: info.email,
+                  profession: "User profession",
+                  aboutme: "User aboutme",
+                  ubication: "User ubication",
+                  gender: "User gender",
+                  status: "User status",
                   uid: UID,
-                  phone: null,
-                  address: null,
+                  phone: "000",
+                  address: "User address",
+                  pictures: "https://firebasestorage.googleapis.com/v0/b/agrovacations-c213d.appspot.com/o/profile%2FDefaultprofileimage.png?alt=media&token=f5a1ab31-7474-47eb-83ba-5488ca711b35"
                 });
             }
           }
@@ -156,6 +163,7 @@ export default {
 
       }
     }
+
   },
   watch: {
     passTwo: function() {

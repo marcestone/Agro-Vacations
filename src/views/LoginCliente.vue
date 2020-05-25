@@ -1,11 +1,6 @@
 <template>
-  <div class="w3-container" >
-      <b-img
-        src="../assets/backgroundLogin.jpg"
-        width="1366"
-        height="587"
-        aling="top"
-      ></b-img>
+  <div class="contenL" >
+
       <div class="box" id="boxLogin">
         <form class="mt-4" @submit.prevent="login">
           <div class="row justify-content-center">
@@ -103,6 +98,13 @@ export default {
 </script>
 <style lang="scss">
 
+.contenL{
+  background-image: url("../assets/backgroundLogin.jpg");
+  width: 100%;
+  height: 587px;
+  background-size: cover;
+}
+
 #rl{
   text-decoration: none;
 }
@@ -135,8 +137,8 @@ export default {
   width: 460px;
   height: 360px;
   border-radius: 70px;
-  border: 3px solid #ffffff;
-  background-color: #f7f7f7fd;
+  border: 3px solid #3b3b3bfd;
+  background-color: #d1cdcd;
 }
 
 #boxLogin2 {
