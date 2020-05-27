@@ -1,6 +1,35 @@
 <template>
+
   <div class="wrapper">
-    <b-img src="../assets/background1.png" width="1349%" height="678" aling="top"></b-img>
+    <b-carousel
+      id="carousel-1"
+      v-model="slide"
+      :interval="4000"
+      controls
+      indicators
+      background="#ababab"
+      img-width="1349"
+      img-height="500"
+      style="text-shadow: 1px 1px 2px #333;"
+    >
+      <b-carousel-slide id="p1" img-src="../assets/bc8.jpg">
+        <div class="a">
+            FIND THE PERFECT <br>RURAL ACTIVITIES<br> FOR YOU
+        </div>
+      </b-carousel-slide>
+      <b-carousel-slide id="p2" img-src="../assets/bc7.jpg">
+        <div class="b">
+          TO WHOM YOU APPRECIATE
+        </div>
+      </b-carousel-slide>
+      <b-carousel-slide id="p3" img-src="../assets/bc10.jpg">
+        <div class="c">
+          NEW EXPERIENCES <br>IN NEW PLACES
+        </div>
+      </b-carousel-slide>
+
+    </b-carousel>
+    <!--<b-img src="../assets/background1.png" width="1349%" height="678" aling="top"></b-img>-->
    <!-- <img id="myimg"/>-->
     <div class="box" id="boxHome">
       <b-form inline>
@@ -83,6 +112,7 @@
         @input="paginate(currentPage)"
       ></b-pagination>
     </b-container>
+    <div class="flex-rectangle"></div>
   </div>
   
 </template>
@@ -237,6 +267,7 @@ export default {
   background-color: #f5f4f3;
 }
 #boxFilters {
+  margin-top: 50px;
   width: 1349px;
   height: 40px;
   border-radius: 1px;
@@ -250,5 +281,45 @@ export default {
 #InputGuests,
 #InputSearchA {
   border-color: #e2e2e2 !important;
+}
+#p1,#p2,#p3 {
+    width: 1349px !important;
+    height: 590px !important;
+    border-radius: 1px ;
+}
+
+div.a {
+  text-align: left;
+  margin-bottom: 250px;
+  font-size: 70px;
+  line-height: 100%;
+}
+div.b {
+  text-align: center;
+  margin-bottom: 350px;
+  font-size: 80px;
+  line-height: 100%;
+}
+div.b {
+  text-align: center;
+  margin-bottom: 350px;
+  font-size: 80px;
+  line-height: 100%;
+}
+div.c {
+  text-align: right;
+  margin-bottom: 220px;
+  font-size: 60px;
+  text-shadow: 1px 2px 1px rgb(0, 0, 0);
+}
+.flex-rectangle{
+    width: 100%;
+    background: #47803e;
+    margin-top: 50px;
+}
+.flex-rectangle:before{
+    content: "";
+    display: block;
+    padding-top: 20%;
 }
 </style>
