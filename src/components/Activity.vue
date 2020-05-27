@@ -333,5 +333,6 @@ export default {
 #rating-inline{
   background-color: rgba(0, 0, 0, 0.003);
   padding-right: 50px;
+
 }
 </style>
