@@ -89,7 +89,7 @@
               <div>
                 <b-row align-h="center" style="background:transparent">
                   <b-carousel
-                    id="carousel-fade"
+                    id="carouselCrateA"
                     style="text-shadow: 0px 0px 2px #000"
                     fade
                     indicators
@@ -356,7 +356,7 @@ export default {
   border-radius: 50%;
 }
 
-.carousel-inner {
+#carouselCrateA___BV_inner_ {
   border-radius: 20px;
 }
 #description {

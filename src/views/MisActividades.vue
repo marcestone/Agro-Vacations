@@ -66,6 +66,7 @@
                         v-for="item2 in item.activityReservationList"
                         :key="item2.id"
                       >
+
                     <router-link class="list-group-item list-group-item-action" :to="'/perfilmiembros/' + item2.reservationUserId">
 
                       <b-icon-person-check-fill></b-icon-person-check-fill>
@@ -73,6 +74,7 @@
                       {{ item2.createdActivityReservationDate }}
                    
                     </router-link>
+
                       </div>
                     </div>
                     <template v-slot:modal-footer="{ cancel }">
@@ -484,13 +486,7 @@
     #ContainerActivities {
       margin-top: 2rem;
     }
-    .activityCard {
-      transition-duration: 0.2s;
-      transition: box-shadow 0, 2s;
-      width: 100% !important;
-      height: 360px !important;
-      object-fit: cover;
-    }
+    
     .activityCard:hover {
       box-shadow: 0px 0px 5px 1px rgba(46, 124, 1, 0.5);
     }
