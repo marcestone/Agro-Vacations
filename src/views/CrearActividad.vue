@@ -13,11 +13,21 @@
           <div class="justify-content-center areas col-md-6" id="area2">
             <section class="col-md-8">
               <p style="  font-weight: 700;color: #01a026;">Enter event name</p>
-              <b-input type="text" placeholder="Activity Name" id="input" v-model="activityName" />
+              <b-input
+                type="text"
+                placeholder="Activity Name"
+                id="input"
+                v-model="activityName"
+              />
             </section>
             <section class="col-md-8">
               <p style="  font-weight: 700;color: #01a026;">Enter event Type</p>
-              <b-input type="text" placeholder="Activity Type" id="input" v-model="activityType" />
+              <b-input
+                type="text"
+                placeholder="Activity Type"
+                id="input"
+                v-model="activityType"
+              />
             </section>
             <section class="col-md-8">
               <p style="  font-weight: 700;color: #01a026;">Enter event date</p>
@@ -43,13 +53,25 @@
               </div>
             </section>
             <section class="col-md-8">
-              <p style="  font-weight: 700;color: #01a026;">Enter event location</p>
-              <b-input type="text" placeholder="Location" id="input" v-model="activityLocation" />
+              <p style="  font-weight: 700;color: #01a026;">
+                Enter event location
+              </p>
+              <b-input
+                type="text"
+                placeholder="Location"
+                id="input"
+                v-model="activityLocation"
+              />
             </section>
             <section class="col-md-8">
-              <div class="row justify-content-between" style="background:transparent">
+              <div
+                class="row justify-content-between"
+                style="background:transparent"
+              >
                 <section class="col-md-5" style="margin:0">
-                  <p style="  font-weight: 700;color: #01a026;">Enter event price</p>
+                  <p style="  font-weight: 700;color: #01a026;">
+                    Enter event price
+                  </p>
                   <b-input
                     type="number"
                     placeholder="Price Name"
@@ -72,7 +94,9 @@
                   v-on:click="addActivity"
                   class="btn btn-success"
                   style="width:100px;height:40px"
-                >Publish</button>
+                >
+                  Publish
+                </button>
               </div>
             </b-row>
           </div>
@@ -96,9 +120,21 @@
                     img-width="1000"
                     img-height="20"
                   >
-                    <b-carousel-slide caption img-src="../assets/landscape1.jpg" id="image1"></b-carousel-slide>
-                    <b-carousel-slide caption img-src="../assets/landscape2.jpg" id="image2"></b-carousel-slide>
-                    <b-carousel-slide caption img-src="../assets/landscape3.jpg" id="image3"></b-carousel-slide>
+                    <b-carousel-slide
+                      caption
+                      img-src="../assets/landscape1.jpg"
+                      id="image1"
+                    ></b-carousel-slide>
+                    <b-carousel-slide
+                      caption
+                      img-src="../assets/landscape2.jpg"
+                      id="image2"
+                    ></b-carousel-slide>
+                    <b-carousel-slide
+                      caption
+                      img-src="../assets/landscape3.jpg"
+                      id="image3"
+                    ></b-carousel-slide>
                   </b-carousel>
                 </b-row>
               </div>
@@ -117,7 +153,8 @@
                 align-h="center"
                 variant="success"
                 v-on:click="addFile"
-              >Add Image</b-button>
+                >Add Image</b-button
+              >
             </b-row>
             <textarea
               id="description"
@@ -207,6 +244,8 @@ export default {
               datePublish: new Date(),
               description: info.description,
               activityName: info.activityName,
+              activityLocation: info.activityLocation,
+              activityType: info.activityType,
               price: parseInt(info.activityPrice),
               dataStart: info.dateStart,
               dataEnd: info.dateEnd,
