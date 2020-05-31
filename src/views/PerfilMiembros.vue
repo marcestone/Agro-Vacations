@@ -1,99 +1,83 @@
 <template>
   <div class="w3-container">
+    <b-img
+      src="../assets/backgroundProfile.jpg"
+      width="1348"
+      height="1280"
+      aling="top"
+    ></b-img>
 
+    <div class="box" id="boxTitle">
+      <div class="h5" id="title">
+        <b-icon icon="person-fill" aria-hidden="true"></b-icon>
+        <br />{{ host.name }}
+      </div>
+      <div class="h1" id="subtitle">
+        {{ host.profession }}
+      </div>
+    </div>
+
+    <div class="box" id="boxImage">
+      <b-img :src="host.pictures" width="250" height="250"></b-img>
+    </div>
+
+    <div class="box" id="rectangule1">
       <b-img
-        src="../assets/backgroundProfile.jpg"
-        width="1348"
-        height="1280"
-        aling="top"
+        src="../assets/RECTANGULO-VERDE.png"
+        width="60"
+        height="30"
       ></b-img>
+    </div>
 
-      <div class="box" id="boxTitle">
-        <div class="h5" id="title">
-          <b-icon icon="person-fill" aria-hidden="true"></b-icon>
-          <br>{{host.name}}
-        </div>
-        <div class="h1" id="subtitle">
-          {{host.profession}}
-        </div>   
+    <div class="box" id="pre-aboutme">
+      <div class="h3" id="title_short">
+        About me
       </div>
+    </div>
 
-      <div class="box" id="boxImage">
-        <b-img
-        :src="host.pictures"
-        width="250"
-        height="250"
-        ></b-img>  
-      </div>
+    <div class="box" id="boxAboutMe">
+      <p align="center">
+        {{ host.aboutme }}
+      </p>
+    </div>
 
-      <div class="box" id="rectangule1">
-        <b-img
+    <div class="box" id="rectangule2">
+      <b-img
         src="../assets/RECTANGULO-VERDE.png"
         width="60"
         height="30"
-        ></b-img>
+      ></b-img>
+    </div>
+
+    <div class="box" id="pre-personalInfo">
+      <div class="h3" id="title_short">
+        Personal INFO
       </div>
+    </div>
 
-      <div class="box" id="pre-aboutme">
-        <div class="h3" id="title_short">
-          About me
-        </div>
-      </div>      
+    <div class="box" id="personalInfo">
+      <p style="text-align:right">
+        Telefono: <br />
+        Estado civil: <br />
+        Género: <br />
+        Ubicación: <br />
+        e-mail:
+      </p>
+    </div>
 
-      <div class="box" id="boxAboutMe">
-        <p align="center">
-          {{host.aboutme}}
-        </p> 
-      </div>
+    <div class="box" id="personalInfo2">
+      <p style="text-align:left">
+        {{ host.phone }} <br />
+        {{ host.status }} <br />
+        {{ host.gender }} <br />
+        {{ host.ubication }} <br />
+        {{ host.email }}
+      </p>
+    </div>
 
-      <div class="box" id="rectangule2">
-        <b-img
-        src="../assets/RECTANGULO-VERDE.png"
-        width="60"
-        height="30"
-        ></b-img>
-      </div>
-
-      <div class="box" id="pre-personalInfo">
-        <div class="h3" id="title_short">
-          Personal INFO
-        </div>
-      </div>
-
-      <div class="box" id="personalInfo">
-        <p style='text-align:right'>
-          
-          
-          Telefono: <br>
-          Estado civil: <br>
-          Género: <br>
-          Ubicación: <br>
-          e-mail: 
-        </p>
-      </div> 
-
-      <div class="box" id="personalInfo2">
-        <p style='text-align:left'>
-          
-          
-          {{host.phone}} <br>
-          {{host.status}} <br>
-          {{host.gender}} <br>
-          {{host.ubication}} <br>
-          {{host.email}} 
-        </p>
-      </div>
-
-      <div class="box" id="boxImage4">
-        <b-img
-        src="../assets/Rect.png"
-        width="40"
-        height="150"
-        ></b-img>
-      </div>
-
-      
-
+    <div class="box" id="boxImage4">
+      <b-img src="../assets/Rect.png" width="40" height="150"></b-img>
+    </div>
   </div>
 </template>
 
@@ -101,45 +85,44 @@
 import db from "../db.js";
 export default {
   name: "profile",
-  props: ["client","userID"],
-  data(){
-    return{
+  props: ["client", "userID"],
+  data() {
+    return {
       host: {}
-    }
+    };
   },
-  mounted(){
-    db.collection("user").doc(this.userID).get().then(snapshot => {
+  mounted() {
+    db.collection("user")
+      .doc(this.userID)
+      .get()
+      .then(snapshot => {
         //const snapData = this.client;
-        
-         // console.log(this.userID,doc.data().uid, this.userID == doc.data().uid);
-          
-              this.host={
-              uid: snapshot.id,
-              phone: snapshot.data().phone,
-              name:snapshot.data().name,
-              email: snapshot.data().email,
-              address: snapshot.data().address,
-              pictures: snapshot.data().pictures,
-              aboutme: snapshot.data().aboutme,
-              profession: snapshot.data().profession,
-              ubication: snapshot.data().ubication,
-              gender: snapshot.data().gender,
-              status: snapshot.data().status,    
-              }
-            
-          
-        
+
+        // console.log(this.userID,doc.data().uid, this.userID == doc.data().uid);
+
+        this.host = {
+          uid: snapshot.id,
+          phone: snapshot.data().phone,
+          name: snapshot.data().name,
+          email: snapshot.data().email,
+          address: snapshot.data().address,
+          pictures: snapshot.data().pictures,
+          aboutme: snapshot.data().aboutme,
+          profession: snapshot.data().profession,
+          ubication: snapshot.data().ubication,
+          gender: snapshot.data().gender,
+          status: snapshot.data().status
+        };
+
         //this.host = snapData;
-        
       });
   },
-  methods: {
-  },
+  methods: {}
 };
 </script>
 
 <style lang="scss">
-#icon{
+#icon {
   width: 15px;
   height: 15px;
 }
@@ -147,7 +130,7 @@ export default {
 #title {
   color: #0d8517;
   font-size: 50px;
-  font-family: 'Lucida Sans';
+  font-family: "Lucida Sans";
   font-weight: bold;
   text-align: center;
 }
@@ -155,14 +138,14 @@ export default {
 #subtitle {
   color: #405541c9;
   font-size: 15px;
-  font-family: 'Courier New';
+  font-family: "Courier New";
   text-align: center;
 }
 
 #title_short {
   color: #0d8517;
   font-size: 15px;
-  font-family: 'Lucida Sans';
+  font-family: "Lucida Sans";
 }
 
 #boxTitle {
@@ -248,7 +231,6 @@ export default {
   width: 150px;
   height: 150px;
   border-radius: 0px;
-
 }
 
 #personalInfo2 {
@@ -258,7 +240,6 @@ export default {
   width: 200px;
   height: 150px;
   border-radius: 0px;
-
 }
 
 #boxButton {
@@ -268,7 +249,6 @@ export default {
   width: 200px;
   height: 150px;
   border-radius: 0px;
-
 }
 
 .buttonSa {
@@ -285,13 +265,13 @@ export default {
 }
 
 .button1S {
-  background-color: white; 
-  color: black; 
+  background-color: white;
+  color: black;
   border: 2px solid #0d8517;
 }
 
 .button1S:hover {
-  background-color:#0d8517;
+  background-color: #0d8517;
   color: white;
 }
 </style>

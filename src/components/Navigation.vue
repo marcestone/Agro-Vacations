@@ -9,17 +9,19 @@
               class="d-inline-block align-top"
               height="50px"
             />
-          </b-navbar-brand>  
+          </b-navbar-brand>
           <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
           <b-collapse id="nav-collapse" is-nav>
-          <b-nav-item id="welcome" href="#" to="/perfilcliente" v-if="client" > 
-            Welcome back <span class="font-weight-bold text-success">{{client.displayName}}</span> 
+            <b-nav-item id="welcome" href="#" to="/perfilcliente" v-if="client">
+              Welcome back
+              <span class="font-weight-bold text-success">{{
+                client.displayName
+              }}</span>
             </b-nav-item>
             <!-- Right aligned nav items -->
             <b-navbar-nav class="ml-auto">
               <b-navbar-nav>
-
                 <b-nav-item href="#" to="/logincliente" v-if="!client"
                   ><b-icon icon="person-fill"></b-icon> Log In</b-nav-item
                 >
@@ -47,7 +49,11 @@
                   <b-icon icon="gear-fill"></b-icon> Settigs</b-dropdown-item
                 >
                 <b-dropdown-divider></b-dropdown-divider>
-                <b-dropdown-item href="#" variant="danger" @click="$emit('logout')">
+                <b-dropdown-item
+                  href="#"
+                  variant="danger"
+                  @click="$emit('logout')"
+                >
                   <b-icon icon="power"></b-icon> Log Out</b-dropdown-item
                 >
               </b-nav-item-dropdown>
@@ -68,7 +74,6 @@
                 v-if="client"
                 >Publish Now</router-link
               >
-              
             </b-navbar-nav>
           </b-collapse>
         </b-navbar>
@@ -77,10 +82,10 @@
   </div>
 </template>
 <script>
-import Vue from 'vue'
-import { BootstrapVue,IconsPlugin} from 'bootstrap-vue'
-Vue.use(BootstrapVue)
-Vue.use(IconsPlugin)
+import Vue from "vue";
+import { BootstrapVue, IconsPlugin } from "bootstrap-vue";
+Vue.use(BootstrapVue);
+Vue.use(IconsPlugin);
 export default {
   name: "Home"
 };
@@ -99,7 +104,7 @@ export default {
   -moz-box-shadow: 0 8px 6px -6px #999;
   box-shadow: 0 8px 6px -6px #999;
 }
-#nav a.router-link-exact-active{
+#nav a.router-link-exact-active {
   color: #47803e !important;
 }
 .navbar-expand-md .navbar-nav .nav-link {
@@ -107,7 +112,7 @@ export default {
   padding-left: 0.9rem !important;
 }
 .text-info {
-    color: #47803e !important;
+  color: #47803e !important;
 }
 </style>
 

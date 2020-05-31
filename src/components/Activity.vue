@@ -1,9 +1,6 @@
 <template>
-  
   <b-col md="3">
-   
     <b-card
-      
       id="cardActivity"
       :title="nameActivity"
       body-class="text-center"
@@ -14,12 +11,14 @@
       style="max-width: 20rem;"
       class="activityCard mb-2"
       footer-tag="footer"
-      
     >
       <b-card-text>
-        <h5><strong style="color: green;">$ {{ prize }}</strong><br></h5>
-       </b-card-text>
-       <template v-slot:footer>
+        <h5>
+          <strong style="color: green;">$ {{ prize }}</strong
+          ><br />
+        </h5>
+      </b-card-text>
+      <template v-slot:footer>
         <b-form-rating
           id="rating-inline"
           inline
@@ -29,16 +28,19 @@
           size="sm"
         ></b-form-rating>
         10
-         <b-icon icon="chat-dots"></b-icon>
+        <b-icon icon="chat-dots"></b-icon>
       </template>
-      <a href="javascript:void(0)" class="stretched-link" v-b-modal="activityKey"></a>
+      <a
+        href="javascript:void(0)"
+        class="stretched-link"
+        v-b-modal="activityKey"
+      ></a>
 
       <b-modal v-bind:id="activityKey" centered size="lg">
         <template v-slot:modal-header>
           <h3>
             <strong>{{ nameActivity }}</strong>
           </h3>
-
         </template>
         <div class="modal-body">
           <div class="row">
@@ -48,22 +50,27 @@
                 style="text-shadow: 0px 0px 2px #000"
                 fade
                 indicators
-                img-width="600" 
+                img-width="600"
                 img-height="500"
               >
-                <b-carousel-slide :img-src="picture1" ></b-carousel-slide>
-                <b-carousel-slide :img-src="picture2" ></b-carousel-slide>
-                <b-carousel-slide :img-src="picture3" ></b-carousel-slide>
+                <b-carousel-slide :img-src="picture1"></b-carousel-slide>
+                <b-carousel-slide :img-src="picture2"></b-carousel-slide>
+                <b-carousel-slide :img-src="picture3"></b-carousel-slide>
               </b-carousel>
               <br />
               <center style="color: green;">Did you take it? ¡Vote now!</center>
               <span>
-                <b-form-rating v-model="ratingClient" variant="success" class="mb-2"></b-form-rating>
+                <b-form-rating
+                  v-model="ratingClient"
+                  variant="success"
+                  class="mb-2"
+                ></b-form-rating>
               </span>
             </div>
             <div class="col-7">
               <p style="text-align:justify">{{ description }}</p>
-              <strong style="color: green;">$ {{ prize }}</strong><br>
+              <strong style="color: green;">$ {{ prize }}</strong
+              ><br />
               <!--<b-button variant="link" id="ButtonHost"  href="#" :to="'/perfilcliente/'+ userCreator">
                 <i>
                   <small>Host: {{ userCreatorName }}</small>
@@ -132,11 +139,13 @@ export default {
     "prize",
     "activityKey",
     "rating",
-    "pictures",
+    "pictures"
   ],
   data() {
     return {
-      picture1: "", picture2: "", picture3: "",
+      picture1: "",
+      picture2: "",
+      picture3: "",
       hostClient: null,
       ratingClient: 1,
       boxTwo: "",
@@ -158,7 +167,7 @@ export default {
       max: null
     };
   },
-  mounted(){
+  mounted() {
     this.picture1 = this.pictures[0];
     this.picture2 = this.pictures[1];
     this.picture3 = this.pictures[2];
@@ -298,19 +307,16 @@ export default {
       });
     }
   }
-
 };
 </script>
 
 <style>
-    
-
 .activityCard:hover {
   box-shadow: 0px 0px 5px 1px rgba(46, 124, 1, 0.5);
 }
 .card-img-top {
-    object-fit: cover;
-} 
+  object-fit: cover;
+}
 
 .card-img-top {
   position: absolute;
@@ -330,9 +336,8 @@ export default {
   width: 100% !important;
   height: 340px !important;
 }
-#rating-inline{
+#rating-inline {
   background-color: rgba(0, 0, 0, 0.003);
   padding-right: 50px;
-
 }
 </style>

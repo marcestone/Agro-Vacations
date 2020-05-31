@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <Navigation :client="client" @logout="logout"/>
-    <router-view :client="client" :activities="activities"/>
+    <Navigation :client="client" @logout="logout" />
+    <router-view :client="client" :activities="activities" />
   </div>
 </template>
 
@@ -11,8 +11,6 @@ import db from "./db.js";
 import Navigation from "@/components/Navigation.vue";
 // eslint-disable-next-line
 import Firebase from "firebase";
-
-
 
 export default {
   name: "app",
@@ -41,17 +39,38 @@ export default {
       db.collection("activities").onSnapshot(snapshot => {
         const snapData = [];
         snapshot.forEach(doc => {
-
           let unix_timestamp = doc.data().datePublish;
           var date = new Date(unix_timestamp * 1000);
           var hours = date.getHours();
           var day = date.getDate() + 1;
-          var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+          var months = [
+            "Jan",
+            "Feb",
+            "Mar",
+            "Apr",
+            "May",
+            "Jun",
+            "Jul",
+            "Aug",
+            "Sep",
+            "Oct",
+            "Nov",
+            "Dec"
+          ];
           var month = months[date.getMonth()];
           var minutes = "0" + date.getMinutes();
           var seconds = "0" + date.getSeconds();
-          var formattedTime = month + " " + day + " at " + hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
-          
+          var formattedTime =
+            month +
+            " " +
+            day +
+            " at " +
+            hours +
+            ":" +
+            minutes.substr(-2) +
+            ":" +
+            seconds.substr(-2);
+
           snapData.push({
             id: doc.id,
             description: doc.data().description,
@@ -68,7 +87,6 @@ export default {
   },
   components: {
     Navigation
-   
   }
 };
 </script>

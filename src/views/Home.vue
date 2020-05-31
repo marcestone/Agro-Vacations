@@ -14,8 +14,7 @@
       <b-carousel-slide id="p1" img-src="../assets/bc8.jpg">
         <div class="a">
           FIND THE PERFECT
-          <br />RURAL ACTIVITIES
-          <br />FOR YOU
+          <br />RURAL ACTIVITIES <br />FOR YOU
         </div>
       </b-carousel-slide>
       <b-carousel-slide id="p2" img-src="../assets/bc7.jpg">
@@ -149,7 +148,12 @@
           v-model="ratingFilterEnd"
         ></b-input>
 
-        <b-button id="SearchBtn" variant="success" style="float: right;" v-on:click="search">
+        <b-button
+          id="SearchBtn"
+          variant="success"
+          style="float: right;"
+          v-on:click="search"
+        >
           <b-icon icon="search"></b-icon>Search
         </b-button>
       </b-form>
@@ -273,7 +277,7 @@ export default {
     return {
       activityD: [],
       displayActivities: [],
-      currentPage: 1,   
+      currentPage: 1,
       rows: 1,
       perPage: 12,
       //nameA: "",
@@ -283,7 +287,7 @@ export default {
       min: minDate,
 
       priceFilter: "",
-      locationFilter:"",
+      locationFilter: "",
       keyWordFilter: "",
       dateFilter: "",
 
@@ -302,26 +306,63 @@ export default {
       db.collection("activities").onSnapshot(snapshot => {
         const snapData = [];
         snapshot.forEach(doc => {
-          console.log(doc.data().activityLocation) 
-          if(((this.keyWordFilter == "") || (this.keyWordFilter != "" && doc.data().activityName.toLowerCase().includes(this.keyWordFilter.toLowerCase())))
-             && ((this.dateFilter == "") || (this.dateFilter != "" && (Math.round(new Date(this.dateFilter).getTime()/1000)>=Math.round(new Date(doc.data().dataStart).getTime()/1000) && Math.round(new Date(this.dateFilter).getTime()/1000)<=Math.round(new Date(doc.data().dataEnd).getTime()/1000)) ))
-             && ((this.priceFilter == "") || (this.priceFilter != "" && 
-                      ((parseInt(this.priceFilter, 10) == 0)
-                      ||(parseInt(this.priceFilter, 10) != 600001 && doc.data().price <= parseInt(this.priceFilter, 10) && doc.data().price >= parseInt(this.priceFilter, 10)-100000)
-                      ||(parseInt(this.priceFilter, 10) == 600001 && parseInt(this.priceFilter, 10) <= doc.data().price))
-                      ))
-             && ((this.locationFilter == "") || (this.locationFilter != "" && doc.data().activityLocation.toLowerCase().includes(this.locationFilter.toLowerCase()))) 
-             && ((this.typeFilter == "") || (this.typeFilter != "" && doc.data().activityType.toLowerCase().localeCompare(this.typeFilter.toLowerCase()) == 0))
-             && ((this.transportFilter == "") || (this.transportFilter != "" && 
-                      ((this.transportFilter != -1 && doc.data().activityTransport.toLowerCase().localeCompare(this.transportFilter.toLowerCase()) == 0)
-                      ||(this.transportFilter == -1))
-                      ))
-             && ((this.ratingFilterStart == "" && this.ratingFilterEnd == "") || (this.ratingFilterStart == "" && this.ratingFilterEnd != "" && doc.data().activityRate <= parseInt(this.ratingFilterEnd,0)) || (this.ratingFilterStart != "" && 
-                      ((this.ratingFilterEnd == "" &&  parseInt(this.ratingFilterStart,0) <= doc.data().activityRate) 
-                      ||(this.ratingFilterEnd != "" &&  parseInt(this.ratingFilterStart,0) <= doc.data().activityRate && doc.data().activityRate <= parseInt(this.ratingFilterEnd,0)))) )
-             )
-              {
-                
+          console.log(doc.data().activityLocation);
+          if (
+            (this.keyWordFilter == "" ||
+              (this.keyWordFilter != "" &&
+                doc
+                  .data()
+                  .activityName.toLowerCase()
+                  .includes(this.keyWordFilter.toLowerCase()))) &&
+            (this.dateFilter == "" ||
+              (this.dateFilter != "" &&
+                Math.round(new Date(this.dateFilter).getTime() / 1000) >=
+                  Math.round(new Date(doc.data().dataStart).getTime() / 1000) &&
+                Math.round(new Date(this.dateFilter).getTime() / 1000) <=
+                  Math.round(new Date(doc.data().dataEnd).getTime() / 1000))) &&
+            (this.priceFilter == "" ||
+              (this.priceFilter != "" &&
+                (parseInt(this.priceFilter, 10) == 0 ||
+                  (parseInt(this.priceFilter, 10) != 600001 &&
+                    doc.data().price <= parseInt(this.priceFilter, 10) &&
+                    doc.data().price >=
+                      parseInt(this.priceFilter, 10) - 100000) ||
+                  (parseInt(this.priceFilter, 10) == 600001 &&
+                    parseInt(this.priceFilter, 10) <= doc.data().price)))) &&
+            (this.locationFilter == "" ||
+              (this.locationFilter != "" &&
+                doc
+                  .data()
+                  .activityLocation.toLowerCase()
+                  .includes(this.locationFilter.toLowerCase()))) &&
+            (this.typeFilter == "" ||
+              (this.typeFilter != "" &&
+                doc
+                  .data()
+                  .activityType.toLowerCase()
+                  .localeCompare(this.typeFilter.toLowerCase()) == 0)) &&
+            (this.transportFilter == "" ||
+              (this.transportFilter != "" &&
+                ((this.transportFilter != -1 &&
+                  doc
+                    .data()
+                    .activityTransport.toLowerCase()
+                    .localeCompare(this.transportFilter.toLowerCase()) == 0) ||
+                  this.transportFilter == -1))) &&
+            ((this.ratingFilterStart == "" && this.ratingFilterEnd == "") ||
+              (this.ratingFilterStart == "" &&
+                this.ratingFilterEnd != "" &&
+                doc.data().activityRate <= parseInt(this.ratingFilterEnd, 0)) ||
+              (this.ratingFilterStart != "" &&
+                ((this.ratingFilterEnd == "" &&
+                  parseInt(this.ratingFilterStart, 0) <=
+                    doc.data().activityRate) ||
+                  (this.ratingFilterEnd != "" &&
+                    parseInt(this.ratingFilterStart, 0) <=
+                      doc.data().activityRate &&
+                    doc.data().activityRate <=
+                      parseInt(this.ratingFilterEnd, 0)))))
+          ) {
             //console.log("TEEEEEEEESTTTTTTTTT")
             let unix_timestamp = doc.data().datePublish;
             var date = new Date(unix_timestamp * 1000);
@@ -474,10 +515,9 @@ div.c {
   padding-top: 20%;
 }
 
-.carousel-caption{
+.carousel-caption {
   width: 1000px;
   height: 200px;
   margin-bottom: 320px;
-  
 }
 </style>

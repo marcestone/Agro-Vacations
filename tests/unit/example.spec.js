@@ -24,4 +24,3 @@ test('Mount Activity vue component', ()=>{
 test('Mount a vue component', ()=>{
   const wrapper = mount(Navigation)
 })*/
-

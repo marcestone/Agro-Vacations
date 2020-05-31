@@ -51,7 +51,8 @@ export default {
       task.on(
         "state_changed",
         snapshot => {
-          let percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          let percentage =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
           this.UploadValue = percentage;
         },
         error => {
@@ -59,7 +60,7 @@ export default {
         },
         () => {
           this.UploadValue = 100;
-          task.snapshot.ref.getDownloadURL().then((url) => {
+          task.snapshot.ref.getDownloadURL().then(url => {
             this.picture = url;
             console.log(this.picture);
           });

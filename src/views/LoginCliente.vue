@@ -1,66 +1,66 @@
 <template>
-  <div class="contenL" >
-      <div class="box" id="boxLogin">
-        <form class="mt-4" @submit.prevent="login">
-          <div class="row justify-content-center">
-            <div class="box" id="boxLogin2">
+  <div class="contenL">
+    <div class="box" id="boxLogin">
+      <form class="mt-4" @submit.prevent="login">
+        <div class="row justify-content-center">
+          <div class="box" id="boxLogin2">
             <div class="h4" id="h4_">
               Log into your account
             </div>
-            </div>
-            <div class="box" id="boxLogin3">
-              <div class="card-body">
-                <section class="form-group">
-                  <div class="box" id="boxerror">
-                    <div class="col-10 alert alert-danger px-3" v-if="error">
-                      Usuario y/o contraseña incorrectos
-                    </div>
+          </div>
+          <div class="box" id="boxLogin3">
+            <div class="card-body">
+              <section class="form-group">
+                <div class="box" id="boxerror">
+                  <div class="col-10 alert alert-danger px-3" v-if="error">
+                    Usuario y/o contraseña incorrectos
                   </div>
-                  <div class="box" id="boxUser">
-                    <label class="form-control-label sr-only" for="Email"
-                      >Email
-                    </label>
-                    <input
-                      required
-                      class="form-control"
-                      type="email"
-                      id="email"
-                      placeholder="Correo electrónico"
-                      v-model="email"
-                    />
-                  </div>
-                </section>
-                <section class="form-group" variant="success">
-                  <div class="box" id="boxPssw">
-                    <input
+                </div>
+                <div class="box" id="boxUser">
+                  <label class="form-control-label sr-only" for="Email"
+                    >Email
+                  </label>
+                  <input
+                    required
+                    class="form-control"
+                    type="email"
+                    id="email"
+                    placeholder="Correo electrónico"
+                    v-model="email"
+                  />
+                </div>
+              </section>
+              <section class="form-group" variant="success">
+                <div class="box" id="boxPssw">
+                  <input
                     required
                     class="form-control"
                     type="password"
                     placeholder="Contraseña"
                     v-model="password"
                   />
-                  </div>
-                </section>
-                <div class="box" id="boxB">
-                  <b-button pill variant="success" size="lg" type="submit">
-                    <hbotton>Log in</hbotton>
-                  </b-button>
                 </div>
+              </section>
+              <div class="box" id="boxB">
+                <b-button pill variant="success" size="lg" type="submit">
+                  <hbotton>Log in</hbotton>
+                </b-button>
               </div>
             </div>
           </div>
-        </form>
-        <div class="box" id="boxLogin4">
+        </div>
+      </form>
+      <div class="box" id="boxLogin4">
         <p class="text-center mt-1">
           or
           <router-link to="/registrocliente" id="rl">
-          register
+            register
           </router-link>
           now
         </p>
-        </div>
       </div>
     </div>
+  </div>
 </template>
 
 <script>
@@ -83,7 +83,6 @@ export default {
       Firebase.auth()
         .signInWithEmailAndPassword(info.email, info.password)
         .then(
-          
           () => {
             this.$router.push("home");
           },
@@ -96,15 +95,14 @@ export default {
 };
 </script>
 <style lang="scss">
-
-.contenL{
+.contenL {
   background-image: url("../assets/backgroundLogin.jpg");
   width: 100%;
   height: 587px;
   background-size: cover;
 }
 
-#rl{
+#rl {
   text-decoration: none;
 }
 
@@ -131,7 +129,6 @@ export default {
 
 #boxLogin {
   position: absolute;
-
 
   top: 170px;
   left: 460px;
@@ -220,7 +217,7 @@ export default {
   background-color: #f7f7f700;
 }
 
-#boxButton{
+#boxButton {
   position: absolute;
   top: 370px;
   left: 400px;
