@@ -12,6 +12,7 @@
       img-height="500"
       style="text-shadow: 1px 1px 2px #333;"
     >
+    
       <b-carousel-slide id="p1" img-src="../assets/bc8.jpg">
         <div class="a">
             FIND THE PERFECT <br>RURAL ACTIVITIES<br> FOR YOU
