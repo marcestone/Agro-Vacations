@@ -30,21 +30,37 @@
     </b-carousel>
     <!--<b-img src="../assets/background1.png" width="1349%" height="678" aling="top"></b-img>-->
     <!-- <img id="myimg"/>-->
-    <!--
+    
     <div class="box" id="boxHome">
       <b-form inline>
         <b-input
           id="InputSearchA"
           class="w-25 p-3 mb-1 h-100 d-inline-block"
-          placeholder=" ✈ Search activity or destination"
+          placeholder=" ✈ Buscar por título"
+          v-model="keyWordFilter"
+        ></b-input>
+
+        <b-input
+          id="InputGuests"
+          class="w-20 p-3 mb-1 h-100 d-inline-block"
+          placeholder="Ubicación"
+          v-model="locationFilter"
+        ></b-input>
+
+
+        <b-input
+          id="InputGuests"
+           class="w-20 p-3 mb-1 h-100 d-inline-block"
+          placeholder="Tipo"
+          v-model="typeFilter"
         ></b-input>
 
         <b-form-datepicker
           id="ArriveDatePicker"
-          v-model="valueA"
+          v-model="dateFilter"
           :min="min"
           size="lg"
-          placeholder="Arrive"
+          placeholder="Fecha"
           :date-format-options="{
             year: 'numeric',
             month: 'numeric',
@@ -53,7 +69,7 @@
           locale="en"
         ></b-form-datepicker>
 
-        <b-form-datepicker
+      <!--  <b-form-datepicker
           id="DepartDatePicker"
           v-model="valueD"
           :min="min"
@@ -65,31 +81,33 @@
             day: 'numeric'
           }"
           locale="en"
-        ></b-form-datepicker>
+        ></b-form-datepicker>-->
 
-        <b-input
+       <!-- <b-input
           id="InputGuests"
           class="w-sm p-3 mb-1 h-100 d-inline-block"
           placeholder="👥 Guests"
-        ></b-input>
+        ></b-input>-->
 
-        <b-button id="SearchBtn" variant="success" style="float: right;">
-          <b-icon icon="search"></b-icon>Search
+
+        <b-button id="SearchBtn" variant="success" style="float: right;" v-on:click="search">
+          <b-icon icon="search"></b-icon> Buscar
         </b-button>
       </b-form>
     </div>
-    -->
+    
     <div class="box" id="boxFilters">
-      <h3 align="center">-------------------- Filtros --------------------</h3>
-      <b-form inline>
-        <b-input
+     <!-- <h3 align="center">-------------------- Filtros --------------------</h3>-->
+      
+      <b-form inline style="margin-top:1%; margin-bottom:1%;">
+       <!-- <b-input
           id="InputSearchA"
           class="w-25 p-3 mb-1 h-100 d-inline-block"
           placeholder=" ✈ Search activity or destination"
           v-model="keyWordFilter"
-        ></b-input>
+        ></b-input>-->
 
-        <b-form-datepicker
+     <!--   <b-form-datepicker
           id="ArriveDatePicker"
           v-model="dateFilter"
           :min="min"
@@ -101,9 +119,12 @@
             day: 'numeric'
           }"
           locale="en"
-        ></b-form-datepicker>
+        ></b-form-datepicker>-->
 
-        <select v-model="priceFilter">
+
+        <h4 style="margin-left: 4%; margin-right: 2%;  color: green;"><strong>Precio: </strong></h4>
+        <select v-model="priceFilter"
+        >  
           <option disabled selected>Precio</option>
           <option value="0">Cualquiera</option>
           <option value="100000">$0 - $100.000</option>
@@ -114,20 +135,21 @@
           <option value="600001">más de 500.000</option>
         </select>
 
-        <b-input
+       <!-- <b-input
           id="InputGuests"
           class="w-sm p-3 mb-1 h-100 d-inline-block"
           placeholder="👥 Local"
           v-model="locationFilter"
-        ></b-input>
+        ></b-input>-->
 
-        <b-input
+     <!--   <b-input
           id="InputType"
           class="w-sm p-3 mb-1 h-100 d-inline-block"
           placeholder="Tipo"
           v-model="typeFilter"
-        ></b-input>
+        ></b-input>-->
 
+        <h4 style="margin-left: 2%; margin-right: 2%;  color: green;"><strong>Transporte: </strong></h4>
         <select v-model="transportFilter">
           <option disabled selected>Transporte</option>
           <option value="-1">Cualquiera</option>
@@ -136,23 +158,25 @@
         </select>
 
         <b-input
-          id="RatingStart"
-          class="w-sm p-3 mb-1 h-100 d-inline-block"
-          placeholder="Rating minimo"
+          style="margin-left: 2%; margin-right: 2%;"
+          id="RatingStart"  
+          placeholder="Calificación minima"
           v-model="ratingFilterStart"
         ></b-input>
 
         <b-input
           id="RatingEnd"
-          class="w-sm p-3 mb-1 h-100 d-inline-block"
-          placeholder="Rating minimo"
+          placeholder="Calificación máxima"
           v-model="ratingFilterEnd"
         ></b-input>
 
-        <b-button id="SearchBtn" variant="success" style="float: right;" v-on:click="search">
-          <b-icon icon="search"></b-icon>Search
+        <b-button  variant="success" style="margin-left: 2%;" v-on:click="search">
+          <b-icon icon="search"></b-icon>Añadir filtro
         </b-button>
       </b-form>
+
+
+
     </div>
     <b-container id="ContainerActivities">
       <b-row align-v="center" align-h="start">
@@ -268,7 +292,8 @@ export default {
     // 15th two months prior
     const minDate = new Date(today);
     minDate.setMonth(minDate.getMonth());
-    minDate.setDate(minDate.getDay() + 5);
+    //minDate.setDate(minDate.getDay() + 5);
+    minDate.setDate(minDate.getDay());
 
     return {
       activityD: [],
