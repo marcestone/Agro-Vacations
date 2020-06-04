@@ -1,5 +1,4 @@
 <template>
-
   <div class="wrapper">
     <b-carousel
       id="carousel-1"
@@ -14,37 +13,53 @@
     >
       <b-carousel-slide id="p1" img-src="../assets/bc8.jpg">
         <div class="a">
-            FIND THE PERFECT <br>RURAL ACTIVITIES<br> FOR YOU
+          FIND THE PERFECT
+          <br />RURAL ACTIVITIES
+          <br />FOR YOU
         </div>
       </b-carousel-slide>
       <b-carousel-slide id="p2" img-src="../assets/bc7.jpg">
-        <div class="b">
-          TO WHOM YOU APPRECIATE
-        </div>
+        <div class="b">TO WHOM YOU APPRECIATE</div>
       </b-carousel-slide>
       <b-carousel-slide id="p3" img-src="../assets/bc10.jpg">
         <div class="c">
+
           <br>NEW EXPERIENCES <br>IN NEW PLACES
+
         </div>
       </b-carousel-slide>
-
     </b-carousel>
-    <!--<b-img src="../assets/landscape1.jpg" width="1349%" height="678" aling="top"></b-img>-->
-   
+
     <div class="box" id="boxHome">
       <b-form inline>
         <b-input
           id="InputSearchA"
           class="w-25 p-3 mb-1 h-100 d-inline-block"
-          placeholder=" ✈ Search activity or destination"
+          placeholder=" ✈ Buscar por título"
+          v-model="keyWordFilter"
+        ></b-input>
+
+        <b-input
+          id="InputGuests"
+          class="w-20 p-3 mb-1 h-100 d-inline-block"
+          placeholder="Ubicación"
+          v-model="locationFilter"
+        ></b-input>
+
+
+        <b-input
+          id="InputGuests"
+           class="w-20 p-3 mb-1 h-100 d-inline-block"
+          placeholder="Tipo"
+          v-model="typeFilter"
         ></b-input>
 
         <b-form-datepicker
           id="ArriveDatePicker"
-          v-model="valueA"
+          v-model="dateFilter"
           :min="min"
           size="lg"
-          placeholder="Arrive"
+          placeholder="Fecha"
           :date-format-options="{
             year: 'numeric',
             month: 'numeric',
@@ -53,7 +68,7 @@
           locale="en"
         ></b-form-datepicker>
 
-        <b-form-datepicker
+      <!--  <b-form-datepicker
           id="DepartDatePicker"
           v-model="valueD"
           :min="min"
@@ -65,22 +80,103 @@
             day: 'numeric'
           }"
           locale="en"
-        ></b-form-datepicker>
+        ></b-form-datepicker>-->
 
-        <b-input
+       <!-- <b-input
           id="InputGuests"
           class="w-sm p-3 mb-1 h-100 d-inline-block"
           placeholder="👥 Guests"
-        ></b-input>
+        ></b-input>-->
 
-        <b-button id="SearchBtn" variant="success" style="float: right;">
-          <b-icon icon="search"></b-icon> Search
+
+        <b-button id="SearchBtn" variant="success" style="float: right;" v-on:click="search">
+          <b-icon icon="search"></b-icon> Buscar
+
         </b-button>
       </b-form>
     </div>
     
     <div class="box" id="boxFilters">
-      <h3 align="center">-------------------- Filtros --------------------</h3>
+     <!-- <h3 align="center">-------------------- Filtros --------------------</h3>-->
+      
+      <b-form inline style="margin-top:1%; margin-bottom:1%;">
+       <!-- <b-input
+          id="InputSearchA"
+          class="w-25 p-3 mb-1 h-100 d-inline-block"
+          placeholder=" ✈ Search activity or destination"
+          v-model="keyWordFilter"
+        ></b-input>-->
+
+     <!--   <b-form-datepicker
+          id="ArriveDatePicker"
+          v-model="dateFilter"
+          :min="min"
+          size="lg"
+          placeholder="Arrive"
+          :date-format-options="{
+            year: 'numeric',
+            month: 'numeric',
+            day: 'numeric'
+          }"
+          locale="en"
+        ></b-form-datepicker>-->
+
+
+        <h4 style="margin-left: 4%; margin-right: 2%;  color: green;"><strong>Precio: </strong></h4>
+        <select v-model="priceFilter"
+        >  
+          <option disabled selected>Precio</option>
+          <option value="0">Cualquiera</option>
+          <option value="100000">$0 - $100.000</option>
+          <option value="200000">$100.000 - $200.000</option>
+          <option value="300000">$200.000 - $300.000</option>
+          <option value="400000">$300.000 - $400.000</option>
+          <option value="500000">$400.000 - $500.000</option>
+          <option value="600001">más de 500.000</option>
+        </select>
+
+       <!-- <b-input
+          id="InputGuests"
+          class="w-sm p-3 mb-1 h-100 d-inline-block"
+          placeholder="👥 Local"
+          v-model="locationFilter"
+        ></b-input>-->
+
+     <!--   <b-input
+          id="InputType"
+          class="w-sm p-3 mb-1 h-100 d-inline-block"
+          placeholder="Tipo"
+          v-model="typeFilter"
+        ></b-input>-->
+
+        <h4 style="margin-left: 2%; margin-right: 2%;  color: green;"><strong>Transporte: </strong></h4>
+        <select v-model="transportFilter">
+          <option disabled selected>Transporte</option>
+          <option value="-1">Cualquiera</option>
+          <option value="Yes">Si</option>
+          <option value="No">No</option>
+        </select>
+
+        <b-input
+          style="margin-left: 2%; margin-right: 2%;"
+          id="RatingStart"  
+          placeholder="Calificación minima"
+          v-model="ratingFilterStart"
+        ></b-input>
+
+        <b-input
+          id="RatingEnd"
+          placeholder="Calificación máxima"
+          v-model="ratingFilterEnd"
+        ></b-input>
+
+        <b-button  variant="success" style="margin-left: 2%;" v-on:click="search">
+          <b-icon icon="search"></b-icon>Añadir filtro
+        </b-button>
+      </b-form>
+
+
+
     </div>
     <b-container id="ContainerActivities">
       <b-row align-v="center" align-h="start">
@@ -165,7 +261,6 @@
       </b-container>
     
   </div>
-  
 </template>
 
 <script>
@@ -220,7 +315,6 @@ export default {
         //var seconds = "0" + date.getSeconds();
         //var formattedTime2 = "2020" + "-" + month2 + "-" + day2;
 
-        
         //console.log(formattedTime2);
         snapData.push({
           id: doc.id,
@@ -248,25 +342,104 @@ export default {
     // 15th two months prior
     const minDate = new Date(today);
     minDate.setMonth(minDate.getMonth());
-    minDate.setDate(minDate.getDay() + 5);
+    //minDate.setDate(minDate.getDay() + 5);
+    minDate.setDate(minDate.getDay());
 
     return {
       activityD: [],
       displayActivities: [],
-      currentPage: 1,
+      currentPage: 1,   
       rows: 1,
       perPage: 12,
+      //nameA: "",
       valueA: "",
       valueD: "",
-      min: minDate
+      //guest: "",
+      min: minDate,
+
+      priceFilter: "",
+      locationFilter:"",
+      keyWordFilter: "",
+      dateFilter: "",
+
+      typeFilter: "",
+      transportFilter: "",
+      ratingFilterStart: "",
+      ratingFilterEnd: ""
     };
   },
   methods: {
     paginate(currentPage) {
       const start = (currentPage - 1) * this.perPage;
       this.displayActivities = this.activitiesD.slice(start, start + 12);
+    },
+    search() {
+      db.collection("activities").onSnapshot(snapshot => {
+        const snapData = [];
+        snapshot.forEach(doc => {
+          console.log(doc.data().activityLocation) 
+          if(((this.keyWordFilter == "") || (this.keyWordFilter != "" && doc.data().activityName.toLowerCase().includes(this.keyWordFilter.toLowerCase())))
+             && ((this.dateFilter == "") || (this.dateFilter != "" && (Math.round(new Date(this.dateFilter).getTime()/1000)>=Math.round(new Date(doc.data().dataStart).getTime()/1000) && Math.round(new Date(this.dateFilter).getTime()/1000)<=Math.round(new Date(doc.data().dataEnd).getTime()/1000)) ))
+             && ((this.priceFilter == "") || (this.priceFilter != "" && 
+                      ((parseInt(this.priceFilter, 10) == 0)
+                      ||(parseInt(this.priceFilter, 10) != 600001 && doc.data().price <= parseInt(this.priceFilter, 10) && doc.data().price >= parseInt(this.priceFilter, 10)-100000)
+                      ||(parseInt(this.priceFilter, 10) == 600001 && parseInt(this.priceFilter, 10) <= doc.data().price))
+                      ))
+             && ((this.locationFilter == "") || (this.locationFilter != "" && doc.data().activityLocation.toLowerCase().includes(this.locationFilter.toLowerCase()))) 
+             && ((this.typeFilter == "") || (this.typeFilter != "" && doc.data().activityType.toLowerCase().localeCompare(this.typeFilter.toLowerCase()) == 0))
+             && ((this.transportFilter == "") || (this.transportFilter != "" && 
+                      ((this.transportFilter != -1 && doc.data().activityTransport.toLowerCase().localeCompare(this.transportFilter.toLowerCase()) == 0)
+                      ||(this.transportFilter == -1))
+                      ))
+             && ((this.ratingFilterStart == "" && this.ratingFilterEnd == "") || (this.ratingFilterStart == "" && this.ratingFilterEnd != "" && doc.data().activityRate <= parseInt(this.ratingFilterEnd,0)) || (this.ratingFilterStart != "" && 
+                      ((this.ratingFilterEnd == "" &&  parseInt(this.ratingFilterStart,0) <= doc.data().activityRate) 
+                      ||(this.ratingFilterEnd != "" &&  parseInt(this.ratingFilterStart,0) <= doc.data().activityRate && doc.data().activityRate <= parseInt(this.ratingFilterEnd,0)))) )
+             )
+              {
+                
+            //console.log("TEEEEEEEESTTTTTTTTT")
+            let unix_timestamp = doc.data().datePublish;
+            var date = new Date(unix_timestamp * 1000);
+            var day = date.getDate();
+            var months = [
+              "01",
+              "02",
+              "03",
+              "04",
+              "05",
+              "06",
+              "07",
+              "08",
+              "09",
+              "10",
+              "11",
+              "12"
+            ];
+            var month = months[date.getMonth()];
+            var formattedTime = "2020" + "-" + month + "-" + day;
+
+            snapData.push({
+              id: doc.id,
+              description: doc.data().description,
+              userCreator: doc.data().userCreator,
+              userCreatorName: doc.data().userCreatorName,
+              datePublish: formattedTime,
+              dataStart: doc.data().dataStart,
+              dataEnd: doc.data().dataEnd,
+              nameActivity: doc.data().activityName,
+              prize: doc.data().price,
+              rating: doc.data().activityRate,
+              pictures: doc.data().pictures
+            });
+          }
+        });
+        console.log(snapData.length);
+        this.activitiesD = snapData;
+        this.rows = this.activitiesD.length;
+        this.displayActivities = this.activitiesD.slice(0, 12);
+        this.paginate(this.currentPage);
+      });
     }
-    
   },
   components: {
     Activity
@@ -332,8 +505,8 @@ export default {
 }
 #boxFilters {
   margin-top: 50px;
-  width: 1349px;
-  height: 40px;
+  //width: 1349px;
+  //height: 40px;
   border-radius: 1px;
   border: 2px solid #47803e;
   border-left: transparent;
@@ -346,10 +519,12 @@ export default {
 #InputSearchA {
   border-color: #e2e2e2 !important;
 }
-#p1,#p2,#p3 {
-    width: 1349px !important;
-    height: 590px !important;
-    border-radius: 1px ;
+#p1,
+#p2,
+#p3 {
+  width: 1349px !important;
+  height: 590px !important;
+  border-radius: 1px;
 }
 hr.lineFooter{
   margin-top: 60px;
@@ -396,6 +571,7 @@ div.c {
   font-size: 60px;
   text-shadow: 1px 2px 1px rgb(0, 0, 0);
 }
+
 div.descriptionFooter{
   font-family:'Aileron';
  font-size:16pt; 
@@ -438,6 +614,7 @@ div.icons{
   width: 1000px;
   height: 300px;
   margin-bottom: 220px;
+
   
 }
 </style>
