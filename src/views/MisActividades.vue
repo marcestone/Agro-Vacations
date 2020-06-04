@@ -484,13 +484,7 @@
     #ContainerActivities {
       margin-top: 2rem;
     }
-    .activityCard {
-      transition-duration: 0.2s;
-      transition: box-shadow 0, 2s;
-      width: 100% !important;
-      height: 360px !important;
-      object-fit: cover;
-    }
+    
     .activityCard:hover {
       box-shadow: 0px 0px 5px 1px rgba(46, 124, 1, 0.5);
     }

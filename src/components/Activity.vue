@@ -3,28 +3,34 @@
   <b-col md="3">
    
     <b-card
+      
       id="cardActivity"
       :title="nameActivity"
+      body-class="text-center"
       :img-src="picture1"
       img-alt="Image"
       img-top
       tag="article"
       style="max-width: 20rem;"
       class="activityCard mb-2"
+      footer-tag="footer"
+      
     >
       <b-card-text>
-        ${{prize}}
-        <br />
+        <h5><strong style="color: green;">$ {{ prize }}</strong><br></h5>
+       </b-card-text>
+       <template v-slot:footer>
         <b-form-rating
           id="rating-inline"
           inline
           v-model="rating"
-          variant="success"
+          variant="warning"
           no-border
           size="sm"
         ></b-form-rating>
-      </b-card-text>
-
+        10
+         <b-icon icon="chat-dots"></b-icon>
+      </template>
       <a href="javascript:void(0)" class="stretched-link" v-b-modal="activityKey"></a>
 
       <b-modal v-bind:id="activityKey" centered size="lg">
@@ -32,6 +38,7 @@
           <h3>
             <strong>{{ nameActivity }}</strong>
           </h3>
+
         </template>
         <div class="modal-body">
           <div class="row">
@@ -41,12 +48,12 @@
                 style="text-shadow: 0px 0px 2px #000"
                 fade
                 indicators
-                img-width="600"
-                img-height="500 "
+                img-width="600" 
+                img-height="500"
               >
-                <b-carousel-slide :img-src="picture1"></b-carousel-slide>
-                <b-carousel-slide :img-src="picture2"></b-carousel-slide>
-                <b-carousel-slide :img-src="picture3"></b-carousel-slide>
+                <b-carousel-slide :img-src="picture1" ></b-carousel-slide>
+                <b-carousel-slide :img-src="picture2" ></b-carousel-slide>
+                <b-carousel-slide :img-src="picture3" ></b-carousel-slide>
               </b-carousel>
               <br />
               <center style="color: green;">Did you take it? ¡Vote now!</center>
@@ -296,20 +303,35 @@ export default {
 </script>
 
 <style>
+    
 
-.activityCard {
-  transition-duration: 0.2s;
-  transition: box-shadow 0, 2s;
-  width: 100% !important;
-  height: 360px !important;
-  object-fit: cover;
-}
 .activityCard:hover {
   box-shadow: 0px 0px 5px 1px rgba(46, 124, 1, 0.5);
 }
 .card-img-top {
-    width: 100%;
-    height: 15vw;
     object-fit: cover;
+} 
+
+.card-img-top {
+  position: absolute;
+  top: -30px;
+  left: 50%;
+  margin-left: -113px;
+  width: 90% !important;
+  height: 15vw;
+  border-radius: 10px;
+  box-shadow: 5px 10px 10px #ccc;
+}
+
+#cardActivity {
+  margin-top: 30px;
+  padding-top: 160px;
+  border-radius: 15px;
+  width: 100% !important;
+  height: 340px !important;
+}
+#rating-inline{
+  background-color: rgba(0, 0, 0, 0.003);
+  padding-right: 50px;
 }
 </style>

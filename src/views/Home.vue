@@ -1,7 +1,36 @@
 <template>
+
   <div class="wrapper">
-    <b-img src="../assets/background1.png" width="1349%" height="678" aling="top"></b-img>
-   <!-- <img id="myimg"/>-->
+    <b-carousel
+      id="carousel-1"
+      v-model="slide"
+      :interval="4000"
+      controls
+      indicators
+      background="#ababab"
+      img-width="1349"
+      img-height="500"
+      style="text-shadow: 1px 1px 2px #333;"
+    >
+      <b-carousel-slide id="p1" img-src="../assets/bc8.jpg">
+        <div class="a">
+            FIND THE PERFECT <br>RURAL ACTIVITIES<br> FOR YOU
+        </div>
+      </b-carousel-slide>
+      <b-carousel-slide id="p2" img-src="../assets/bc7.jpg">
+        <div class="b">
+          TO WHOM YOU APPRECIATE
+        </div>
+      </b-carousel-slide>
+      <b-carousel-slide id="p3" img-src="../assets/bc10.jpg">
+        <div class="c">
+          <br>NEW EXPERIENCES <br>IN NEW PLACES
+        </div>
+      </b-carousel-slide>
+
+    </b-carousel>
+    <!--<b-img src="../assets/landscape1.jpg" width="1349%" height="678" aling="top"></b-img>-->
+   
     <div class="box" id="boxHome">
       <b-form inline>
         <b-input
@@ -45,10 +74,11 @@
         ></b-input>
 
         <b-button id="SearchBtn" variant="success" style="float: right;">
-          <b-icon icon="search"></b-icon>Search
+          <b-icon icon="search"></b-icon> Search
         </b-button>
       </b-form>
     </div>
+    
     <div class="box" id="boxFilters">
       <h3 align="center">-------------------- Filtros --------------------</h3>
     </div>
@@ -83,6 +113,57 @@
         @input="paginate(currentPage)"
       ></b-pagination>
     </b-container>
+
+      <b-container fluid id="footerweb">
+        <b-row >
+          <div class="imageFooter">
+            <b-col><b-img  src="../assets/BannerBB.png" ></b-img></b-col>
+          </div>
+        </b-row>
+        <b-row>
+          <div class="descriptionFooter">
+            <b-col>Plan, Search and find perfect activities for you and yours<br> 
+            in the best locations, Agrovacations allows you to <br>
+            publish your activities and contact those who wish<br> 
+            to take them Live a new experience, <br>meet and receive an extra income.</b-col>
+          </div>
+          <b-col>
+            <ul class="listF">
+              
+              <li><router-link to="/perfilcliente" style="color: white;">Profile</router-link></li>
+              <li><router-link to="/home" style="color: white;">Activities</router-link></li>
+              <li><router-link to="/logincliente" style="color: white;">Log in</router-link></li>
+              <li><router-link to="/registrocliente" style="color: white;">Sign in</router-link></li>
+            </ul>
+          </b-col>
+          <b-col>
+            <div class="aList">
+              Extreme<br>
+              Ecological<br>
+              Cultural<br>
+              Familiar<br>
+              Events<br>
+              Rural<br>
+              Lodging<br>
+            </div>
+          </b-col>
+          <b-col>
+            <b-button id= "footerButton" to="/registrocliente" v-if="!client">Publish Now</b-button>
+            <b-button id= "footerButton" to="/crearactividad" v-if="client">Publish Now</b-button>
+          </b-col>
+        </b-row>
+        <hr class="lineFooter">
+        
+          <div class="icons">
+              <span>
+                <b-img src="../assets/facebook.png" width="50%" height="auto" style="margin-right: 23px;" ></b-img>
+                <b-img src="../assets/twitter.png" width="50%" height="auto" style="margin-right: 23px;"></b-img>
+                <b-img src="../assets/youtube.png" width="50%" height="auto" style="margin-right: 23px;"></b-img>
+                <b-img src="../assets/linkedin.png" width="50%" height="auto" style="margin-right: 23px;"></b-img>
+            </span>
+          </div>
+      </b-container>
+    
   </div>
   
 </template>
@@ -194,6 +275,19 @@ export default {
 </script>
 
 <style lang="scss">
+#footerButton{
+  background-color: #725922;
+  height: 60px;
+  width: 250px;
+  font-size: 20px;
+  margin-right: 100px;
+  margin-left: 80px;
+  display: inline-block;
+  border-color: #755f2e;
+  border-radius: 10px;
+  line-height: 40px;
+}
+
 #InputSearchA {
   width: 320px !important;
   margin-top: 17px;
@@ -215,11 +309,11 @@ export default {
   width: 115px;
 }
 #SearchBtn {
-  height: 40px;
-  width: 100px;
+  height: 60px;
+  width: 140px;
   border-radius: 35px;
   margin-top: 13px;
-  margin-left: 15px;
+  margin-left: 20px;
 }
 
 .wrapper {
@@ -237,6 +331,7 @@ export default {
   background-color: #f5f4f3;
 }
 #boxFilters {
+  margin-top: 50px;
   width: 1349px;
   height: 40px;
   border-radius: 1px;
@@ -250,5 +345,99 @@ export default {
 #InputGuests,
 #InputSearchA {
   border-color: #e2e2e2 !important;
+}
+#p1,#p2,#p3 {
+    width: 1349px !important;
+    height: 590px !important;
+    border-radius: 1px ;
+}
+hr.lineFooter{
+  margin-top: 60px;
+  border: 1px solid white;
+}
+ul.listF{
+  color: #fff;
+  font-family:'Aileron';
+  font-size:18pt; 
+  font-weight: 100;
+  text-align: left;
+  line-height: normal;
+}
+div.aList{
+  color: #fff;
+  font-family:'Aileron';
+  font-size:14pt; 
+  color:white;
+  font-weight: 100;
+  text-align: left;
+  
+}
+div.a {
+  text-align: left;
+  margin-bottom: 250px;
+  font-size: 70px;
+  line-height: 100%;
+}
+div.b {
+  text-align: center;
+  margin-bottom: 350px;
+  font-size: 80px;
+  line-height: 100%;
+}
+div.b {
+  text-align: center;
+  margin-bottom: 350px;
+  font-size: 80px;
+  line-height: 100%;
+}
+div.c {
+  text-align: right;
+  margin-bottom: 220px;
+  font-size: 60px;
+  text-shadow: 1px 2px 1px rgb(0, 0, 0);
+}
+div.descriptionFooter{
+  font-family:'Aileron';
+ font-size:16pt; 
+ color:white;
+ font-weight: 100;
+ text-align: center;
+ margin-top: 30px;
+ margin-left:10px;
+ line-height: normal;
+}
+div.imageFooter{
+  margin-left: 50px;
+  margin-top: 50px;
+}
+
+.flex-rectangle{
+    width: 100%;
+    background: #47803e;
+    margin-top: 50px;
+}
+.flex-rectangle:before{
+    content: "";
+    display: block;
+    padding-top: 15%;
+}
+#footerweb {
+     background-image: url('../assets/Footer.jpg');
+     background-repeat: no-repeat;
+     background-size: cover;
+     background-position: center;
+     width: 100%;
+     height: 460px;
+     margin-top: 50px;
+     
+}
+div.icons{
+  text-align: center;
+}
+.carousel-caption{
+  width: 1000px;
+  height: 300px;
+  margin-bottom: 220px;
+  
 }
 </style>
