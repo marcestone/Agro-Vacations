@@ -69,6 +69,7 @@
 
                     <router-link class="list-group-item list-group-item-action" :to="'/perfilmiembros/' + item2.reservationUserId">
 
+
                       <b-icon-person-check-fill></b-icon-person-check-fill>
                       {{ item2.name }},
                       {{ item2.createdActivityReservationDate }}
