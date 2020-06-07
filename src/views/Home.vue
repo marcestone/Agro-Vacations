@@ -37,6 +37,7 @@
           class="w-25 p-3 mb-1 h-100 d-inline-block"
           placeholder=" ✈ Buscar por título"
           v-model="keyWordFilter"
+          v-on:change="search"
         ></b-input>
 
         <b-input
@@ -44,6 +45,7 @@
           class="w-20 p-3 mb-1 h-100 d-inline-block"
           placeholder="Ubicación"
           v-model="locationFilter"
+          v-on:change="search"
         ></b-input>
 
 
@@ -52,11 +54,13 @@
            class="w-20 p-3 mb-1 h-100 d-inline-block"
           placeholder="Tipo"
           v-model="typeFilter"
+          v-on:change="search"
         ></b-input>
 
         <b-form-datepicker
           id="ArriveDatePicker"
           v-model="dateFilter"
+          v-on:change="search"
           :min="min"
           size="lg"
           placeholder="Fecha"
@@ -97,7 +101,6 @@
     </div>
     
     <div class="box" id="boxFilters">
-     <!-- <h3 align="center">-------------------- Filtros --------------------</h3>-->
       
       <b-form inline style="margin-top:1%; margin-bottom:1%;">
        <!-- <b-input
@@ -123,7 +126,7 @@
 
 
         <h4 style="margin-left: 4%; margin-right: 2%;  color: green;"><strong>Precio: </strong></h4>
-        <select v-model="priceFilter"
+        <select v-model="priceFilter" v-on:change="search"
         >  
           <option disabled selected>Precio</option>
           <option value="0">Cualquiera</option>
@@ -150,7 +153,9 @@
         ></b-input>-->
 
         <h4 style="margin-left: 2%; margin-right: 2%;  color: green;"><strong>Transporte: </strong></h4>
-        <select v-model="transportFilter">
+        <select v-model="transportFilter"
+        v-on:change="search"
+        >
           <option disabled selected>Transporte</option>
           <option value="-1">Cualquiera</option>
           <option value="Yes">Si</option>
@@ -162,12 +167,14 @@
           id="RatingStart"  
           placeholder="Calificación minima"
           v-model="ratingFilterStart"
+          v-on:change="search"
         ></b-input>
 
         <b-input
           id="RatingEnd"
           placeholder="Calificación máxima"
           v-model="ratingFilterEnd"
+          v-on:change="search"
         ></b-input>
 
         <b-button  variant="success" style="margin-left: 2%;" v-on:click="search">
@@ -179,6 +186,9 @@
 
     </div>
     <b-container id="ContainerActivities">
+
+      <h2 id="emptySearch" style="display: none">No se encontraron resultados para la busqueda</h2>
+     
       <b-row align-v="center" align-h="start">
         <Activity
           v-for="activity in displayActivities"
@@ -294,28 +304,9 @@ export default {
           "12"
         ];
         var month = months[date.getMonth()];
-        //var minutes = "0" + date.getMinutes();
-        //var seconds = "0" + date.getSeconds();
+        
         var formattedTime = "2020" + "-" + month + "-" + day;
-        //let unix_timestamp1 = doc.data().dataStart;
-        //var date1 = new Date(unix_timestamp1 * 1000);
-        //var hours = date.getHours();
-        //var day1 = date1.getDate();
-        //var month1 = months[date1.getMonth()];
-        //var minutes = "0" + date.getMinutes();
-        //var seconds = "0" + date.getSeconds();
-        //var formattedTime1 = "2020" + "-" + "05" + "-" + "03";
-
-        //let unix_timestamp2 = doc.data().dataEnd;
-        //var date2 = new Date(unix_timestamp2 * 1000);
-        //var hours = date.getHours();
-        //var day2 = date2.getDate();
-        //ar month2 = months[date2.getMonth()];
-        //var minutes = "0" + date.getMinutes();
-        //var seconds = "0" + date.getSeconds();
-        //var formattedTime2 = "2020" + "-" + month2 + "-" + day2;
-
-        //console.log(formattedTime2);
+        
         snapData.push({
           id: doc.id,
           description: doc.data().description,
@@ -376,8 +367,32 @@ export default {
     search() {
       db.collection("activities").onSnapshot(snapshot => {
         const snapData = [];
+
+        //Rate controls
+
+        if(isNaN(this.ratingFilterStart) || isNaN(this.ratingFilterEnd)){
+          this.ratingFilterStart = 0;
+          this.ratingFilterEnd = 0;
+        }
+
+        if(this.ratingFilterEnd < this.ratingFilterStart){
+          var aux = this.ratingFilterStart;
+          this.ratingFilterStart = this.ratingFilterEnd;
+          this.ratingFilterEnd = aux;
+        }
+        if(this.ratingFilterStart < 0) this.ratingFilterStart = 0;
+        if(this.ratingFilterEnd > 5) this. ratingFilterEnd = 5;   
+
+        document.getElementById("RatingStart").innerHTML = this.ratingFilterStart;
+        document.getElementById("RatingEnd").innerHTML = this.ratingFilterEnd;
+
+        console.log(this.ratingFilterStart);
+        console.log(this.ratingFilterEnd);
+
+        //Search
+
         snapshot.forEach(doc => {
-          console.log(doc.data().activityLocation) 
+           
           if(((this.keyWordFilter == "") || (this.keyWordFilter != "" && doc.data().activityName.toLowerCase().includes(this.keyWordFilter.toLowerCase())))
              && ((this.dateFilter == "") || (this.dateFilter != "" && (Math.round(new Date(this.dateFilter).getTime()/1000)>=Math.round(new Date(doc.data().dataStart).getTime()/1000) && Math.round(new Date(this.dateFilter).getTime()/1000)<=Math.round(new Date(doc.data().dataEnd).getTime()/1000)) ))
              && ((this.priceFilter == "") || (this.priceFilter != "" && 
@@ -396,8 +411,7 @@ export default {
                       ||(this.ratingFilterEnd != "" &&  parseInt(this.ratingFilterStart,0) <= doc.data().activityRate && doc.data().activityRate <= parseInt(this.ratingFilterEnd,0)))) )
              )
               {
-                
-            //console.log("TEEEEEEEESTTTTTTTTT")
+            
             let unix_timestamp = doc.data().datePublish;
             var date = new Date(unix_timestamp * 1000);
             var day = date.getDate();
@@ -438,6 +452,15 @@ export default {
         this.rows = this.activitiesD.length;
         this.displayActivities = this.activitiesD.slice(0, 12);
         this.paginate(this.currentPage);
+
+        let empty = document.getElementById("emptySearch");
+
+        if(this.rows == 0){
+          empty.style.display = "block";
+        }else{
+          empty.style.display = "none";
+        }
+
       });
     }
   },
