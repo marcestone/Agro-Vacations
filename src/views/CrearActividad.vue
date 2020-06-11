@@ -214,7 +214,8 @@ export default {
               activityRate: null,
               userClient: [],
               userCreator: user.uid,
-              userCreatorName: snapshot.data().name
+              userCreatorName: snapshot.data().name,
+              isShowed: true
             });
 
             db.collection("user")

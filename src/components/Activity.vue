@@ -1,9 +1,9 @@
+/** Falta modificar el calendario para que otras personas no puedan reservar los
+dias que ya estan ocupados */
+
 <template>
-  
   <b-col md="3">
-   
     <b-card
-      
       id="cardActivity"
       :title="nameActivity"
       body-class="text-center"
@@ -14,12 +14,14 @@
       style="max-width: 20rem;"
       class="activityCard mb-2"
       footer-tag="footer"
-      
     >
       <b-card-text>
-        <h5><strong style="color: green;">$ {{ prize }}</strong><br></h5>
-       </b-card-text>
-       <template v-slot:footer>
+        <h5>
+          <strong style="color: green;">$ {{ prize }}</strong>
+          <br />
+        </h5>
+      </b-card-text>
+      <template v-slot:footer>
         <b-form-rating
           id="rating-inline"
           inline
@@ -27,18 +29,15 @@
           variant="warning"
           no-border
           size="sm"
-        ></b-form-rating>
-        10
-         <b-icon icon="chat-dots"></b-icon>
+        ></b-form-rating>10
+        <b-icon icon="chat-dots"></b-icon>
       </template>
       <a href="javascript:void(0)" class="stretched-link" v-b-modal="activityKey"></a>
-
       <b-modal v-bind:id="activityKey" centered size="lg">
         <template v-slot:modal-header>
           <h3>
             <strong>{{ nameActivity }}</strong>
           </h3>
-
         </template>
         <div class="modal-body">
           <div class="row">
@@ -48,12 +47,12 @@
                 style="text-shadow: 0px 0px 2px #000"
                 fade
                 indicators
-                img-width="600" 
+                img-width="600"
                 img-height="500"
               >
-                <b-carousel-slide :img-src="picture1" ></b-carousel-slide>
-                <b-carousel-slide :img-src="picture2" ></b-carousel-slide>
-                <b-carousel-slide :img-src="picture3" ></b-carousel-slide>
+                <b-carousel-slide :img-src="picture1"></b-carousel-slide>
+                <b-carousel-slide :img-src="picture2"></b-carousel-slide>
+                <b-carousel-slide :img-src="picture3"></b-carousel-slide>
               </b-carousel>
               <br />
               <center style="color: green;">Did you take it? ¡Vote now!</center>
@@ -63,12 +62,13 @@
             </div>
             <div class="col-7">
               <p style="text-align:justify">{{ description }}</p>
-              <strong style="color: green;">$ {{ prize }}</strong><br>
+              <strong style="color: green;">$ {{ prize }}</strong>
+              <br />
               <!--<b-button variant="link" id="ButtonHost"  href="#" :to="'/perfilcliente/'+ userCreator">
                 <i>
                   <small>Host: {{ userCreatorName }}</small>
                 </i>
-              </b-button> -->
+              </b-button>-->
               <router-link :to="'/perfilmiembros/' + userCreator">
                 <i>
                   <small>Host: {{ userCreatorName }}</small>
@@ -86,6 +86,8 @@
                 :min="dataStart"
                 :max="dataEnd"
                 placeholder="Choose reservation date"
+                :disabledDate="dateSelected"
+                :key="dateSelected.length"
                 :date-format-options="{
                   year: 'numeric',
                   month: 'numeric',
@@ -132,11 +134,13 @@ export default {
     "prize",
     "activityKey",
     "rating",
-    "pictures",
+    "pictures"
   ],
   data() {
     return {
-      picture1: "", picture2: "", picture3: "",
+      picture1: "",
+      picture2: "",
+      picture3: "",
       hostClient: null,
       ratingClient: 1,
       boxTwo: "",
@@ -155,15 +159,58 @@ export default {
       headerBgVariant: "primary",
       headerTextVariant: "light",
       min: null,
-      max: null
+      max: null,
+      dateSelected: []
     };
   },
-  mounted(){
+  mounted() {
     this.picture1 = this.pictures[0];
     this.picture2 = this.pictures[1];
     this.picture3 = this.pictures[2];
+    this.dateDisabled();
   },
   methods: {
+    dateDisabled() {
+      var date = [];
+      db.collection("activities")
+        .doc(this.activityKey)
+        .get()
+        .then(snapshot => {
+          for (
+            let index = 0;
+            index < snapshot.data().userClient.length;
+            index++
+          ) {
+            var reservationDate = snapshot.data().userClient[index]
+              .reservationDate;
+            var realMonth;
+            var realDate;
+            if (reservationDate.slice(0, 3) == "Jan") realMonth = "01";
+            if (reservationDate.slice(0, 3) == "Feb") realMonth = "02";
+            if (reservationDate.slice(0, 3) == "Mar") realMonth = "03";
+            if (reservationDate.slice(0, 3) == "Apr") realMonth = "04";
+            if (reservationDate.slice(0, 3) == "May") realMonth = "05";
+            if (reservationDate.slice(0, 3) == "Jun") realMonth = "06";
+            if (reservationDate.slice(0, 3) == "Jul") realMonth = "07";
+            if (reservationDate.slice(0, 3) == "Aug") realMonth = "08";
+            if (reservationDate.slice(0, 3) == "Sep") realMonth = "09";
+            if (reservationDate.slice(0, 3) == "Oct") realMonth = "10";
+            if (reservationDate.slice(0, 3) == "Nov") realMonth = "11";
+            if (reservationDate.slice(0, 3) == "Dec") realMonth = "12";
+            if (
+              Number(reservationDate.slice(4, 5)) <= 9 &&
+              reservationDate.slice(5, 6) == " "
+            )
+              realDate =
+                "2020-" + realMonth + "-0" + reservationDate.slice(4, 5);
+            else
+              realDate =
+                "2020-" + realMonth + "-" + reservationDate.slice(4, 6);
+            date[index] = realDate;
+            this.dateSelected[index] = ["2020-06-04", "2020-06-05"];
+          }
+        });
+    },
     showMsgBoxTwo() {
       this.boxTwo = "";
       this.$bvModal
@@ -215,6 +262,7 @@ export default {
             minutes.substr(-2) +
             ":" +
             seconds.substr(-2);
+          console.log(formattedTime);
           let document;
           let activityIdentify;
           let query = db.collection("activities").doc(this.activityKey);
@@ -298,20 +346,16 @@ export default {
       });
     }
   }
-
 };
 </script>
 
 <style>
-    
-
 .activityCard:hover {
   box-shadow: 0px 0px 5px 1px rgba(46, 124, 1, 0.5);
 }
 .card-img-top {
-    object-fit: cover;
-} 
-
+  object-fit: cover;
+}
 .card-img-top {
   position: absolute;
   top: -30px;
@@ -330,9 +374,8 @@ export default {
   width: 100% !important;
   height: 340px !important;
 }
-#rating-inline{
+#rating-inline {
   background-color: rgba(0, 0, 0, 0.003);
   padding-right: 50px;
-
 }
 </style>
