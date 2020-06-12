@@ -222,6 +222,8 @@ export default {
               dataEnd: info.dateEnd,
               activityTransport: info.activityTransport,
               activityRate: null,
+              activityLocation: info.activityLocation,
+              activityType: info.activityType,
               userClient: [],
               userCreator: user.uid,
               userCreatorName: snapshot.data().name
