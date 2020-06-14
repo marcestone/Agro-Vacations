@@ -145,6 +145,7 @@ export default {
     const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
     // 15th two months prior
     const minDate = new Date(today);
+    console.log("TEST");
     return {
       activityName: null,
       activityType: null,
@@ -162,6 +163,7 @@ export default {
       UploadValue: 0,
       picture: null,
       images: [],
+      imagesLen: 0,
       imagesURL: [],
       min: minDate
     };
@@ -203,19 +205,28 @@ export default {
               id: document.id
             });
 
+            var actPrice = 0;
+
+            try {
+              actPrice = parseInt(info.activityPrice);
+            } catch (error) {
+              console.log(error);
+            }
+
             document.set({
               datePublish: new Date(),
               description: info.description,
               activityName: info.activityName,
-              price: parseInt(info.activityPrice),
+              price: actPrice,
               dataStart: info.dateStart,
               dataEnd: info.dateEnd,
               activityTransport: info.activityTransport,
               activityRate: null,
+              activityLocation: info.activityLocation,
+              activityType: info.activityType,
               userClient: [],
               userCreator: user.uid,
-              userCreatorName: snapshot.data().name,
-              isShowed: true
+              userCreatorName: snapshot.data().name
             });
 
             db.collection("user")
@@ -247,34 +258,41 @@ export default {
       this.selectedFile = event.target.files[0];
     },
     addFile: function() {
-      this.images.push(this.selectedFile);
+      if (this.images.length < 3) {
+        this.images.push(this.selectedFile);
+        console.log(this.images);
+      } else {
+        this.images = this.images.slice(1, 2);
+        this.images.push(this.selectedFile);
+        console.log(this.images);
+      }
 
-      if (this.images.length <= 3) {
-        var preview = null;
-        if (this.images.length == 1) {
-          preview = document.getElementById("image1").querySelector("img");
-        } else if (this.images.length == 2) {
-          preview = document.getElementById("image2").querySelector("img");
-        } else if (this.images.length == 3) {
-          preview = document.getElementById("image3").querySelector("img");
-        }
+      this.imagesLen++;
 
-        var file = this.selectedFile;
-        var reader = new FileReader();
+      var preview = null;
+      if (this.imagesLen % 3 == 1) {
+        preview = document.getElementById("image1").querySelector("img");
+      } else if (this.imagesLen % 3 == 2) {
+        preview = document.getElementById("image2").querySelector("img");
+      } else if (this.imagesLen % 3 == 0) {
+        preview = document.getElementById("image3").querySelector("img");
+      }
 
-        reader.addEventListener(
-          "load",
-          function() {
-            preview.src = reader.result;
-            preview.style.width = "600px";
-            preview.style.height = "400px";
-          },
-          false
-        );
+      var file = this.selectedFile;
+      var reader = new FileReader();
 
-        if (file) {
-          reader.readAsDataURL(file);
-        }
+      reader.addEventListener(
+        "load",
+        function() {
+          preview.src = reader.result;
+          preview.style.width = "600px";
+          preview.style.height = "400px";
+        },
+        false
+      );
+
+      if (file) {
+        reader.readAsDataURL(file);
       }
 
       console.log(this.images.length);
@@ -357,7 +375,7 @@ export default {
   border-radius: 50%;
 }
 
-#carouselCrateA___BV_inner_ {
+#carouselCrateA__BV_inner {
   border-radius: 20px;
 }
 #description {

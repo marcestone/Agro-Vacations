@@ -65,7 +65,7 @@
                     </router-link>
                   </div>
                 </div>
-                <form action=""></form>
+                <form action></form>
                 <template v-slot:modal-footer="{ cancel }">
                   <b-button variant="secondary" @click="cancel()">Ok</b-button>
                 </template>
@@ -82,11 +82,23 @@
               </p>
               <form>
                 <b-button
+                  v-if="item.isShowed == true"
                   variant="danger"
                   type="submit"
-                  @click="cancelActivity(item.id)"
-                  >Eliminar</b-button
+                  @click="cancelActivity(item.id, item.userCreator)"
                 >
+                  Eliminar
+                </b-button>
+              </form>
+              <form>
+                <b-button
+                  v-if="item.isShowed == false"
+                  variant="success"
+                  type="submit"
+                  @click="reactivateActivity(item.id)"
+                >
+                  reactivar
+                </b-button>
               </form>
             </div>
           </div>
@@ -199,7 +211,9 @@
               </p>
               <p style="text-align:justify">
                 <i>
-                  <small>Reservation date: {{ item.currentReservationDate }} / 2020</small>
+                  <small>
+                    Reservation date: {{ item.currentReservationDate }} /2020
+                  </small>
                 </i>
               </p>
             </div>
@@ -390,6 +404,7 @@ export default {
           }
           for (j = 0; j < snapshot.data().activitiesName.length; j++) {
             var createdActivityId = snapshot.data().activitiesName[j].id;
+            console.log(createdActivityId);
             db.collection("activities")
               .doc(createdActivityId)
               .get()
@@ -450,7 +465,8 @@ export default {
                   picture2: snapshot.data().pictures[1],
                   picture3: snapshot.data().pictures[2],
                   activityReservationList: activityReservations,
-                  modalId: formattedTime
+                  modalId: formattedTime,
+                  isShowed: snapshot.data().isShowed
                 });
               });
           }
@@ -458,14 +474,60 @@ export default {
     }
   },
   methods: {
-    cancelActivity(id) {
+    cancelActivity(id, userId) {
       var user = Firebase.auth().currentUser;
       if (user) {
         console.log("Cancelar actividad con id: " + id);
+        console.log("userId: " + userId);
+        console.log("userCreatorName: " + this.userCreatorName);
         db.collection("activities")
           .doc(id)
           .update({
             isShowed: false
+          })
+          .then(function() {
+            console.log("El documento ha sido actualizado");
+          })
+          .catch(function(error) {
+            console.error("Error actualizando el documento: ", error);
+          });
+        db.collection("user")
+          .doc(userId)
+          .update({
+            notifications: Firebase.firestore.FieldValue.arrayUnion({
+              activityId: id,
+              otherUserId: user.uid,
+              otherUsername: this.userCreatorName,
+              activityName: this.nameActivity,
+              type: "cancelacionActividad"
+            })
+          })
+          .then(function() {
+            console.log("El documento ha sido actualizado");
+          });
+        db.collection("user")
+          .doc(user.uid)
+          .update({
+            notifications: Firebase.firestore.FieldValue.arrayUnion({
+              activityId: id,
+              otherUserId: userId,
+              otherUsername: this.userCreatorName,
+              activityName: this.nameActivity,
+              type: "cancelacionActividad"
+            })
+          })
+          .then(function() {
+            console.log("El documento ha sido actualizado");
+          });
+      }
+    },
+    reactivateActivity(id) {
+      var user = Firebase.auth().currentUser;
+      if (user) {
+        db.collection("activities")
+          .doc(id)
+          .update({
+            isShowed: true
           })
           .then(function() {
             console.log("El documento ha sido actualizado");
