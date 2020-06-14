@@ -314,6 +314,18 @@ export default {
                       }
                     )
                   });
+                db.collection("user")
+                  .doc(user.uid)
+                  .update({
+                    notifications: firebase.firestore.FieldValue.arrayUnion({
+                      activityId: activityIdentify,
+                      otherUserId: this.userCreator,
+                      otherUsername: this.userCreatorName,
+                      activityName: this.nameActivity,
+                      dateGenerated: formattedTime,
+                      type: "nuevaReserva"
+                    })
+                  });
                 document.update({
                   userClient: firebase.firestore.FieldValue.arrayUnion({
                     userId: user.uid,
@@ -332,6 +344,18 @@ export default {
                         reservationDate: formattedTime
                       }
                     )
+                  });
+                db.collection("user")
+                  .doc(user.uid)
+                  .update({
+                    notifications: firebase.firestore.FieldValue.arrayUnion({
+                      activityId: activityIdentify,
+                      otherUserId: this.userCreator,
+                      otherUsername: this.userCreatorName,
+                      activityName: this.nameActivity,
+                      dateGenerated: formattedTime,
+                      type: "nuevaReserva"
+                    })
                   });
                 document.update({
                   userClient: firebase.firestore.FieldValue.arrayUnion({

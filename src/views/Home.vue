@@ -333,19 +333,21 @@ export default {
         ];
         var month = months[date.getMonth()];
         var formattedTime = "2020" + "-" + month + "-" + day;
-        snapData.push({
-          id: doc.id,
-          description: doc.data().description,
-          userCreator: doc.data().userCreator,
-          userCreatorName: doc.data().userCreatorName,
-          datePublish: formattedTime,
-          dataStart: doc.data().dataStart,
-          dataEnd: doc.data().dataEnd,
-          nameActivity: doc.data().activityName,
-          prize: doc.data().price,
-          rating: doc.data().activityRate,
-          pictures: doc.data().pictures
-        });
+        if (doc.data().isShowed == true) {
+          snapData.push({
+            id: doc.id,
+            description: doc.data().description,
+            userCreator: doc.data().userCreator,
+            userCreatorName: doc.data().userCreatorName,
+            datePublish: formattedTime,
+            dataStart: doc.data().dataStart,
+            dataEnd: doc.data().dataEnd,
+            nameActivity: doc.data().activityName,
+            prize: doc.data().price,
+            rating: doc.data().activityRate,
+            pictures: doc.data().pictures
+          });
+        }
       });
       this.activitiesD = snapData;
       this.rows = this.activitiesD.length;
@@ -471,20 +473,21 @@ export default {
             ];
             var month = months[date.getMonth()];
             var formattedTime = "2020" + "-" + month + "-" + day;
-
-            snapData.push({
-              id: doc.id,
-              description: doc.data().description,
-              userCreator: doc.data().userCreator,
-              userCreatorName: doc.data().userCreatorName,
-              datePublish: formattedTime,
-              dataStart: doc.data().dataStart,
-              dataEnd: doc.data().dataEnd,
-              nameActivity: doc.data().activityName,
-              prize: doc.data().price,
-              rating: doc.data().activityRate,
-              pictures: doc.data().pictures
-            });
+            if (doc.data().isShowed == true) {
+              snapData.push({
+                id: doc.id,
+                description: doc.data().description,
+                userCreator: doc.data().userCreator,
+                userCreatorName: doc.data().userCreatorName,
+                datePublish: formattedTime,
+                dataStart: doc.data().dataStart,
+                dataEnd: doc.data().dataEnd,
+                nameActivity: doc.data().activityName,
+                prize: doc.data().price,
+                rating: doc.data().activityRate,
+                pictures: doc.data().pictures
+              });
+            }
           }
         });
         console.log(snapData.length);
