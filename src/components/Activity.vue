@@ -28,7 +28,7 @@
           no-border
           size="sm"
         ></b-form-rating>
-        10
+        {{nComments}}
          <b-icon icon="chat-dots"></b-icon>
       </template>
       <a href="javascript:void(0)" class="stretched-link" v-b-modal="activityKey"></a>
@@ -38,6 +38,7 @@
           <h3>
             <strong>{{ nameActivity }}</strong>
           </h3>
+          <h3  style="color: green;"><strong> {{rating}}</strong> <b-icon icon="star-fill"></b-icon></h3>
 
         </template>
         <div class="modal-body">
@@ -49,26 +50,27 @@
                 fade
                 indicators
                 img-width="600" 
-                img-height="500"
+                img-height="400" 
               >
                 <b-carousel-slide :img-src="picture1" ></b-carousel-slide>
-                <b-carousel-slide :img-src="picture2" ></b-carousel-slide>
-                <b-carousel-slide :img-src="picture3" ></b-carousel-slide>
+                <b-carousel-slide :img-src="picture2"></b-carousel-slide>
+                <b-carousel-slide :img-src="picture3"></b-carousel-slide>
               </b-carousel>
               <br />
-              <center style="color: green;">Did you take it? ¡Vote now!</center>
-              <span>
-                <b-form-rating v-model="ratingClient" variant="success" class="mb-2"></b-form-rating>
-              </span>
+              <div class="commentsbox" >
+                <Comments 
+                  v-for="commentary in comments"
+                  :key="commentary.userId"
+                  :userId="commentary.userId" 
+                  :comment="commentary.comment"
+                  :dateComment="commentary.dateComment"
+                  :rate="commentary.rate"
+                ></Comments>
+              </div>
             </div>
             <div class="col-7">
               <p style="text-align:justify">{{ description }}</p>
               <strong style="color: green;">$ {{ prize }}</strong><br>
-              <!--<b-button variant="link" id="ButtonHost"  href="#" :to="'/perfilcliente/'+ userCreator">
-                <i>
-                  <small>Host: {{ userCreatorName }}</small>
-                </i>
-              </b-button> -->
               <router-link :to="'/perfilmiembros/' + userCreator">
                 <i>
                   <small>Host: {{ userCreatorName }}</small>
@@ -101,7 +103,7 @@
 
           <form @submit.prevent="reserve">
             <b-button variant="primary" type="submit" @click="showMsgBoxTwo">
-              <b-icon icon="briefcase" type></b-icon>Reserve
+              <b-icon icon="briefcase" type></b-icon> Reserve
             </b-button>
           </form>
         </template>
@@ -112,6 +114,7 @@
 
 <script>
 import * as firebase from "firebase/app";
+import Comments from "@/components/Comments.vue";
 import Firebase from "firebase";
 import db from "../db.js";
 import Vue from "vue";
@@ -119,6 +122,9 @@ import { BootstrapVue } from "bootstrap-vue";
 Vue.use(BootstrapVue);
 
 export default {
+  components: {
+    Comments
+  },
   name: "activity",
   props: [
     "client",
@@ -133,12 +139,17 @@ export default {
     "activityKey",
     "rating",
     "pictures",
+    "comments",
+    "currentDate",
+    "userClient"
   ],
   data() {
     return {
+      
+      nComments:0,
       picture1: "", picture2: "", picture3: "",
       hostClient: null,
-      ratingClient: 1,
+      ratingClient: 0,
       boxTwo: "",
       ReservationValue: null,
       show: false,
@@ -158,12 +169,15 @@ export default {
       max: null
     };
   },
-  mounted(){
-    this.picture1 = this.pictures[0];
-    this.picture2 = this.pictures[1];
-    this.picture3 = this.pictures[2];
-  },
+mounted(){
+  this.picture1 = this.pictures[0];
+  this.picture2 = this.pictures[1];
+  this.picture3 = this.pictures[2];
+  this.nComments = this.comments.length;
+},
   methods: {
+    
+    
     showMsgBoxTwo() {
       this.boxTwo = "";
       this.$bvModal
@@ -237,17 +251,6 @@ export default {
               checkActivities = snapshot.data().activitiesReserved;
               document = db.collection("activities").doc(activityIdentify);
               if (checkActivities == null) {
-                /* db.collection("user")
-                  .doc(user.uid)
-                  .update({
-                    activitiesReserved: firebase.firestore.FieldValue.arrayRemove(
-                      {
-                        id: "",
-                        name: "",
-                        reservationDate: ""
-                      }
-                    )
-                  });*/
                 document.update({
                   userClient: firebase.firestore.FieldValue.arrayRemove({
                     userId: "",
@@ -333,6 +336,19 @@ export default {
 #rating-inline{
   background-color: rgba(0, 0, 0, 0.003);
   padding-right: 50px;
-
 }
+div.commentsbox{
+  margin-top: 20px;
+  background-color: white;
+  width: 310px;
+  height: 210px;
+  overflow: auto;
+  
+}
+.carousel-inner .item{
+height:500px;
+background-size:cover;
+background-position: center center;
+}
+
 </style>

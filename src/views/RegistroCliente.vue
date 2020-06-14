@@ -108,6 +108,7 @@ export default {
       displayName: null,
       email: null,
       passTwo: null,
+      uid: null,
       error: null
     };
   },
@@ -116,7 +117,8 @@ export default {
       const info = {
         email: this.email,
         password: this.passOne,
-        displayName: this.displayName
+        displayName: this.displayName,
+        uid: this.uid
       };
       if (!this.error) {
         Firebase.auth()
