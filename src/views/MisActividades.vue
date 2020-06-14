@@ -1,4 +1,6 @@
+
     <template>
+
   <div>
     <div class="sidenav text-center">
       <h5 style=" margin-left:3%; margin-right:3%; margin-top:15%;">
@@ -44,7 +46,9 @@
               <br />
               <div class="text-center">
                 <b-button v-b-modal="item.modalId" variant="success">
+
                   <b-icon-person-check-fill></b-icon-person-check-fill> Reservas
+
                 </b-button>
               </div>
               <b-modal v-bind:id="item.modalId" centered size="md">
@@ -66,6 +70,7 @@
                     </router-link>
                   </div>
                 </div>
+
                 <template v-slot:modal-footer="{ cancel }">
                   <b-button variant="secondary" @click="cancel()">Ok</b-button>
                 </template>
@@ -80,7 +85,28 @@
                   <small>Publish date: {{ item.datePublish }}</small>
                 </i>
               </p>
-              <b-button variant="danger">Eliminar</b-button>
+
+              <form>
+                <b-button
+                  v-if="item.isShowed == true"
+                  variant="danger"
+                  type="submit"
+                  @click="cancelActivity(item.id, item.userCreator)"
+                >
+                  Eliminar
+                </b-button>
+              </form>
+              <form>
+                <b-button
+                  v-if="item.isShowed == false"
+                  variant="success"
+                  type="submit"
+                  @click="reactivateActivity(item.id)"
+                >
+                  reactivar
+                </b-button>
+              </form>
+
             </div>
           </div>
         </b-card>
@@ -94,6 +120,7 @@
         <b-card
           style=" margin-left:3%; margin-top: 2%; margin-right: 8%;border-color:  rgba(46, 124, 1, 0.5);"
           class="mb-3"
+
         >
           <div class="row">
             <div class="col-5" style="max-width: 20rem;">
@@ -151,6 +178,7 @@
         <b-card
           style=" margin-left:3%; margin-top: 2%; margin-right: 8%;border-block-color:  rgba(46, 124, 1, 0.5);"
           class="mb-3"
+
         >
           <div class="row">
             <div class="col-5" style="max-width: 20rem;">
@@ -167,6 +195,7 @@
                 <b-carousel-slide :img-src="item.picture3"></b-carousel-slide>
               </b-carousel>
               <br />
+
               <b-container id="commentInputBox">
                 <center style="color: green;">Did you take it? ¡Vote now!</center>
                 <span>
@@ -218,6 +247,7 @@
                     Publish date: {{ item.datePublish }} ||
                     Reservation date: {{ item.currentReservationDate }} /
                     2020 
+
                   </small>
                 </i>
               </p>
@@ -228,6 +258,7 @@
     </div>
   </div>
 </template>
+
   <script>
   
 import Firebase from "firebase";
@@ -251,6 +282,7 @@ export default {
       createdActivities: [],
       finishedActivities: [],
       numberOfReservations: 0,
+
       currentNumberOfReservations: 0,
       nClients: 0,
       flagButton:true,
@@ -259,59 +291,7 @@ export default {
       currentDate: cD,
     };
   },
-  methods:{
-    
-    comment(id,activityRate,nComments){
-      const h = this.$createElement
-      var user = Firebase.auth().currentUser;
-      if(user){
-        var commentA = db.collection("activities").doc(id)
-        
-        commentA.update({
-          comments: firebase.firestore.FieldValue.arrayUnion(
-          {
-            comment: this.newComment,
-            dateComment: this.currentDate,
-            rate: this.ratingClient,
-            userId: user.uid
-          })
-        }).then(()=>{
-          
-          this.$router.replace("perfilcliente");
-                  
-        });
 
-        activityRate = ((activityRate*(nComments)) + this.ratingClient) / (nComments + 1);
-        commentA.update({
-          activityRate: activityRate,
-        })
-        const vNodesMsg = h(
-          'p',
-          { class: ['text-center', 'mb-0'] },
-          [
-            h('b-spinner', { props: { type: 'grow', small: true } }),
-            ' The comment has been aproved,',
-            h('b-spinner', { props: { type: 'grow', small: true } })
-          ]
-        )
-        const vNodesTitle = h(
-          'div',
-          { class: ['d-flex', 'flex-grow-1', 'align-items-baseline', 'mr-2'] },
-          [
-            h('strong', { class: 'mr-2' }, 'Approved'),
-            h('small', { class: 'ml-auto text-italics' }, '1 second ago')
-          ]
-        )
-        this.$bvToast.toast([vNodesMsg], {
-          title: [vNodesTitle],
-          solid: true,
-          variant: 'success'
-        })
-        
-        
-      }
-    }, 
-  },
   mounted() {
     
     
@@ -365,6 +345,7 @@ export default {
                 .get()
                 .then(snapshot => {
                   var k = 0;
+
                   var show = true;
                   for(k = 0; k < snapshot.data().comments.length ; ++k){
                     if(snapshot.data().comments[k].userId == currentUser.uid ){
@@ -373,6 +354,7 @@ export default {
                     }
                     
                   }
+
                   for (k = 0; k < snapshot.data().userClient.length; k++) {
                     if (
                       snapshot.data().userClient[k].name ==
@@ -415,11 +397,14 @@ export default {
                   this.finishedActivities.push({
                     id: snapshot.id,
                     description: snapshot.data().description,
+
                     activityRate: snapshot.data().activityRate,
+
                     userCreatorName: snapshot.data().userCreatorName,
                     datePublish: formattedTime,
                     nameActivity: snapshot.data().activityName,
                     price: snapshot.data().price,
+
                     comments: snapshot.data().comments,
                     picture1: snapshot.data().pictures[0],
                     picture2: snapshot.data().pictures[1],
@@ -427,6 +412,7 @@ export default {
                     flagButton: show,
                     currentReservationDate: currentReservationDate.slice(0, 7)
                   });
+
 
                 });
             if (Date.now() < new Date(realDate).getTime())
@@ -475,7 +461,8 @@ export default {
                     ":" +
                     seconds.substr(-2);
                   this.reservedActivities.push({
-                    id: snapshot.data().id,
+
+                    id: snapshot.id
                     description: snapshot.data().description,
                     userCreatorName: snapshot.data().userCreatorName,
                     datePublish: formattedTime,
@@ -490,6 +477,7 @@ export default {
           }
           for (j = 0; j < snapshot.data().activitiesName.length; j++) {
             var createdActivityId = snapshot.data().activitiesName[j].id;
+
             db.collection("activities")
               .doc(createdActivityId)
               .get()
@@ -540,7 +528,9 @@ export default {
                 }
                 //console.log(activityReservations);
                 this.createdActivities.push({
-                  id: snapshot.data().id,
+
+                  id: snapshot.id,
+
                   description: snapshot.data().description,
                   userCreatorName: snapshot.data().userCreatorName,
                   datePublish: formattedTime,
@@ -550,16 +540,197 @@ export default {
                   picture2: snapshot.data().pictures[1],
                   picture3: snapshot.data().pictures[2],
                   activityReservationList: activityReservations,
-                  modalId: formattedTime
+                  modalId: formattedTime,
+                  isShowed: snapshot.data().isShowed
+
                 });
               });
           }
         });
     }
+
+  },
+  methods: {
+  
+      comment(id,activityRate,nComments){
+      const h = this.$createElement
+      var user = Firebase.auth().currentUser;
+      if(user){
+        var commentA = db.collection("activities").doc(id)
+        
+        commentA.update({
+          comments: firebase.firestore.FieldValue.arrayUnion(
+          {
+            comment: this.newComment,
+            dateComment: this.currentDate,
+            rate: this.ratingClient,
+            userId: user.uid
+          })
+        }).then(()=>{
+          
+          this.$router.replace("perfilcliente");
+                  
+        });
+
+        activityRate = ((activityRate*(nComments)) + this.ratingClient) / (nComments + 1);
+        commentA.update({
+          activityRate: activityRate,
+        })
+        const vNodesMsg = h(
+          'p',
+          { class: ['text-center', 'mb-0'] },
+          [
+            h('b-spinner', { props: { type: 'grow', small: true } }),
+            ' The comment has been aproved,',
+            h('b-spinner', { props: { type: 'grow', small: true } })
+          ]
+        )
+        const vNodesTitle = h(
+          'div',
+          { class: ['d-flex', 'flex-grow-1', 'align-items-baseline', 'mr-2'] },
+          [
+            h('strong', { class: 'mr-2' }, 'Approved'),
+            h('small', { class: 'ml-auto text-italics' }, '1 second ago')
+          ]
+        )
+        this.$bvToast.toast([vNodesMsg], {
+          title: [vNodesTitle],
+          solid: true,
+          variant: 'success'
+        })
+        
+        
+      }
+    }, 
+  
+    cancelActivity(id, userId) {
+      var user = Firebase.auth().currentUser;
+      if (user) {
+        console.log("Cancelar actividad con id: " + id);
+        console.log("userId: " + userId);
+        console.log("userCreatorName: " + this.userCreatorName);
+        db.collection("activities")
+          .doc(id)
+          .update({
+            isShowed: false
+          })
+          .then(function() {
+            console.log("El documento ha sido actualizado");
+          })
+          .catch(function(error) {
+            console.error("Error actualizando el documento: ", error);
+          });
+        db.collection("user")
+          .doc(userId)
+          .update({
+            notifications: Firebase.firestore.FieldValue.arrayUnion({
+              activityId: id,
+              otherUserId: user.uid,
+              otherUsername: this.userCreatorName,
+              activityName: this.nameActivity,
+              type: "cancelacionActividad"
+            })
+          })
+          .then(function() {
+            console.log("El documento ha sido actualizado");
+          });
+        db.collection("user")
+          .doc(user.uid)
+          .update({
+            notifications: Firebase.firestore.FieldValue.arrayUnion({
+              activityId: id,
+              otherUserId: userId,
+              otherUsername: this.userCreatorName,
+              activityName: this.nameActivity,
+              type: "cancelacionActividad"
+            })
+          })
+          .then(function() {
+            console.log("El documento ha sido actualizado");
+          });
+      }
+    },
+    reactivateActivity(id) {
+      var user = Firebase.auth().currentUser;
+      if (user) {
+        db.collection("activities")
+          .doc(id)
+          .update({
+            isShowed: true
+          })
+          .then(function() {
+            console.log("El documento ha sido actualizado");
+          })
+          .catch(function(error) {
+            console.error("Error actualizando el documento: ", error);
+          });
+      }
+    },
+    cancelReservation(id) {
+      var user = Firebase.auth().currentUser;
+      if (user) {
+        console.log("Desde user.uid: " + user.uid);
+        console.log(id);
+        let document;
+        let checkActivities;
+        let userName;
+        let reservationDate;
+        let activityName;
+        db.collection("activities")
+          .doc(id)
+          .get()
+          .then(snapshot => {
+            for (
+              let index = 0;
+              index < snapshot.data().userClient.length;
+              index++
+            ) {
+              if (user.uid == snapshot.data().userClient[index].userId) {
+                reservationDate = snapshot.data().userClient[index]
+                  .reservationDate;
+                activityName = snapshot.data().activityName;
+                console.log(reservationDate);
+              }
+            }
+          });
+        db.collection("user")
+          .doc(user.uid)
+          .get()
+          .then(snapshot => {
+            console.log("dentro del snap: " + id);
+            userName = snapshot.data().name;
+            console.log("nombre user " + userName);
+            console.log(reservationDate);
+            checkActivities = snapshot.data().activitiesReserved;
+            document = db.collection("activities").doc(id);
+            if (checkActivities != null) {
+              document.update({
+                userClient: Firebase.firestore.FieldValue.arrayRemove({
+                  userId: user.uid,
+                  name: userName,
+                  reservationDate: reservationDate
+                })
+              });
+              db.collection("user")
+                .doc(user.uid)
+                .update({
+                  activitiesReserved: Firebase.firestore.FieldValue.arrayRemove(
+                    {
+                      id: id,
+                      name: activityName,
+                      reservationDate: reservationDate
+                    }
+                  )
+                });
+            }
+          });
+      }
+    }
   }
 };
 </script>
-    <style lang="scss">
+<style lang="scss">
+
 html {
   scroll-behavior: smooth;
 }
@@ -579,6 +750,7 @@ html {
   padding: 8px 0;
   border-right: 5px solid green;
 }
+
 
 #commentInput {
   height: 150px;
@@ -618,4 +790,5 @@ div.commentsboxMyAct{
 .AlertText span{
   margin: auto;
 }
+
 </style>

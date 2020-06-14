@@ -190,6 +190,7 @@ export default {
     const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
     // 15th two months prior
     const minDate = new Date(today);
+    console.log("TEST");
     return {
       activityName: null,
       activityType: null,
@@ -255,7 +256,9 @@ export default {
               actPrice = parseInt(info.activityPrice);
             } catch (error) {
               console.log(error);
+
             }            
+
 
             document.set({
               datePublish: new Date(),
@@ -304,11 +307,13 @@ export default {
       this.selectedFile = event.target.files[0];
     },
     addFile: function() {
+
       
       if (this.images.length < 3) {
         this.images.push(this.selectedFile);
         console.log(this.images);
       }else{
+
         this.images = this.images.slice(1, 2);
         this.images.push(this.selectedFile);
         console.log(this.images);
@@ -317,6 +322,7 @@ export default {
       this.imagesLen++;
 
       var preview = null;
+
         if ( this.imagesLen % 3 == 1) {
           preview = document.getElementById("image1").querySelector("img");
         } else if ( this.imagesLen % 3 == 2) {
@@ -341,6 +347,7 @@ export default {
         if (file) {
           reader.readAsDataURL(file);
         }
+
 
       console.log(this.images.length);
     },
@@ -430,9 +437,11 @@ export default {
   border-radius: 50%;
 }
 
+
 #carouselCrateA{
   width: 400px;
   height: 250px;
+
 }
 
 
