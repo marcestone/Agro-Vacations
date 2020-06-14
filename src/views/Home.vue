@@ -1,12 +1,9 @@
 <template>
-
   <div class="wrapper">
     <b-carousel
       id="carousel-1"
-      v-model="slide"
       :interval="4000"
       controls
-      indicators
       background="#ababab"
       img-width="1349"
       img-height="500"
@@ -14,37 +11,49 @@
     >
       <b-carousel-slide id="p1" img-src="../assets/bc8.jpg">
         <div class="a">
-            FIND THE PERFECT <br>RURAL ACTIVITIES<br> FOR YOU
+          FIND THE PERFECT
+          <br />RURAL ACTIVITIES <br />FOR YOU
         </div>
       </b-carousel-slide>
       <b-carousel-slide id="p2" img-src="../assets/bc7.jpg">
-        <div class="b">
-          TO WHOM YOU APPRECIATE
-        </div>
+        <div class="b">TO WHOM YOU APPRECIATE</div>
       </b-carousel-slide>
       <b-carousel-slide id="p3" img-src="../assets/bc10.jpg">
-        <div class="c">
-          NEW EXPERIENCES <br>IN NEW PLACES
-        </div>
+        <div class="c"><br />NEW EXPERIENCES <br />IN NEW PLACES</div>
       </b-carousel-slide>
-
     </b-carousel>
-    <!--<b-img src="../assets/background1.png" width="1349%" height="678" aling="top"></b-img>-->
-   <!-- <img id="myimg"/>-->
+
     <div class="box" id="boxHome">
       <b-form inline>
         <b-input
           id="InputSearchA"
           class="w-25 p-3 mb-1 h-100 d-inline-block"
-          placeholder=" ✈ Search activity or destination"
+          placeholder=" ✈ Buscar por título"
+          v-model="keyWordFilter"
+        ></b-input>
+
+        <b-input
+          id="InputGuests"
+          class="w-20 p-3 mb-1 h-100 d-inline-block"
+          placeholder="📍Ubicación"
+          v-model="locationFilter"
+        ></b-input>
+
+        <b-input
+          id="InputGuests"
+
+           class="w-20 p-3 mb-1 h-100 d-inline-block"
+          placeholder="✇ Tipo"
+
+          v-model="typeFilter"
         ></b-input>
 
         <b-form-datepicker
           id="ArriveDatePicker"
-          v-model="valueA"
+          v-model="dateFilter"
           :min="min"
           size="lg"
-          placeholder="Arrive"
+          placeholder="Fecha"
           :date-format-options="{
             year: 'numeric',
             month: 'numeric',
@@ -53,7 +62,7 @@
           locale="en"
         ></b-form-datepicker>
 
-        <b-form-datepicker
+        <!--  <b-form-datepicker
           id="DepartDatePicker"
           v-model="valueD"
           :min="min"
@@ -65,21 +74,120 @@
             day: 'numeric'
           }"
           locale="en"
-        ></b-form-datepicker>
+        ></b-form-datepicker>-->
 
-        <b-input
+        <!-- <b-input
           id="InputGuests"
           class="w-sm p-3 mb-1 h-100 d-inline-block"
           placeholder="👥 Guests"
-        ></b-input>
+        ></b-input>-->
 
-        <b-button id="SearchBtn" variant="success" style="float: right;">
-          <b-icon icon="search"></b-icon>Search
+        <b-button
+          id="SearchBtn"
+          variant="success"
+          style="float: right;"
+          v-on:click="search"
+        >
+          <b-icon icon="search"></b-icon>Buscar
         </b-button>
       </b-form>
     </div>
+
+    <b-container id="containerimages">
+      
+      <b-row id="rowImages">
+        <ImageFilter picture="https://i.ibb.co/2Nt5kYT/Ecological.png" type="Ecological"></ImageFilter>
+        <ImageFilter picture="https://i.ibb.co/6m48CJT/Extreme.png" type="Extreme"></ImageFilter>
+        <ImageFilter picture="https://i.ibb.co/W3FNM1B/Cultural.png" type="Cultural"></ImageFilter>
+        <ImageFilter picture="https://i.ibb.co/LRPfYzx/Familiar.png" type="Familiar"></ImageFilter>
+      </b-row>
+
+    </b-container>
+
     <div class="box" id="boxFilters">
-      <h3 align="center">-------------------- Filtros --------------------</h3>
+      <!-- <h3 align="center">-------------------- Filtros --------------------</h3>-->
+
+      <b-form inline style="margin-top:1%; margin-bottom:1%;">
+        <!-- <b-input
+          id="InputSearchA"
+          class="w-25 p-3 mb-1 h-100 d-inline-block"
+          placeholder=" ✈ Search activity or destination"
+          v-model="keyWordFilter"
+        ></b-input>-->
+
+        <!--   <b-form-datepicker
+          id="ArriveDatePicker"
+          v-model="dateFilter"
+          :min="min"
+          size="lg"
+          placeholder="Arrive"
+          :date-format-options="{
+            year: 'numeric',
+            month: 'numeric',
+            day: 'numeric'
+          }"
+          locale="en"
+        ></b-form-datepicker>-->
+
+        <h4 style="margin-left: 4%; margin-right: 2%;  color: green;">
+          <strong>Precio:</strong>
+        </h4>
+        <select v-model="priceFilter">
+          <option disabled selected>Precio</option>
+          <option value="0">Cualquiera</option>
+          <option value="100000">$0 - $100.000</option>
+          <option value="200000">$100.000 - $200.000</option>
+          <option value="300000">$200.000 - $300.000</option>
+          <option value="400000">$300.000 - $400.000</option>
+          <option value="500000">$400.000 - $500.000</option>
+          <option value="600001">más de 500.000</option>
+        </select>
+
+        <!-- <b-input
+          id="InputGuests"
+          class="w-sm p-3 mb-1 h-100 d-inline-block"
+          placeholder="👥 Local"
+          v-model="locationFilter"
+        ></b-input>-->
+
+        <!--   <b-input
+          id="InputType"
+          class="w-sm p-3 mb-1 h-100 d-inline-block"
+          placeholder="Tipo"
+          v-model="typeFilter"
+        ></b-input>-->
+
+        <h4 style="margin-left: 2%; margin-right: 2%;  color: green;">
+          <strong>Transporte:</strong>
+        </h4>
+        <select v-model="transportFilter">
+          <option disabled selected>Transporte</option>
+          <option value="-1">Cualquiera</option>
+          <option value="Yes">Si</option>
+          <option value="No">No</option>
+        </select>
+
+        <b-input
+          style="margin-left: 2%; margin-right: 2%;"
+
+          id="RatingStart"  
+          placeholder="☆ Calificación minima ☆"
+
+          v-model="ratingFilterStart"
+        ></b-input>
+
+        <b-input
+          id="RatingEnd"
+          placeholder="★ Calificación máxima ★"
+          v-model="ratingFilterEnd"
+        ></b-input>
+
+
+        <b-button  variant="success" style="margin-left: 2%;" v-on:click="search">
+          <b-icon icon="search"></b-icon> Añadir filtro
+
+        </b-button>
+      </b-form>
     </div>
     <b-container id="ContainerActivities">
       <b-row align-v="center" align-h="start">
@@ -97,6 +205,9 @@
           :prize="activity.prize"
           :rating="activity.rating"
           :pictures="activity.pictures"
+          :comments="activity.comments"
+          :userClient="activity.userClient"
+          :currentDate="currentDate"
         ></Activity>
       </b-row>
       <b-pagination
@@ -112,15 +223,104 @@
         @input="paginate(currentPage)"
       ></b-pagination>
     </b-container>
-    <div class="flex-rectangle"></div>
+
+    <b-container fluid id="footerweb">
+      <b-row>
+        <div class="imageFooter">
+          <b-col>
+            <b-img src="../assets/BannerBB.png"></b-img>
+          </b-col>
+        </div>
+      </b-row>
+      <b-row>
+        <div class="descriptionFooter">
+          <b-col>
+            Plan, Search and find perfect activities for you and yours
+            <br />in the best locations, Agrovacations allows you to
+            <br />publish your activities and contact those who wish take them
+            Live a new experience, <br />meet and receive an extra income.
+          </b-col>
+        </div>
+        <b-col>
+          <ul class="listF">
+            <li>
+              <router-link to="/perfilcliente" style="color: white;">
+                Profile
+              </router-link>
+            </li>
+            <li>
+              <router-link to="/home" style="color: white;">
+                Activities
+              </router-link>
+            </li>
+            <li>
+              <router-link to="/logincliente" style="color: white;"
+                >Log in</router-link
+              >
+            </li>
+            <li>
+              <router-link to="/registrocliente" style="color: white;"
+                >Sign in</router-link
+              >
+            </li>
+          </ul>
+        </b-col>
+        <b-col>
+          <div class="aList">
+            Extreme
+            <br />Ecological <br />Cultural <br />Familiar <br />Events
+            <br />Rural <br />Lodging
+            <br />
+          </div>
+        </b-col>
+        <b-col>
+          <b-button id="footerButton" to="/registrocliente" v-if="!client">
+            Publish Now
+          </b-button>
+          <b-button id="footerButton" to="/crearactividad" v-if="client">
+            Publish Now
+          </b-button>
+        </b-col>
+      </b-row>
+      <hr class="lineFooter" />
+
+      <div class="icons">
+        <span>
+          <b-img
+            src="../assets/facebook.png"
+            width="50%"
+            height="auto"
+            style="margin-right: 23px;"
+          ></b-img>
+          <b-img
+            src="../assets/twitter.png"
+            width="50%"
+            height="auto"
+            style="margin-right: 23px;"
+          ></b-img>
+          <b-img
+            src="../assets/youtube.png"
+            width="50%"
+            height="auto"
+            style="margin-right: 23px;"
+          ></b-img>
+          <b-img
+            src="../assets/linkedin.png"
+            width="50%"
+            height="auto"
+            style="margin-right: 23px;"
+          ></b-img>
+        </span>
+      </div>
+    </b-container>
   </div>
-  
 </template>
 
 <script>
 import db from "../db.js";
 //import firebase from "firebase";
 import Activity from "@/components/Activity.vue";
+import ImageFilter from "@/components/ImageFilter.vue";
 export default {
   name: "Home",
   props: ["client", "activities"],
@@ -148,42 +348,26 @@ export default {
           "12"
         ];
         var month = months[date.getMonth()];
-        //var minutes = "0" + date.getMinutes();
-        //var seconds = "0" + date.getSeconds();
         var formattedTime = "2020" + "-" + month + "-" + day;
-        //let unix_timestamp1 = doc.data().dataStart;
-        //var date1 = new Date(unix_timestamp1 * 1000);
-        //var hours = date.getHours();
-        //var day1 = date1.getDate();
-        //var month1 = months[date1.getMonth()];
-        //var minutes = "0" + date.getMinutes();
-        //var seconds = "0" + date.getSeconds();
-        //var formattedTime1 = "2020" + "-" + "05" + "-" + "03";
 
-        //let unix_timestamp2 = doc.data().dataEnd;
-        //var date2 = new Date(unix_timestamp2 * 1000);
-        //var hours = date.getHours();
-        //var day2 = date2.getDate();
-        //ar month2 = months[date2.getMonth()];
-        //var minutes = "0" + date.getMinutes();
-        //var seconds = "0" + date.getSeconds();
-        //var formattedTime2 = "2020" + "-" + month2 + "-" + day2;
+        if (doc.data().isShowed == true) {
+          snapData.push({
+            id: doc.id,
+            description: doc.data().description,
+            userCreator: doc.data().userCreator,
+            userCreatorName: doc.data().userCreatorName,
+            datePublish: formattedTime,
+            dataStart: doc.data().dataStart,
+            dataEnd: doc.data().dataEnd,
+            nameActivity: doc.data().activityName,
+            prize: doc.data().price,
+            rating: doc.data().activityRate,
+            pictures: doc.data().pictures,
+            comments: doc.data().comments,
+            userClient: doc.data().userClient
+          });
+        }
 
-        
-        //console.log(formattedTime2);
-        snapData.push({
-          id: doc.id,
-          description: doc.data().description,
-          userCreator: doc.data().userCreator,
-          userCreatorName: doc.data().userCreatorName,
-          datePublish: formattedTime,
-          dataStart: doc.data().dataStart,
-          dataEnd: doc.data().dataEnd,
-          nameActivity: doc.data().activityName,
-          prize: doc.data().price,
-          rating: doc.data().activityRate,
-          pictures: doc.data().pictures
-        });
       });
       this.activitiesD = snapData;
       this.rows = this.activitiesD.length;
@@ -193,11 +377,16 @@ export default {
   },
   data() {
     const now = new Date();
+    const dd = String(now.getDate()).padStart(2, '0');
+    const mm = String(now.getMonth() + 1).padStart(2, '0'); //January is 0!
+    const yyyy = now.getFullYear();
+    const cD = mm + '/' + dd + '/' + yyyy;
     const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
     // 15th two months prior
     const minDate = new Date(today);
     minDate.setMonth(minDate.getMonth());
-    minDate.setDate(minDate.getDay() + 5);
+    //minDate.setDate(minDate.getDay() + 5);
+    minDate.setDate(minDate.getDay());
 
     return {
       activityD: [],
@@ -205,25 +394,176 @@ export default {
       currentPage: 1,
       rows: 1,
       perPage: 12,
+      
       valueA: "",
       valueD: "",
-      min: minDate
+
+      min: minDate,
+      currentDate: cD,
+
+      priceFilter: "",
+      locationFilter: "",
+      keyWordFilter: "",
+      dateFilter: "",
+
+      typeFilter: "",
+      transportFilter: "",
+      ratingFilterStart: "",
+      ratingFilterEnd: ""
     };
   },
   methods: {
     paginate(currentPage) {
       const start = (currentPage - 1) * this.perPage;
       this.displayActivities = this.activitiesD.slice(start, start + 12);
+    },
+    search() {
+      db.collection("activities").onSnapshot(snapshot => {
+        const snapData = [];
+        snapshot.forEach(doc => {
+          console.log(doc.data().activityLocation);
+          if (
+            (this.keyWordFilter == "" ||
+              (this.keyWordFilter != "" &&
+                doc
+                  .data()
+                  .activityName.toLowerCase()
+                  .includes(this.keyWordFilter.toLowerCase()))) &&
+            (this.dateFilter == "" ||
+              (this.dateFilter != "" &&
+                Math.round(new Date(this.dateFilter).getTime() / 1000) >=
+                  Math.round(new Date(doc.data().dataStart).getTime() / 1000) &&
+                Math.round(new Date(this.dateFilter).getTime() / 1000) <=
+                  Math.round(new Date(doc.data().dataEnd).getTime() / 1000))) &&
+            (this.priceFilter == "" ||
+              (this.priceFilter != "" &&
+                (parseInt(this.priceFilter, 10) == 0 ||
+                  (parseInt(this.priceFilter, 10) != 600001 &&
+                    doc.data().price <= parseInt(this.priceFilter, 10) &&
+                    doc.data().price >=
+                      parseInt(this.priceFilter, 10) - 100000) ||
+                  (parseInt(this.priceFilter, 10) == 600001 &&
+                    parseInt(this.priceFilter, 10) <= doc.data().price)))) &&
+            (this.locationFilter == "" ||
+              (this.locationFilter != "" &&
+                doc
+                  .data()
+                  .activityLocation.toLowerCase()
+                  .includes(this.locationFilter.toLowerCase()))) &&
+            (this.typeFilter == "" ||
+              (this.typeFilter != "" &&
+                doc
+                  .data()
+                  .activityType.toLowerCase()
+                  .localeCompare(this.typeFilter.toLowerCase()) == 0)) &&
+            (this.transportFilter == "" ||
+              (this.transportFilter != "" &&
+                ((this.transportFilter != -1 &&
+                  doc
+                    .data()
+                    .activityTransport.toLowerCase()
+                    .localeCompare(this.transportFilter.toLowerCase()) == 0) ||
+                  this.transportFilter == -1))) &&
+            ((this.ratingFilterStart == "" && this.ratingFilterEnd == "") ||
+              (this.ratingFilterStart == "" &&
+                this.ratingFilterEnd != "" &&
+                doc.data().activityRate <= parseInt(this.ratingFilterEnd, 0)) ||
+              (this.ratingFilterStart != "" &&
+                ((this.ratingFilterEnd == "" &&
+                  parseInt(this.ratingFilterStart, 0) <=
+                    doc.data().activityRate) ||
+                  (this.ratingFilterEnd != "" &&
+                    parseInt(this.ratingFilterStart, 0) <=
+                      doc.data().activityRate &&
+                    doc.data().activityRate <=
+                      parseInt(this.ratingFilterEnd, 0)))))
+          ) {
+            //console.log("TEEEEEEEESTTTTTTTTT")
+            let unix_timestamp = doc.data().datePublish;
+            var date = new Date(unix_timestamp * 1000);
+            var day = date.getDate();
+            var months = [
+              "01",
+              "02",
+              "03",
+              "04",
+              "05",
+              "06",
+              "07",
+              "08",
+              "09",
+              "10",
+              "11",
+              "12"
+            ];
+            var month = months[date.getMonth()];
+            var formattedTime = "2020" + "-" + month + "-" + day;
+
+
+            snapData.push({
+              id: doc.id,
+              description: doc.data().description,
+              userCreator: doc.data().userCreator,
+              userCreatorName: doc.data().userCreatorName,
+              datePublish: formattedTime,
+              dataStart: doc.data().dataStart,
+              dataEnd: doc.data().dataEnd,
+              nameActivity: doc.data().activityName,
+              prize: doc.data().price,
+              rating: doc.data().activityRate,
+              pictures: doc.data().pictures,
+
+            });
+
+            if (doc.data().isShowed == true) {
+              snapData.push({
+                id: doc.id,
+                description: doc.data().description,
+                userCreator: doc.data().userCreator,
+                userCreatorName: doc.data().userCreatorName,
+                datePublish: formattedTime,
+                dataStart: doc.data().dataStart,
+                dataEnd: doc.data().dataEnd,
+                nameActivity: doc.data().activityName,
+                prize: doc.data().price,
+                rating: doc.data().activityRate,
+                pictures: doc.data().pictures,
+                comments: doc.data().comments,
+                userClient: doc.data().userClient
+              });
+            }
+
+          }
+        });
+        console.log(snapData.length);
+        this.activitiesD = snapData;
+        this.rows = this.activitiesD.length;
+        this.displayActivities = this.activitiesD.slice(0, 12);
+        this.paginate(this.currentPage);
+      });
     }
-    
   },
   components: {
-    Activity
+    Activity,
+    ImageFilter
   }
 };
 </script>
 
 <style lang="scss">
+#footerButton {
+  background-color: #725922;
+  height: 60px;
+  width: 250px;
+  font-size: 20px;
+  margin-right: 100px;
+  margin-left: 80px;
+  display: inline-block;
+  border-color: #755f2e;
+  border-radius: 10px;
+  line-height: 40px;
+}
+
 #InputSearchA {
   width: 320px !important;
   margin-top: 17px;
@@ -245,11 +585,11 @@ export default {
   width: 115px;
 }
 #SearchBtn {
-  height: 40px;
-  width: 100px;
+  height: 60px;
+  width: 140px;
   border-radius: 35px;
   margin-top: 13px;
-  margin-left: 15px;
+  margin-left: 20px;
 }
 
 .wrapper {
@@ -268,8 +608,8 @@ export default {
 }
 #boxFilters {
   margin-top: 50px;
-  width: 1349px;
-  height: 40px;
+  //width: 1349px;
+  //height: 40px;
   border-radius: 1px;
   border: 2px solid #47803e;
   border-left: transparent;
@@ -282,12 +622,33 @@ export default {
 #InputSearchA {
   border-color: #e2e2e2 !important;
 }
-#p1,#p2,#p3 {
-    width: 1349px !important;
-    height: 590px !important;
-    border-radius: 1px ;
+#p1,
+#p2,
+#p3 {
+  width: 1349px !important;
+  height: 590px !important;
+  border-radius: 1px;
 }
-
+hr.lineFooter {
+  margin-top: 60px;
+  border: 1px solid white;
+}
+ul.listF {
+  color: #fff;
+  font-family: "Aileron";
+  font-size: 18pt;
+  font-weight: 100;
+  text-align: left;
+  line-height: normal;
+}
+div.aList {
+  color: #fff;
+  font-family: "Aileron";
+  font-size: 14pt;
+  color: white;
+  font-weight: 100;
+  text-align: left;
+}
 div.a {
   text-align: left;
   margin-bottom: 250px;
@@ -312,14 +673,58 @@ div.c {
   font-size: 60px;
   text-shadow: 1px 2px 1px rgb(0, 0, 0);
 }
-.flex-rectangle{
-    width: 100%;
-    background: #47803e;
-    margin-top: 50px;
+
+div.descriptionFooter {
+  font-family: "Aileron";
+  font-size: 16pt;
+  color: white;
+  font-weight: 100;
+  text-align: center;
+  margin-top: 30px;
+  margin-left: 10px;
+  line-height: normal;
 }
-.flex-rectangle:before{
-    content: "";
-    display: block;
-    padding-top: 20%;
+div.imageFooter {
+  margin-left: 50px;
+  margin-top: 50px;
 }
+
+.flex-rectangle {
+  width: 100%;
+  background: #47803e;
+  margin-top: 50px;
+}
+.flex-rectangle:before {
+  content: "";
+  display: block;
+  padding-top: 15%;
+}
+#footerweb {
+  background-image: url("../assets/Footer.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  width: 100%;
+  height: 460px;
+  margin-top: 50px;
+}
+div.icons {
+  text-align: center;
+}
+.carousel-caption {
+  width: 1000px;
+  height: 300px;
+  margin-bottom: 220px;
+}
+
+#containerimages{
+  width: 80%;
+  height: 350px;
+  background-color: #eeeeee;
+  margin-top: -30px;
+  box-shadow: 0px 3px 5px  #ccc;
+  border-radius: 5px;
+}
+
+
 </style>

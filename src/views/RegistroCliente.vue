@@ -108,6 +108,7 @@ export default {
       displayName: null,
       email: null,
       passTwo: null,
+      uid: null,
       error: null
     };
   },
@@ -116,7 +117,8 @@ export default {
       const info = {
         email: this.email,
         password: this.passOne,
-        displayName: this.displayName
+        displayName: this.displayName,
+        uid: this.uid
       };
       if (!this.error) {
         Firebase.auth()
@@ -140,7 +142,7 @@ export default {
 
         Firebase.auth().onAuthStateChanged(user => {
           if (user) {
-            if(user.email == info.email){
+            if (user.email == info.email) {
               var UID = user.uid;
               db.collection("user")
                 .doc(UID)
@@ -155,15 +157,15 @@ export default {
                   uid: UID,
                   phone: "000",
                   address: "User address",
-                  pictures: "https://firebasestorage.googleapis.com/v0/b/agrovacations-c213d.appspot.com/o/profile%2FDefaultprofileimage.png?alt=media&token=f5a1ab31-7474-47eb-83ba-5488ca711b35"
+                  pictures:
+                    "https://firebasestorage.googleapis.com/v0/b/agrovacations-c213d.appspot.com/o/profile%2FDefaultprofileimage.png?alt=media&token=f5a1ab31-7474-47eb-83ba-5488ca711b35",
+                  notifications: []
                 });
             }
           }
         });
-
       }
     }
-
   },
   watch: {
     passTwo: function() {
