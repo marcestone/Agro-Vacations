@@ -462,7 +462,7 @@ export default {
                     seconds.substr(-2);
                   this.reservedActivities.push({
 
-                    id: snapshot.id
+                    id: snapshot.id,
                     description: snapshot.data().description,
                     userCreatorName: snapshot.data().userCreatorName,
                     datePublish: formattedTime,

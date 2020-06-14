@@ -362,7 +362,7 @@ export default {
             nameActivity: doc.data().activityName,
             prize: doc.data().price,
             rating: doc.data().activityRate,
-            pictures: doc.data().pictures
+            pictures: doc.data().pictures,
             comments: doc.data().comments,
             userClient: doc.data().userClient
           });
@@ -527,7 +527,7 @@ export default {
                 nameActivity: doc.data().activityName,
                 prize: doc.data().price,
                 rating: doc.data().activityRate,
-                pictures: doc.data().pictures
+                pictures: doc.data().pictures,
                 comments: doc.data().comments,
                 userClient: doc.data().userClient
               });
