@@ -18,6 +18,7 @@ export default {
   name: "app",
   data: function() {
     return {
+      clienid:"",
       client: null,
       activities: []
     };

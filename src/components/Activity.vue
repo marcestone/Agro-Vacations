@@ -29,8 +29,10 @@ dias que ya estan ocupados */
           variant="warning"
           no-border
           size="sm"
-        ></b-form-rating>10
-        <b-icon icon="chat-dots"></b-icon>
+
+        ></b-form-rating>
+        {{nComments}}
+         <b-icon icon="chat-dots"></b-icon>
       </template>
       <a href="javascript:void(0)" class="stretched-link" v-b-modal="activityKey"></a>
       <b-modal v-bind:id="activityKey" centered size="lg">
@@ -38,6 +40,10 @@ dias que ya estan ocupados */
           <h3>
             <strong>{{ nameActivity }}</strong>
           </h3>
+
+          <h3  style="color: green;"><strong> {{rating}}</strong> <b-icon icon="star-fill"></b-icon></h3>
+
+
         </template>
         <div class="modal-body">
           <div class="row">
@@ -47,28 +53,32 @@ dias que ya estan ocupados */
                 style="text-shadow: 0px 0px 2px #000"
                 fade
                 indicators
-                img-width="600"
-                img-height="500"
+
+                img-width="600" 
+                img-height="400" 
               >
-                <b-carousel-slide :img-src="picture1"></b-carousel-slide>
+                <b-carousel-slide :img-src="picture1" ></b-carousel-slide>
+
                 <b-carousel-slide :img-src="picture2"></b-carousel-slide>
                 <b-carousel-slide :img-src="picture3"></b-carousel-slide>
               </b-carousel>
               <br />
-              <center style="color: green;">Did you take it? ¡Vote now!</center>
-              <span>
-                <b-form-rating v-model="ratingClient" variant="success" class="mb-2"></b-form-rating>
-              </span>
+              <div class="commentsbox" >
+                <Comments 
+                  v-for="commentary in comments"
+                  :key="commentary.userId"
+                  :userId="commentary.userId" 
+                  :comment="commentary.comment"
+                  :dateComment="commentary.dateComment"
+                  :rate="commentary.rate"
+                ></Comments>
+              </div>
             </div>
             <div class="col-7">
               <p style="text-align:justify">{{ description }}</p>
-              <strong style="color: green;">$ {{ prize }}</strong>
-              <br />
-              <!--<b-button variant="link" id="ButtonHost"  href="#" :to="'/perfilcliente/'+ userCreator">
-                <i>
-                  <small>Host: {{ userCreatorName }}</small>
-                </i>
-              </b-button>-->
+
+              <strong style="color: green;">$ {{ prize }}</strong><br>
+
               <router-link :to="'/perfilmiembros/' + userCreator">
                 <i>
                   <small>Host: {{ userCreatorName }}</small>
@@ -86,8 +96,6 @@ dias que ya estan ocupados */
                 :min="dataStart"
                 :max="dataEnd"
                 placeholder="Choose reservation date"
-                :disabledDate="dateSelected"
-                :key="dateSelected.length"
                 :date-format-options="{
                   year: 'numeric',
                   month: 'numeric',
@@ -103,7 +111,7 @@ dias que ya estan ocupados */
 
           <form @submit.prevent="reserve">
             <b-button variant="primary" type="submit" @click="showMsgBoxTwo">
-              <b-icon icon="briefcase" type></b-icon>Reserve
+              <b-icon icon="briefcase" type></b-icon> Reserve
             </b-button>
           </form>
         </template>
@@ -114,6 +122,7 @@ dias que ya estan ocupados */
 
 <script>
 import * as firebase from "firebase/app";
+import Comments from "@/components/Comments.vue";
 import Firebase from "firebase";
 import db from "../db.js";
 import Vue from "vue";
@@ -121,6 +130,9 @@ import { BootstrapVue } from "bootstrap-vue";
 Vue.use(BootstrapVue);
 
 export default {
+  components: {
+    Comments
+  },
   name: "activity",
   props: [
     "client",
@@ -134,15 +146,20 @@ export default {
     "prize",
     "activityKey",
     "rating",
-    "pictures"
+
+    "pictures",
+    "comments",
+    "currentDate",
+    "userClient"
   ],
   data() {
     return {
-      picture1: "",
-      picture2: "",
-      picture3: "",
+      
+      nComments:0,
+      picture1: "", picture2: "", picture3: "",
+
       hostClient: null,
-      ratingClient: 1,
+      ratingClient: 0,
       boxTwo: "",
       ReservationValue: null,
       show: false,
@@ -160,57 +177,16 @@ export default {
       headerTextVariant: "light",
       min: null,
       max: null,
-      dateSelected: []
     };
   },
-  mounted() {
-    this.picture1 = this.pictures[0];
-    this.picture2 = this.pictures[1];
-    this.picture3 = this.pictures[2];
-    this.dateDisabled();
-  },
+
+mounted(){
+  this.picture1 = this.pictures[0];
+  this.picture2 = this.pictures[1];
+  this.picture3 = this.pictures[2];
+  this.nComments = this.comments.length;
+},
   methods: {
-    dateDisabled() {
-      var date = [];
-      db.collection("activities")
-        .doc(this.activityKey)
-        .get()
-        .then(snapshot => {
-          for (
-            let index = 0;
-            index < snapshot.data().userClient.length;
-            index++
-          ) {
-            var reservationDate = snapshot.data().userClient[index]
-              .reservationDate;
-            var realMonth;
-            var realDate;
-            if (reservationDate.slice(0, 3) == "Jan") realMonth = "01";
-            if (reservationDate.slice(0, 3) == "Feb") realMonth = "02";
-            if (reservationDate.slice(0, 3) == "Mar") realMonth = "03";
-            if (reservationDate.slice(0, 3) == "Apr") realMonth = "04";
-            if (reservationDate.slice(0, 3) == "May") realMonth = "05";
-            if (reservationDate.slice(0, 3) == "Jun") realMonth = "06";
-            if (reservationDate.slice(0, 3) == "Jul") realMonth = "07";
-            if (reservationDate.slice(0, 3) == "Aug") realMonth = "08";
-            if (reservationDate.slice(0, 3) == "Sep") realMonth = "09";
-            if (reservationDate.slice(0, 3) == "Oct") realMonth = "10";
-            if (reservationDate.slice(0, 3) == "Nov") realMonth = "11";
-            if (reservationDate.slice(0, 3) == "Dec") realMonth = "12";
-            if (
-              Number(reservationDate.slice(4, 5)) <= 9 &&
-              reservationDate.slice(5, 6) == " "
-            )
-              realDate =
-                "2020-" + realMonth + "-0" + reservationDate.slice(4, 5);
-            else
-              realDate =
-                "2020-" + realMonth + "-" + reservationDate.slice(4, 6);
-            date[index] = realDate;
-            this.dateSelected[index] = ["2020-06-04", "2020-06-05"];
-          }
-        });
-    },
     showMsgBoxTwo() {
       this.boxTwo = "";
       this.$bvModal
@@ -285,17 +261,6 @@ export default {
               checkActivities = snapshot.data().activitiesReserved;
               document = db.collection("activities").doc(activityIdentify);
               if (checkActivities == null) {
-                /* db.collection("user")
-                  .doc(user.uid)
-                  .update({
-                    activitiesReserved: firebase.firestore.FieldValue.arrayRemove(
-                      {
-                        id: "",
-                        name: "",
-                        reservationDate: ""
-                      }
-                    )
-                  });*/
                 document.update({
                   userClient: firebase.firestore.FieldValue.arrayRemove({
                     userId: "",
@@ -402,4 +367,20 @@ export default {
   background-color: rgba(0, 0, 0, 0.003);
   padding-right: 50px;
 }
+
+div.commentsbox{
+  margin-top: 20px;
+  background-color: white;
+  width: 310px;
+  height: 210px;
+  overflow: auto;
+  
+}
+.carousel-inner .item{
+height:500px;
+background-size:cover;
+background-position: center center;
+}
+
 </style>
+

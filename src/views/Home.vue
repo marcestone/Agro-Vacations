@@ -4,7 +4,6 @@
       id="carousel-1"
       :interval="4000"
       controls
-      indicators
       background="#ababab"
       img-width="1349"
       img-height="500"
@@ -36,14 +35,16 @@
         <b-input
           id="InputGuests"
           class="w-20 p-3 mb-1 h-100 d-inline-block"
-          placeholder="Ubicación"
+          placeholder="📍Ubicación"
           v-model="locationFilter"
         ></b-input>
 
         <b-input
           id="InputGuests"
-          class="w-20 p-3 mb-1 h-100 d-inline-block"
-          placeholder="Tipo"
+
+           class="w-20 p-3 mb-1 h-100 d-inline-block"
+          placeholder="✇ Tipo"
+
           v-model="typeFilter"
         ></b-input>
 
@@ -91,6 +92,17 @@
         </b-button>
       </b-form>
     </div>
+
+    <b-container id="containerimages">
+      
+      <b-row id="rowImages">
+        <ImageFilter picture="https://i.ibb.co/2Nt5kYT/Ecological.png" type="Ecological"></ImageFilter>
+        <ImageFilter picture="https://i.ibb.co/6m48CJT/Extreme.png" type="Extreme"></ImageFilter>
+        <ImageFilter picture="https://i.ibb.co/W3FNM1B/Cultural.png" type="Cultural"></ImageFilter>
+        <ImageFilter picture="https://i.ibb.co/LRPfYzx/Familiar.png" type="Familiar"></ImageFilter>
+      </b-row>
+
+    </b-container>
 
     <div class="box" id="boxFilters">
       <!-- <h3 align="center">-------------------- Filtros --------------------</h3>-->
@@ -157,23 +169,23 @@
 
         <b-input
           style="margin-left: 2%; margin-right: 2%;"
-          id="RatingStart"
-          placeholder="Calificación minima"
+
+          id="RatingStart"  
+          placeholder="☆ Calificación minima ☆"
+
           v-model="ratingFilterStart"
         ></b-input>
 
         <b-input
           id="RatingEnd"
-          placeholder="Calificación máxima"
+          placeholder="★ Calificación máxima ★"
           v-model="ratingFilterEnd"
         ></b-input>
 
-        <b-button
-          variant="success"
-          style="margin-left: 2%;"
-          v-on:click="search"
-        >
-          <b-icon icon="search"></b-icon>Añadir filtro
+
+        <b-button  variant="success" style="margin-left: 2%;" v-on:click="search">
+          <b-icon icon="search"></b-icon> Añadir filtro
+
         </b-button>
       </b-form>
     </div>
@@ -193,6 +205,9 @@
           :prize="activity.prize"
           :rating="activity.rating"
           :pictures="activity.pictures"
+          :comments="activity.comments"
+          :userClient="activity.userClient"
+          :currentDate="currentDate"
         ></Activity>
       </b-row>
       <b-pagination
@@ -305,6 +320,7 @@
 import db from "../db.js";
 //import firebase from "firebase";
 import Activity from "@/components/Activity.vue";
+import ImageFilter from "@/components/ImageFilter.vue";
 export default {
   name: "Home",
   props: ["client", "activities"],
@@ -333,6 +349,7 @@ export default {
         ];
         var month = months[date.getMonth()];
         var formattedTime = "2020" + "-" + month + "-" + day;
+
         if (doc.data().isShowed == true) {
           snapData.push({
             id: doc.id,
@@ -346,8 +363,11 @@ export default {
             prize: doc.data().price,
             rating: doc.data().activityRate,
             pictures: doc.data().pictures
+            comments: doc.data().comments,
+            userClient: doc.data().userClient
           });
         }
+
       });
       this.activitiesD = snapData;
       this.rows = this.activitiesD.length;
@@ -357,6 +377,10 @@ export default {
   },
   data() {
     const now = new Date();
+    const dd = String(now.getDate()).padStart(2, '0');
+    const mm = String(now.getMonth() + 1).padStart(2, '0'); //January is 0!
+    const yyyy = now.getFullYear();
+    const cD = mm + '/' + dd + '/' + yyyy;
     const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
     // 15th two months prior
     const minDate = new Date(today);
@@ -370,11 +394,12 @@ export default {
       currentPage: 1,
       rows: 1,
       perPage: 12,
-      //nameA: "",
+      
       valueA: "",
       valueD: "",
-      //guest: "",
+
       min: minDate,
+      currentDate: cD,
 
       priceFilter: "",
       locationFilter: "",
@@ -473,6 +498,23 @@ export default {
             ];
             var month = months[date.getMonth()];
             var formattedTime = "2020" + "-" + month + "-" + day;
+
+
+            snapData.push({
+              id: doc.id,
+              description: doc.data().description,
+              userCreator: doc.data().userCreator,
+              userCreatorName: doc.data().userCreatorName,
+              datePublish: formattedTime,
+              dataStart: doc.data().dataStart,
+              dataEnd: doc.data().dataEnd,
+              nameActivity: doc.data().activityName,
+              prize: doc.data().price,
+              rating: doc.data().activityRate,
+              pictures: doc.data().pictures,
+
+            });
+
             if (doc.data().isShowed == true) {
               snapData.push({
                 id: doc.id,
@@ -486,8 +528,11 @@ export default {
                 prize: doc.data().price,
                 rating: doc.data().activityRate,
                 pictures: doc.data().pictures
+                comments: doc.data().comments,
+                userClient: doc.data().userClient
               });
             }
+
           }
         });
         console.log(snapData.length);
@@ -499,7 +544,8 @@ export default {
     }
   },
   components: {
-    Activity
+    Activity,
+    ImageFilter
   }
 };
 </script>
@@ -670,4 +716,15 @@ div.icons {
   height: 300px;
   margin-bottom: 220px;
 }
+
+#containerimages{
+  width: 80%;
+  height: 350px;
+  background-color: #eeeeee;
+  margin-top: -30px;
+  box-shadow: 0px 3px 5px  #ccc;
+  border-radius: 5px;
+}
+
+
 </style>

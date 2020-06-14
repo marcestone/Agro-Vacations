@@ -1,4 +1,6 @@
-<template>
+
+    <template>
+
   <div>
     <div class="sidenav text-center">
       <h5 style=" margin-left:3%; margin-right:3%; margin-top:15%;">
@@ -44,7 +46,9 @@
               <br />
               <div class="text-center">
                 <b-button v-b-modal="item.modalId" variant="success">
-                  <b-icon-person-check-fill></b-icon-person-check-fill>Reservas
+
+                  <b-icon-person-check-fill></b-icon-person-check-fill> Reservas
+
                 </b-button>
               </div>
               <b-modal v-bind:id="item.modalId" centered size="md">
@@ -60,12 +64,13 @@
                       :to="'/perfilmiembros/' + item2.reservationUserId"
                     >
                       <b-icon-person-check-fill></b-icon-person-check-fill>
+
                       {{ item2.name }},
                       {{ item2.createdActivityReservationDate }}
                     </router-link>
                   </div>
                 </div>
-                <form action></form>
+
                 <template v-slot:modal-footer="{ cancel }">
                   <b-button variant="secondary" @click="cancel()">Ok</b-button>
                 </template>
@@ -80,6 +85,7 @@
                   <small>Publish date: {{ item.datePublish }}</small>
                 </i>
               </p>
+
               <form>
                 <b-button
                   v-if="item.isShowed == true"
@@ -100,6 +106,7 @@
                   reactivar
                 </b-button>
               </form>
+
             </div>
           </div>
         </b-card>
@@ -113,6 +120,7 @@
         <b-card
           style=" margin-left:3%; margin-top: 2%; margin-right: 8%;border-color:  rgba(46, 124, 1, 0.5);"
           class="mb-3"
+
         >
           <div class="row">
             <div class="col-5" style="max-width: 20rem;">
@@ -130,68 +138,8 @@
               </b-carousel>
               <br />
               <div class="text-center">
-                <form>
-                  <b-button
-                    variant="danger"
-                    type="submit"
-                    @click="cancelReservation(item.id)"
-                  >
-                    <b-icon-dash-circle></b-icon-dash-circle>Cancelar
-                  </b-button>
-                </form>
-              </div>
-            </div>
-            <div class="col-8">
-              <h2>{{ item.nameActivity }}</h2>
-              <p style="text-align:justify">{{ item.description }}</p>
-              <strong style="color: green;">$ {{ item.price }}</strong>
-              <p class="mt-4" style="text-align:justify">
-                <i>
-                  <small>Host: {{ item.userCreatorName }}</small>
-                </i>
-              </p>
-              <p style="text-align:justify">
-                <i>
-                  <small>Publish date: {{ item.datePublish }}</small>
-                </i>
-              </p>
-              <p style="text-align:justify">
-                <i>
-                  <small>Reservation date: {{ item.currentReservationDate }} / 2020</small>
-                </i>
-              </p>
-            </div>
-          </div>
-        </b-card>
-      </b-col>
-    </div>
-    <div id="finishedActivities" class="mt-4;" style="margin-left:15%; margin-bottom:50%;">
-      <h2 style=" margin-left:3%; margin-top: 2%; margin-right: 8%;">
-        <strong style="color:  green;">Actividades culminadas</strong>
-      </h2>
-      <b-col v-for="item in finishedActivities" :key="item.id">
-        <b-card
-          style=" margin-left:3%; margin-top: 2%; margin-right: 8%;border-block-color:  rgba(46, 124, 1, 0.5);"
-          class="mb-3"
-        >
-          <div class="row">
-            <div class="col-5" style="max-width: 20rem;">
-              <b-carousel
-                id="carousel-fade"
-                style="text-shadow: 0px 0px 2px #000"
-                fade
-                indicators
-                img-width="600"
-                img-height="500 "
-              >
-                <b-carousel-slide :img-src="item.picture1"></b-carousel-slide>
-                <b-carousel-slide :img-src="item.picture2"></b-carousel-slide>
-                <b-carousel-slide :img-src="item.picture3"></b-carousel-slide>
-              </b-carousel>
-              <br />
-              <div class="text-center">
-                <b-button variant="info">
-                  <b-icon-star></b-icon-star>Calificar
+                <b-button variant="danger">
+                  <b-icon-dash-circle></b-icon-dash-circle> Cancelar
                 </b-button>
               </div>
             </div>
@@ -212,7 +160,94 @@
               <p style="text-align:justify">
                 <i>
                   <small>
-                    Reservation date: {{ item.currentReservationDate }} /2020
+                    Reservation date: {{ item.currentReservationDate }} /
+                    2020
+                  </small>
+                </i>
+              </p>
+            </div>
+          </div>
+        </b-card>
+      </b-col>
+    </div>
+    <div id="finishedActivities" class="mt-4;" style="margin-left:15%; margin-bottom:50%;">
+      <h2 style=" margin-left:3%; margin-top: 2%; margin-right: 8%;">
+        <strong style="color:  green; ">Actividades culminadas</strong>
+      </h2>
+      <b-col v-for="item in finishedActivities" :key="item.id">
+        <b-card
+          style=" margin-left:3%; margin-top: 2%; margin-right: 8%;border-block-color:  rgba(46, 124, 1, 0.5);"
+          class="mb-3"
+
+        >
+          <div class="row">
+            <div class="col-5" style="max-width: 20rem;">
+              <b-carousel
+                id="carousel-fade"
+                style="text-shadow: 0px 0px 2px #000"
+                fade
+                indicators
+                img-width="600"
+                img-height="500 "
+              >
+                <b-carousel-slide :img-src="item.picture1"></b-carousel-slide>
+                <b-carousel-slide :img-src="item.picture2"></b-carousel-slide>
+                <b-carousel-slide :img-src="item.picture3"></b-carousel-slide>
+              </b-carousel>
+              <br />
+
+              <b-container id="commentInputBox">
+                <center style="color: green;">Did you take it? ¡Vote now!</center>
+                <span>
+                  <b-form-rating v-model="ratingClient" variant="warning" class="mb-2"></b-form-rating>
+                </span>
+                <textarea
+                  id="commentInput"
+                  rows="10"
+                  cols="5"
+                  placeholder="How was the experience ?,            let us know"
+                  v-model="newComment"
+                ></textarea>
+                <b-button
+                  v-if="item.flagButton == true"
+                  id="commentButton"
+                  variant="primary"
+                  type="submit"
+                  @click.once="comment(item.id,item.activityRate,item.comments.length)"
+                ><b-icon icon="cursor-fill" type></b-icon>Send</b-button>
+                <b-container v-else-if="item.flagButton == false" id="AlertComment">
+                  <div class="AlertText"
+                    style="color: white; text-align:center;"
+                  ><span>Ya calificaste esta actividad</span></div>
+                </b-container>
+                <b-container v-if="item.flagButton == true" id="AlertComment2">
+                  <div class="AlertText"
+                    style="color: white; text-align:center;"
+                  ><span>Solo puedes calificar una vez</span></div>
+                </b-container>
+              </b-container>
+            </div>
+            <div class="col-8">
+              <h2>{{ item.nameActivity}}</h2>
+              <p style="text-align:justify">{{ item.description }}</p>
+              <strong style="color: green;">$ {{ item.price }}</strong>
+              <div class="commentsboxMyAct" >
+                <Comments 
+                  v-for="commentary in item.comments"
+                  :key="commentary.userId"
+                  :userId="commentary.userId" 
+                  :comment="commentary.comment"
+                  :dateComment="commentary.dateComment"
+                  :rate="commentary.rate"
+                ></Comments>
+              </div>
+              <p class="mt-4" style="text-align:justify">
+                <i>
+                  <small>Host: {{ item.userCreatorName }} ||
+                    Publish date: {{ item.datePublish }} ||
+                    Reservation date: {{ item.currentReservationDate }} /
+                    2020 
+
                   </small>
                 </i>
               </p>
@@ -223,27 +258,46 @@
     </div>
   </div>
 </template>
-<script>
+
+  <script>
+  
 import Firebase from "firebase";
 import db from "../db.js";
-import Vue from "vue";
-import { BootstrapVue, BootstrapVueIcons } from "bootstrap-vue";
-Vue.use(BootstrapVue);
-Vue.use(BootstrapVueIcons);
+import * as firebase from "firebase/app";
+import Comments from "@/components/Comments.vue";
 export default {
+  components: {
+    Comments
+  },
   name: "MisActividades",
-  data: function() {
+  data() {
+      const now = new Date();
+      const dd = String(now.getDate()).padStart(2, '0');
+      const mm = String(now.getMonth() + 1).padStart(2, '0'); //January is 0!
+      const yyyy = now.getFullYear();
+      const cD = mm + '/' + dd + '/' + yyyy;
+      
     return {
       reservedActivities: [],
       createdActivities: [],
       finishedActivities: [],
       numberOfReservations: 0,
-      currentNumberOfReservations: 0
+
+      currentNumberOfReservations: 0,
+      nClients: 0,
+      flagButton:true,
+      newComment:"",
+      ratingClient: 0,
+      currentDate: cD,
     };
   },
+
   mounted() {
+    
+    
     var currentUser = Firebase.auth().currentUser;
-    if (currentUser != null) {
+    if (currentUser != null) {     
+
       db.collection("user")
         .doc(currentUser.uid)
         .get()
@@ -291,6 +345,16 @@ export default {
                 .get()
                 .then(snapshot => {
                   var k = 0;
+
+                  var show = true;
+                  for(k = 0; k < snapshot.data().comments.length ; ++k){
+                    if(snapshot.data().comments[k].userId == currentUser.uid ){
+                      this.flagButton = false;   
+                      show = this.flagButton;   
+                    }
+                    
+                  }
+
                   for (k = 0; k < snapshot.data().userClient.length; k++) {
                     if (
                       snapshot.data().userClient[k].name ==
@@ -333,15 +397,23 @@ export default {
                   this.finishedActivities.push({
                     id: snapshot.id,
                     description: snapshot.data().description,
+
+                    activityRate: snapshot.data().activityRate,
+
                     userCreatorName: snapshot.data().userCreatorName,
                     datePublish: formattedTime,
                     nameActivity: snapshot.data().activityName,
                     price: snapshot.data().price,
+
+                    comments: snapshot.data().comments,
                     picture1: snapshot.data().pictures[0],
                     picture2: snapshot.data().pictures[1],
                     picture3: snapshot.data().pictures[2],
+                    flagButton: show,
                     currentReservationDate: currentReservationDate.slice(0, 7)
                   });
+
+
                 });
             if (Date.now() < new Date(realDate).getTime())
               db.collection("activities")
@@ -389,7 +461,8 @@ export default {
                     ":" +
                     seconds.substr(-2);
                   this.reservedActivities.push({
-                    id: snapshot.id,
+
+                    id: snapshot.id
                     description: snapshot.data().description,
                     userCreatorName: snapshot.data().userCreatorName,
                     datePublish: formattedTime,
@@ -404,7 +477,7 @@ export default {
           }
           for (j = 0; j < snapshot.data().activitiesName.length; j++) {
             var createdActivityId = snapshot.data().activitiesName[j].id;
-            console.log(createdActivityId);
+
             db.collection("activities")
               .doc(createdActivityId)
               .get()
@@ -455,7 +528,9 @@ export default {
                 }
                 //console.log(activityReservations);
                 this.createdActivities.push({
+
                   id: snapshot.id,
+
                   description: snapshot.data().description,
                   userCreatorName: snapshot.data().userCreatorName,
                   datePublish: formattedTime,
@@ -467,13 +542,67 @@ export default {
                   activityReservationList: activityReservations,
                   modalId: formattedTime,
                   isShowed: snapshot.data().isShowed
+
                 });
               });
           }
         });
     }
+
   },
   methods: {
+  
+      comment(id,activityRate,nComments){
+      const h = this.$createElement
+      var user = Firebase.auth().currentUser;
+      if(user){
+        var commentA = db.collection("activities").doc(id)
+        
+        commentA.update({
+          comments: firebase.firestore.FieldValue.arrayUnion(
+          {
+            comment: this.newComment,
+            dateComment: this.currentDate,
+            rate: this.ratingClient,
+            userId: user.uid
+          })
+        }).then(()=>{
+          
+          this.$router.replace("perfilcliente");
+                  
+        });
+
+        activityRate = ((activityRate*(nComments)) + this.ratingClient) / (nComments + 1);
+        commentA.update({
+          activityRate: activityRate,
+        })
+        const vNodesMsg = h(
+          'p',
+          { class: ['text-center', 'mb-0'] },
+          [
+            h('b-spinner', { props: { type: 'grow', small: true } }),
+            ' The comment has been aproved,',
+            h('b-spinner', { props: { type: 'grow', small: true } })
+          ]
+        )
+        const vNodesTitle = h(
+          'div',
+          { class: ['d-flex', 'flex-grow-1', 'align-items-baseline', 'mr-2'] },
+          [
+            h('strong', { class: 'mr-2' }, 'Approved'),
+            h('small', { class: 'ml-auto text-italics' }, '1 second ago')
+          ]
+        )
+        this.$bvToast.toast([vNodesMsg], {
+          title: [vNodesTitle],
+          solid: true,
+          variant: 'success'
+        })
+        
+        
+      }
+    }, 
+  
     cancelActivity(id, userId) {
       var user = Firebase.auth().currentUser;
       if (user) {
@@ -601,6 +730,7 @@ export default {
 };
 </script>
 <style lang="scss">
+
 html {
   scroll-behavior: smooth;
 }
@@ -620,4 +750,45 @@ html {
   padding: 8px 0;
   border-right: 5px solid green;
 }
+
+
+#commentInput {
+  height: 150px;
+  width: 260px;
+  
+}
+#commentButton {
+  height: 40px;
+  width: 100px;
+  margin-top: -80px;
+  margin-left: 155px;
+  border-radius: 30px;
+}
+#AlertComment {
+  margin-top: 10px;
+  background: #47803e;
+  border-radius: 20px;
+  height: 40px;
+  
+}
+#AlertComment2 {
+  margin-top: 5px;
+  background: #47803e;
+  border-radius: 20px;
+  height: 40px;
+  
+}
+
+div.commentsboxMyAct{
+  margin-top: 20px;
+  background-color: white;
+  width: 620px;
+  height: 210px;
+  overflow: auto;
+  
+}
+.AlertText span{
+  margin: auto;
+}
+
 </style>
