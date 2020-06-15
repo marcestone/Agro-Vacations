@@ -1,19 +1,11 @@
 <template>
-  <div class="w3-container">
-
-      <b-img
-        src="../assets/backgroundProfile.jpg"
-        width="1348"
-        height="1280"
-        aling="top"
-      ></b-img>
-
+  <div class="conten">
       <div class="box" id="boxTitle">
         <div class="h5" id="title">
           <b-icon icon="person-fill" aria-hidden="true"></b-icon>
           <br>{{host.name}}
         </div>
-        <div class="h1" id="subtitle">
+        <div class="h1" id="subtitle"  style='color: black; font-size: 16px;'>
           {{host.profession}}
         </div>   
       </div>
@@ -21,8 +13,8 @@
       <div class="box" id="boxImage">
         <b-img
         :src="host.pictures"
-        width="250"
-        height="250"
+        width="252"
+        height="252"
         ></b-img>  
       </div>
 
@@ -41,7 +33,7 @@
       </div>      
 
       <div class="box" id="boxAboutMe">
-        <p align="center">
+        <p align="justify" id="sinrellenar" style=' color: black;'>
           {{host.aboutme}}
         </p> 
       </div>
@@ -64,10 +56,11 @@
         <p style='text-align:right'>
           
           
-          Telefono: <br>
-          Estado civil: <br>
-          Género: <br>
-          Ubicación: <br>
+          Phone: <br>
+          Status: <br>
+          Gender: <br>
+          Ubication: <br>
+          Address <br>
           e-mail: 
         </p>
       </div> 
@@ -80,6 +73,7 @@
           {{host.status}} <br>
           {{host.gender}} <br>
           {{host.ubication}} <br>
+          {{host.address}} <br>
           {{host.email}} 
         </p>
       </div>
@@ -88,11 +82,9 @@
         <b-img
         src="../assets/Rect.png"
         width="40"
-        height="150"
+        height="190"
         ></b-img>
       </div>
-
-      
 
   </div>
 </template>
@@ -139,6 +131,20 @@ export default {
 </script>
 
 <style lang="scss">
+.conten{
+  background-image: url("../assets/margen1.png");
+  width: 100%;
+  height: 1200px;
+  background-size: cover;
+}
+
+.conten::before{
+  width: 100%;
+  height: 1200px;
+  position: absolute;
+  size: cover;
+  opacity: 0.3;
+}
 #icon{
   width: 15px;
   height: 15px;
@@ -146,7 +152,7 @@ export default {
 
 #title {
   color: #0d8517;
-  font-size: 50px;
+  font-size: 40px;
   font-family: 'Lucida Sans';
   font-weight: bold;
   text-align: center;
@@ -168,11 +174,11 @@ export default {
 #boxTitle {
   position: absolute;
   top: 100px;
-  left: 235px;
-  width: 880px;
-  height: 160px;
+  left: 245px;
+  width: 850px;
+  height: 130px;
   border: #ffffff00;
-  background-color: #ffffffda;
+  background-color: #ffffff00;
 }
 
 #boxImage {
@@ -216,7 +222,7 @@ export default {
 
 #boxImage4 {
   position: absolute;
-  top: 988px;
+  top: 980px;
   left: 660px;
   width: 50px;
   height: 200px;
