@@ -1,10 +1,10 @@
 <template>
-
+<p>messages</p>
 </template>
 
 <script>
-import Firebase from "firebase";
-import db from "../db.js";
+//import Firebase from "firebase";
+//import db from "../db.js";
 
 export default {
   name: "messages",
