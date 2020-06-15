@@ -40,11 +40,12 @@
                   Profile</b-dropdown-item
                 >
                 <b-dropdown-item href="#" to="/misactividades">
-                  <b-icon icon="calendar"></b-icon> My
-                  Activities</b-dropdown-item
+                  <b-icon icon="calendar"></b-icon>
+                   My Activities</b-dropdown-item
                 >
-                <b-dropdown-item href="#">
-                  <b-icon icon="gear-fill"></b-icon> Settigs</b-dropdown-item
+                <b-dropdown-item href="#" to="/messages">
+                  <b-icon-chat-dots></b-icon-chat-dots>
+                   Messages</b-dropdown-item
                 >
                 <b-dropdown-divider></b-dropdown-divider>
                 <b-dropdown-item href="#" variant="danger" @click="$emit('logout')">

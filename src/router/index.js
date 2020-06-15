@@ -9,7 +9,13 @@ import CrearActividad from "../views/CrearActividad.vue";
 import PerfilMiembros from "../views/PerfilMiembros.vue";
 import imageHandler from "../views/imageHandler.vue";
 import MisActividades from "../views/MisActividades.vue";
+
+import Messages from "../views/Messages.vue";
+
+
+
 import Notificaciones from "../views/Notificaciones.vue";
+
 
 Vue.use(VueRouter);
 
@@ -62,9 +68,17 @@ const routes = [
     component: MisActividades
   },
   {
+
+    path: "/messages",
+    name: "Messages",
+    component: Messages
+    },
+  {
+
     path: "/notificaciones",
     name: "Notificaciones",
     component: Notificaciones
+
   },
   {
     path: "*",
