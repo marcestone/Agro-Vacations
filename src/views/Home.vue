@@ -129,7 +129,7 @@
         ></b-form-datepicker>-->
 
 
-        <h4 style="margin-left: 4%; margin-right: 2%;  color: green;"><strong>Precio: </strong></h4>
+        <h4 style="margin-left: 13%; margin-right: 2%;  color: green;"><strong>Precio: </strong></h4>
         <select v-model="priceFilter"
         >  
           <option disabled selected>Precio</option>
@@ -171,11 +171,7 @@
           v-model="ratingFilterStart"
         ></b-input>
 
-        <b-input
-          id="RatingEnd"
-          placeholder="★ Calificación máxima ★"
-          v-model="ratingFilterEnd"
-        ></b-input>
+        
 
         <b-button  variant="success" style="margin-left: 2%;" v-on:click="search">
           <b-icon icon="search"></b-icon> Añadir filtro

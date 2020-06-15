@@ -1,5 +1,4 @@
-
-    <template>
+<template>
 
   <div>
     <div class="sidenav text-center">
@@ -138,9 +137,15 @@
               </b-carousel>
               <br />
               <div class="text-center">
-                <b-button variant="danger">
-                  <b-icon-dash-circle></b-icon-dash-circle> Cancelar
-                </b-button>
+                <form>
+                  <b-button
+                    variant="danger"
+                    type="submit"
+                    @click="cancelReservation(item.id)"
+                  >
+                    <b-icon-dash-circle></b-icon-dash-circle>Cancelar
+                  </b-button>
+                </form>
               </div>
             </div>
             <div class="col-8">
@@ -568,7 +573,7 @@ export default {
           })
         }).then(()=>{
           
-          this.$router.replace("perfilcliente");
+          this.$router.replace("home");
                   
         });
 
@@ -615,7 +620,7 @@ export default {
             isShowed: false
           })
           .then(function() {
-            console.log("El documento ha sido actualizado");
+            this.$router.replace("home"); 
           })
           .catch(function(error) {
             console.error("Error actualizando el documento: ", error);
@@ -659,7 +664,7 @@ export default {
             isShowed: true
           })
           .then(function() {
-            console.log("El documento ha sido actualizado");
+            this.$router.replace("home");   
           })
           .catch(function(error) {
             console.error("Error actualizando el documento: ", error);
