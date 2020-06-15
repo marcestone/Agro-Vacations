@@ -597,7 +597,6 @@ export default {
   font-size: 15px;
   font-family: 'Lucida Sans';
 }
-
 #box00 {
   position: absolute;
   top: 82px;
