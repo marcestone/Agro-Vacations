@@ -1,11 +1,11 @@
 <template>
   <div class="conten">
-      <div class="box" id="boxTitle">
+      <div class="box" id="boxTitle_">
         <div class="h5" id="title">
           <b-icon icon="person-fill" aria-hidden="true"></b-icon>
           <br>{{client.displayName}}
         </div>
-        <div class="h1" id="subtitle" style='color: black; font-size: 20px;'>
+        <div class="h1" id="subtitle" style='color: black; font-size: 16px;'>
         </div>   
       </div>
 
@@ -31,8 +31,8 @@
         </div>
       </div>      
 
-      <div class="box" id="boxAboutMe">
-        <p align="center" id="sinrellenar" style=' color: black;'>
+      <div class="box" id="boxAboutMe1">
+        <p align="justify" id="sinrellenar" style=' color: black;'>
 
         </p> 
       </div>
@@ -63,12 +63,12 @@
       </div> 
 
       <div class="box" id="personalInfo2">
-          <p id="tabla" style='text-align:left;font-weight: bold;'>
+          <p id="tabla" style='text-align:left;'>
 
           </p>
       </div>
 
-      <div class="box" id="boxImage4">
+      <div class="box" id="boxImage04">
         <b-img
         src="../assets/Rect.png"
         width="40"
@@ -76,8 +76,8 @@
         ></b-img>
       </div>
 
-      <div class="box" id="boxButton">
-        <a href="#editprofile" class="buttonSa button1S">
+      <div class="box" id="boxButton1">
+        <a href="#editprofile" class="buttonSsa button1Ss">
           Edit
           <b-icon-pencil-square id="icon"></b-icon-pencil-square> 
         </a>
@@ -208,15 +208,14 @@ export default {
                       </label>
                       <textarea
                         id="aboutme"
+                        align="justify"
                         rows="6"
                         cols="40"
                         placeholder="Enter a description about you"
                         v-model="aboutme"
-                        maxlength="300"
-                        
-                        
+                        maxlength="400"
                       >${doc.data().aboutme}</textarea>
-                      <p style="font-size: 11px;">max. 300 characters</p>
+                      <p style="font-size: 11px;">max. 400 characters</p>
                     `;
                   document.getElementById('phone_').innerHTML+=`
                       <label for="phone" style="font-weight: bold;"
@@ -311,7 +310,7 @@ export default {
               </form>
                       `;
                        else
-                                      document.getElementById('gender_').innerHTML+=`
+                            document.getElementById('gender_').innerHTML+=`
               <label for="status" style="font-weight: bold;"
                   >Status
               </label>
@@ -474,17 +473,15 @@ export default {
 
 <style lang="scss">
 .conten{
-  background-image: url("../assets/backgroundProfile.jpg");
+  background-image: url("../assets/margen1.png");
   width: 100%;
-  height: 1220px;
+  height: 1200px;
   background-size: cover;
 }
 
 .conten::before{
-  content: "";
-  background-color: rgba(255, 255, 255, 0.945);
   width: 100%;
-  height: 1220px;
+  height: 1200px;
   position: absolute;
   size: cover;
   opacity: 0.3;
@@ -496,7 +493,7 @@ export default {
 
 .container-all{
   width: 100%;
-  height: 1220px;
+  height: 1200px;
   position: absolute;
   padding: 40px;
   visibility: hidden;
@@ -532,7 +529,7 @@ export default {
 }
 
 .img{
-  background-image: url("../assets/verde.jpg");
+  background-image: url("../assets/verde2.jpg");
   width: 30%;
   background-size: cover;
   background-position: center;
@@ -584,7 +581,7 @@ export default {
 }
 #title {
   color: #0d8517;
-  font-size: 50px;
+  font-size: 40px;
   font-family: 'Lucida Sans';
   font-weight: bold;
   text-align: center;
@@ -622,12 +619,12 @@ export default {
 }
 
 
-#boxTitle {
+#boxTitle_ {
   position: absolute;
   top: 100px;
-  left: 235px;
-  width: 880px;
-  height: 160px;
+  left: 245px;
+  width: 850px;
+  height: 130px;
   border: #ffffff00;
   background-color: #ffffff00;
 }
@@ -641,7 +638,7 @@ export default {
   border: 1px solid #363636a8;
   background-color: #dfdfdf00;
 }
-#boxAboutMe {
+#boxAboutMe1 {
   position: absolute;
   top: 700px;
   left: 310px;
@@ -666,9 +663,9 @@ export default {
   height: 54px;
   border-radius: 0px;
 }
-#boxImage4 {
+#boxImage04 {
   position: absolute;
-  top: 978px;
+  top: 980px;
   left: 660px;
   width: 50px;
   height: 200px;
@@ -706,37 +703,43 @@ export default {
   height: 150px;
   border-radius: 0px;
 }
-#boxButton {
+#boxButton1 {
   position: absolute;
   top: 1200px;
-  left: 647px;
-  width: 200px;
-  height: 100px;
+  left: 645px;
+  width: 150px;
+  height: 50px;
   border-radius: 0px;
 }
-.buttonSa {
+.buttonSsa {
   background-color: #0d8517; /* Green */
   border: none;
   color: white;
-  padding: 5px 10px;
+  padding: 0px 0px;
   text-align: center;
   display: inline-block;
   font-size: 14px;
-  margin: 4px 2px;
+  margin: 0px 0px;
   transition-duration: 0.4s;
   text-decoration: none;
   border-radius: 50px;
   cursor: pointer;
 }
-.button1S {
+.button1Ss {
   background-color: white; 
   color: black; 
   border: 2px solid #0d8517;
   text-decoration: none;
+  width: 75px;
+  height: 25px;
+  
 }
-.button1S:hover {
+.button1Ss:hover {
   background-color:#0d8517;
   color: white;
   text-decoration: none;
+  width: 75px;
+  height: 25px;
+
 }
 </style>

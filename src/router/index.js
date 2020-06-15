@@ -9,6 +9,7 @@ import CrearActividad from "../views/CrearActividad.vue";
 import PerfilMiembros from "../views/PerfilMiembros.vue"
 import imageHandler from "../views/imageHandler.vue";
 import MisActividades from "../views/MisActividades.vue";
+import Messages from "../views/Messages.vue";
 
 
 
@@ -61,6 +62,11 @@ const routes = [
     path: "/misactividades",
     name: "MisActividades",
     component: MisActividades
+  },
+  {
+    path: "/messages",
+    name: "Messages",
+    component: Messages
   },
   {
     path: "*",
