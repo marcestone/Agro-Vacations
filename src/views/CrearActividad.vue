@@ -1,132 +1,177 @@
 <template>
   <div class="mainC">
     <div class="container-fluid">
-      <div class="row" id="titleA">
-        <div class="justify-content-center col-md-6">
-          <div class="col-md-7">
-            <h4 class="text-success font-weight-bold">Publish your activity</h4>
-          </div>
-        </div>
-      </div>
-      <form class="mt-4" id="regForm">
+      <form  id="regForm">
+        <b-container id="titleContainer">
+          <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet"> 
+          <div class="titlePublish">Publish your activity</div>
+        </b-container>
         <div class="row">
-          <div class="justify-content-center areas col-md-6" id="area2">
-            <section class="col-md-8">
-              <p style="  font-weight: 700;color: #01a026;">Enter event name</p>
-              <b-input type="text" placeholder="Activity Name" id="input" v-model="activityName" />
-            </section>
-            <section class="col-md-8">
-              <p style="  font-weight: 700;color: #01a026;">Enter event Type</p>
-              <b-input type="text" placeholder="Activity Type" id="input" v-model="activityType" />
-            </section>
-            <section class="col-md-8">
-              <p style="  font-weight: 700;color: #01a026;">Enter event date</p>
-              <div>
-                <div class="row justify-content-between" id="dateRow">
-                  <b-form-datepicker
-                    type="time"
-                    class="dateP col-md-5"
-                    id="time1"
-                    :min="min"
-                    placeholder="Start Date"
-                    v-model="dateStart"
-                  ></b-form-datepicker>
-                  <b-form-datepicker
-                    type="time"
-                    class="dateP col-md-5"
-                    id="time2"
-                    :min="min"
-                    placeholder="End Date"
-                    v-model="dateEnd"
-                  ></b-form-datepicker>
+          <b-container  id="area1">
+          <b-row>
+            <b-col>
+              <b-row>
+                  <input type="text" placeholder="       
+                                Activity Name" id="inputName" v-model="activityName" />
+                  <textarea
+                    id="description"
+                    rows="10"
+                    cols="50"
+                    placeholder="                                  
+                    
+                                  Activity Description"
+                    v-model="description"
+                  ></textarea>
+              </b-row>
+            </b-col>
+                
+            <b-col>
+              <b-carousel
+                id="carouselCrateA"
+                style="text-shadow: 0px 0px 2px #000"
+                fade
+                indicators
+                img-width="400 !important"
+                img-height="250 !important"
+              >
+                <b-carousel-slide caption img-src="../assets/Fondo1.png" id="image1"></b-carousel-slide>
+                <b-carousel-slide caption img-src="../assets/Fondo2.png" id="image2"></b-carousel-slide>
+                <b-carousel-slide caption img-src="../assets/Fondo3.png" id="image3"></b-carousel-slide>
+              </b-carousel>
+              <b-row style="background:transparent;margin:5%" align-h="between">
+                <b-form-file
+                  id="dropImagesInput"
+                  size="sm"
+                  placeholder="Drop your activity images"
+                  drop-placeholder="Drop the image file"
+                  style="width:50%;;height:100%;margin:0 0 0 -5%"
+                  @change="onSelectedFile"
+                ></b-form-file>
+                <b-button
+                  id="addfilebutton"
+                  style="margin:-2% 27% 0 0"
+                  align-h="center"
+                  variant="success"
+                  v-on:click="addFile"
+                >Upload <b-icon icon="cloud-upload" type></b-icon>
+                </b-button>
+              </b-row>
+            </b-col>
+          </b-row>
+            <hr class="divisorline">
+          </b-container>
+
+          <!-------------------------------------------------- Area 2 -------------------------------------->
+          <b-container id="area2">
+            <div class="container">
+              <b-row>
+                <b-col>
+                  <b-row>
+                    <b-col>
+                      <p 
+                        style="font-size: 25px; 
+                        font-weight: 700;
+                        color: #01a026; 
+                        text-align: center; 
+                        margin:25px -20px 0px 0px"
+                        >Event date</p>
+                    </b-col><b-col cols="8">
+                    <div id="dateRow">
+                       <b-form-datepicker
+                        type="time"
+                        id="time1"
+                        :min="min"
+                        placeholder="Start Date"
+                        v-model="dateStart"
+                      ></b-form-datepicker>
+                      <b-form-datepicker
+                        type="time"
+                        id="time1"
+                        :min="min"
+                        placeholder="End Date"
+                        v-model="dateEnd"
+                      ></b-form-datepicker>
+                    </div>
+                    </b-col>
+                  </b-row>
+                </b-col><b-col>
+                  <b-row>
+                    <b-col>
+                    <p 
+                      style="font-size: 25px;  
+                      font-weight: 700;
+                      color: #01a026;
+                      margin:25px 0px 0px 0px"
+                      >Enter event price</p>
+                    </b-col><b-col cols="6">
+                    <input
+                      type="number"
+                      placeholder=" 💰 Select the activity's price"
+                      id="inputPrice"
+                      v-model="activityPrice"
+                      max="10000000"
+                      min="50000"
+                      step="50000"
+                    />
+                    </b-col>
+                  </b-row>
+                </b-col>
+              </b-row>
+              <br>
+              <hr class="divisorline">
+              <b-row>
+                <b-col>
+                  <p 
+                  style="font-size: 25px;
+                  font-weight: 700;
+                  color: #ffffff;
+                  margin:30px 0px 0px 63px">Enter event Type</p>
+                  <input type="text" placeholder="   ☠ Activity Type" id="inputType" v-model="activityType" />
+                </b-col>
+                
+                <b-col>         
+                    <p 
+                    style="font-size: 25px; 
+                    font-weight: 700;
+                    color: #01a026;
+                    margin:30px 0px 0px 115px">Transport</p>
+                    <select v-model="activityTransport" id="inputTransport">
+                      <option value="Yes">Yes</option>
+                      <option value="No">No</option>
+                    </select>
+                </b-col>
+                
+                <b-col>
+                    <p 
+                    style="font-size: 25px; 
+                    font-weight: 700;
+                    color: #ffff;
+                    margin:30px 0px 0px 20px">Enter event location</p>
+                    <input type="text" placeholder="     ✈ Location" id="inputLocation" v-model="activityLocation" />
+                </b-col>
+
+              </b-row>
+
+              <b-row>
+              <section class="col-md-8">
+                <div class="row justify-content-between" style="background:transparent">
+                  
                 </div>
-              </div>
-            </section>
-            <section class="col-md-8">
-              <p style="  font-weight: 700;color: #01a026;">Enter event location</p>
-              <b-input type="text" placeholder="Location" id="input" v-model="activityLocation" />
-            </section>
-            <section class="col-md-8">
-              <div class="row justify-content-between" style="background:transparent">
-                <section class="col-md-5" style="margin:0">
-                  <p style="  font-weight: 700;color: #01a026;">Enter event price</p>
-                  <b-input
-                    type="number"
-                    placeholder="Price Name"
-                    id="input"
-                    v-model="activityPrice"
-                  />
-                </section>
-                <section class="col-md-5" style="margin:0">
-                  <p style="  font-weight: 700;color: #01a026;">Transport</p>
-                  <select v-model="activityTransport">
-                    <option value="Yes">Yes</option>
-                    <option value="No">No</option>
-                  </select>
-                </section>
-              </div>
-            </section>
+              </section> 
+              </b-row>
+            </div>
+              
             <b-row align-h="center" style="background:transparent">
               <div class="form-group text-center" id="publish">
                 <button
+                  id="publishbutton"
                   v-on:click="addActivity"
                   class="btn btn-success"
-                  style="width:100px;height:40px"
+                  style="width:200px;height:50px; border-radius:15px"
                 >Publish</button>
               </div>
             </b-row>
-          </div>
-          <div class="areas col-md-6" id="area1">
-            <div class="container">
-              <!--
-              <img id="activityImage" placeholder="Set an image" />
-              
-                <button type="submit" class="btn btn-outline-success" id="addImage">+</button>
-            
-                <font-awesome-icon icon="star"></font-awesome-icon>
-              -->
-
-              <div>
-                <b-row align-h="center" style="background:transparent">
-                  <b-carousel
-                    id="carouselCrateA"
-                    style="text-shadow: 0px 0px 2px #000"
-                    fade
-                    indicators
-                    img-width="1000"
-                    img-height="20"
-                  >
-                    <b-carousel-slide caption img-src="../assets/landscape1.jpg" id="image1"></b-carousel-slide>
-                    <b-carousel-slide caption img-src="../assets/landscape2.jpg" id="image2"></b-carousel-slide>
-                    <b-carousel-slide caption img-src="../assets/landscape3.jpg" id="image3"></b-carousel-slide>
-                  </b-carousel>
-                </b-row>
-              </div>
-            </div>
-            <b-row style="background:transparent;margin:5%" align-h="between">
-              <b-form-file
-                align-h="center"
-                size="sm"
-                placeholder="Drop your activity images"
-                drop-placeholder="Drop the image file"
-                style="width:50%;;height:100%;margin:0 5% 0 5%"
-                @change="onSelectedFile"
-              ></b-form-file>
-              <b-button
-                style="margin:0 5% 0 5%"
-                align-h="center"
-                variant="success"
-                v-on:click="addFile"
-              >Add Image</b-button>
-            </b-row>
-            <textarea
-              id="description"
-              rows="10"
-              cols="50"
-              placeholder="Activity Description"
-              v-model="description"
-            ></textarea>
-          </div>
+          </b-container>
         </div>
       </form>
     </div>
@@ -145,6 +190,7 @@ export default {
     const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
     // 15th two months prior
     const minDate = new Date(today);
+    console.log("TEST");
     return {
       activityName: null,
       activityType: null,
@@ -162,6 +208,7 @@ export default {
       UploadValue: 0,
       picture: null,
       images: [],
+      imagesLen: 0,
       imagesURL: [],
       min: minDate
     };
@@ -203,18 +250,32 @@ export default {
               id: document.id
             });
 
+            var actPrice = 0;
+
+            try {
+              actPrice = parseInt(info.activityPrice);
+            } catch (error) {
+              console.log(error);
+
+            }            
+
+
             document.set({
               datePublish: new Date(),
               description: info.description,
               activityName: info.activityName,
-              price: parseInt(info.activityPrice),
+              price: actPrice,
               dataStart: info.dateStart,
               dataEnd: info.dateEnd,
               activityTransport: info.activityTransport,
               activityRate: null,
+              activityLocation: info.activityLocation,
+              activityType: info.activityType,
               userClient: [],
+              comments:[],
               userCreator: user.uid,
-              userCreatorName: snapshot.data().name
+              userCreatorName: snapshot.data().name,
+              isShowed: true,
             });
 
             db.collection("user")
@@ -246,15 +307,27 @@ export default {
       this.selectedFile = event.target.files[0];
     },
     addFile: function() {
-      this.images.push(this.selectedFile);
 
-      if (this.images.length <= 3) {
-        var preview = null;
-        if (this.images.length == 1) {
+      
+      if (this.images.length < 3) {
+        this.images.push(this.selectedFile);
+        console.log(this.images);
+      }else{
+
+        this.images = this.images.slice(1, 2);
+        this.images.push(this.selectedFile);
+        console.log(this.images);
+      }
+
+      this.imagesLen++;
+
+      var preview = null;
+
+        if ( this.imagesLen % 3 == 1) {
           preview = document.getElementById("image1").querySelector("img");
-        } else if (this.images.length == 2) {
+        } else if ( this.imagesLen % 3 == 2) {
           preview = document.getElementById("image2").querySelector("img");
-        } else if (this.images.length == 3) {
+        } else if ( this.imagesLen % 3 == 0) {
           preview = document.getElementById("image3").querySelector("img");
         }
 
@@ -274,7 +347,7 @@ export default {
         if (file) {
           reader.readAsDataURL(file);
         }
-      }
+
 
       console.log(this.images.length);
     },
@@ -317,32 +390,40 @@ export default {
 
 <style lang="scss">
 .mainC {
-  height: 700px !important;
+  height: 870px !important;
   position: relative;
+  background-image: url("../assets/wallpaperCreate1.jpg");
+  background-repeat: no-repeat;
+  background-position: center 400px;
+ 
 }
+
 
 .areas {
   height: 100%;
   margin-top: 10px;
 }
 #area1 {
-  width: 65%;
-  margin: 3% 0px 3% 0px;
+  width: 100%;
+  height: 320px;
+  //background-color: aquamarine;
+  margin-top: 1.5%;
 }
 
 #titleA {
   margin: 40px 0 40px 0;
 }
 
-#regForm .row {
+/*#regForm .row  {
+  
   background: linear-gradient(
       rgba(255, 255, 255, 0.5),
-      rgba(255, 255, 255, 0.5)
+      
     ),
-    url("../assets/travel.jpg");
+    url("../assets/wallpaperCreate.jpg");
   background-size: cover !important;
   background-position-y: center;
-}
+} */
 
 .container {
   position: relative;
@@ -356,17 +437,33 @@ export default {
   border-radius: 50%;
 }
 
-#carouselCrateA___BV_inner_ {
-  border-radius: 20px;
+
+#carouselCrateA{
+  width: 400px;
+  height: 250px;
+
 }
+
+
 #description {
-  width: 80%;
-  height: 130px;
-  margin: 20px 10% 20px 10%;
+  
+  width: 440px;
+  height: 230px;
+  margin-top: 2%;
+  margin-left: 13%;
+
+}
+#inputName{
+  width: 350%;
+  height: 60px;
+  margin-right: 10%;
+  margin-left: 13%;
+
 }
 #area2 {
-  width: 25%;
-  margin: 3% 0px 3% 0px;
+  width: 100%;
+  margin: 3% 0px 0px 7.7%;
+  //background-color:#dbdbdb;
 }
 section {
   margin: 20px 10% 0px 10%;
@@ -377,17 +474,21 @@ section {
   border-radius: 0.5rem;
 }
 
-input {
-  width: 80%;
+#addfilebutton{
+ border-radius: 5px;
 }
 
 #dateRow {
-  margin: 0px 10px 0px 0px;
-  background: transparent !important;
+  background: transparent !important;  
 }
-
+#time1{
+  height: 150px;
+}
 #dateRow div {
   background-color: #f8f9fa;
+  border-color: #28a745 ;
+  margin-top: 5px;
+  border-radius: 0.5rem;  
 }
 
 .dateP {
@@ -405,4 +506,50 @@ textarea {
   border-color: #28a745 !important;
   border-radius: 0.5rem;
 }
+
+#titleContainer{
+  background-color: #28a745;
+  height: 80px;
+  max-width: 1540px !important;
+}
+div.titlePublish{
+  font-size: 3.5rem;
+  color: #f8f9fa;
+  text-align: center;
+  font-family: 'Lobster', cursive;
+  line-height: 70px;
+}
+hr.divisorline{
+  border: 2px solid #28a745;
+}
+#inputType{
+  margin-top: 15px;
+  margin-left: 25px;
+  width: 80%;
+  height:40px;
+}
+#inputLocation{
+  margin-top: 15px;
+  width: 80%;
+  height:40px;
+}
+#inputTransport{
+  width: 30%;
+  height: 40px;
+  margin-left: 120px;
+  margin-top: 15px;
+}
+#inputPrice{
+  margin-top: 25px;
+  margin-left: -50px;
+  width: 90%;
+  height: 40px;
+}
+.carousel-fade .carousel-item {
+  width: 100%;
+  height: 250px !important;
+
+}
+
+
 </style>
