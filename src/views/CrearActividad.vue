@@ -86,7 +86,7 @@
                       ></b-form-datepicker>
                       <b-form-datepicker
                         type="time"
-                        id="time1"
+                        id="time2"
                         :min="min"
                         placeholder="End Date"
                         v-model="dateEnd"
