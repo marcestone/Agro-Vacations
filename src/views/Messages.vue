@@ -1,5 +1,5 @@
 <template>
-<p>messages</p>
+<p>Messages</p>
 </template>
 
 <script>
