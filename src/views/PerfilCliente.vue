@@ -208,9 +208,10 @@ export default {
                       </label>
                       <textarea
                         id="aboutme"
+                        resize: "none"
                         align="justify"
                         rows="6"
-                        cols="40"
+                        cols="33"
                         placeholder="Enter a description about you"
                         v-model="aboutme"
                         maxlength="400"
