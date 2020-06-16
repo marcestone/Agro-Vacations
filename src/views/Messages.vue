@@ -27,8 +27,8 @@ export default {
       messageText: this.messageText,
       messageFrom: this.messageFrom,
       messageTo: this.messageTo,
+      otherUser: this.emailOtherUser,
       dateMessage: this.dateMessage,
-      messages: [],
       };
 
       var user = Firebase.auth().currentUser;
@@ -39,32 +39,25 @@ export default {
           .get()
           .then(snapshot => {
             let document;
-            let newActivitiesName = snapshot.data().activitiesName;
+            let chat = snapshot.data().messages;
 
-            if (newActivitiesName == null) {
-              newActivitiesName = [];
-            }
+            /*if (Messages == null) {
+              Messages = [];
+            }*/
 
-            document = db.collection("activities").doc();
+            document = db.collection("chats").doc();
 
-            newActivitiesName.push({
-              name: info.activityName,
-              id: document.id
+            chat.push({
+              chatId: document.id,
+              fromId: user.uid
             });
 
             document.set({
               datePublish: new Date(),
-              description: info.description,
-              activityName: info.activityName,
-              price: parseInt(info.activityPrice),
-              dataStart: info.dateStart,
-              dataEnd: info.dateEnd,
-              activityTransport: info.activityTransport,
-              activityRate: null,
-              userClient: [],
-              userCreator: user.uid,
-              userCreatorName: snapshot.data().name
-            });
+              fromId: null,
+              receivedId: null,
+              messages: null
+            });            
 
             db.collection("user")
               .doc(user.uid)
