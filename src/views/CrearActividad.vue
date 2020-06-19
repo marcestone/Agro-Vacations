@@ -60,7 +60,6 @@
           </b-row>
             <hr class="divisorline">
           </b-container>
-
           <!-------------------------------------------------- Area 2 -------------------------------------->
           <b-container id="area2">
             <div class="container">
@@ -181,6 +180,9 @@
 <script>
 import Firebase from "firebase";
 import db from "../db.js";
+import Vue from "vue";
+import { BootstrapVue } from "bootstrap-vue";
+Vue.use(BootstrapVue);
 
 //import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 

@@ -30,19 +30,19 @@
 
     <div class="box" id="boxHome">
       <b-form inline>
-        <b-input
+        <input
           id="InputSearchA"
           class="w-25 p-3 mb-1 h-100 d-inline-block"
           placeholder=" ✈ Buscar por título"
           v-model="keyWordFilter"
-        ></b-input>
+        ></input>
 
-        <b-input
+        <input
           id="InputGuests"
           class="w-20 p-3 mb-1 h-100 d-inline-block"
           placeholder="📍Ubicación"
           v-model="locationFilter"
-        ></b-input>
+        ></input>
 
 
         <b-input
@@ -87,10 +87,10 @@
         ></b-input>-->
 
 
-        <b-button id="SearchBtn" variant="success" style="float: right;" v-on:click="search">
+        <button id="SearchBtn" variant="success" style="float: right;" v-on:click="search">
           <b-icon icon="search"></b-icon> Buscar
 
-        </b-button>
+        </button>
       </b-form>
     </div>
     <b-container id="containerimages">
