@@ -45,12 +45,12 @@
         >
 
 
-        <b-input
+        <input
           id="InputGuests"
            class="w-20 p-3 mb-1 h-100 d-inline-block"
           placeholder="✇ Tipo"
           v-model="typeFilter"
-        ></b-input>
+        >
 
         <b-form-datepicker
           id="ArriveDatePicker"
@@ -164,12 +164,12 @@
           <option value="No">No</option>
         </select>
 
-        <b-input
+        <input
           style="margin-left: 2%; margin-right: 2%;"
           id="RatingStart"  
           placeholder="☆ Calificación minima ☆"
           v-model="ratingFilterStart"
-        ></b-input>
+        >
 
         
 
@@ -200,6 +200,7 @@
           :comments="activity.comments"
           :userClient="activity.userClient"
           :currentDate="currentDate"
+          :activityLocation="activity.activityLocation"
         ></Activity>
       </b-row>
       <b-pagination
@@ -303,6 +304,7 @@ export default {
         var month = months[date.getMonth()];
         var formattedTime = "2020" + "-" + month + "-" + day;
         if (doc.data().isShowed == true) {
+          if (new Date(doc.data().dataEnd).getTime() > Date.now()) {
           snapData.push({
             id: doc.id,
             description: doc.data().description,
@@ -316,10 +318,11 @@ export default {
             rating: doc.data().activityRate,
             pictures: doc.data().pictures,
             comments: doc.data().comments,
-            userClient: doc.data().userClient
+            userClient: doc.data().userClient,
+            activityLocation: doc.data().activityLocation
           });
         }
-      });
+      }});
       this.activitiesD = snapData;
       this.rows = this.activitiesD.length;
       this.displayActivities = this.activitiesD.slice(0, 12);
@@ -413,6 +416,7 @@ export default {
             var month = months[date.getMonth()];
             var formattedTime = "2020" + "-" + month + "-" + day;
             if (doc.data().isShowed == true) {
+              if (new Date(doc.data().dataEnd).getTime() > Date.now()) {
               snapData.push({
                 id: doc.id,
                 description: doc.data().description,
@@ -426,9 +430,11 @@ export default {
                 rating: doc.data().activityRate,
                 pictures: doc.data().pictures,
                 comments: doc.data().comments,
-                userClient: doc.data().userClient
+                userClient: doc.data().userClient,
+                activityLocation:doc.data().activityLocation
               });
             }
+          }
           }
         });
         console.log(snapData.length);
@@ -486,6 +492,12 @@ export default {
   border-radius: 35px;
   margin-top: 13px;
   margin-left: 20px;
+  background-color:green;  
+  color: white;
+}
+
+#SearchBtn:hover {
+  background-color: #47803e;
 }
 
 .wrapper {
