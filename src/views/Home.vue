@@ -35,14 +35,14 @@
           class="w-25 p-3 mb-1 h-100 d-inline-block"
           placeholder=" ✈ Buscar por título"
           v-model="keyWordFilter"
-        ></input>
+        >
 
         <input
           id="InputGuests"
           class="w-20 p-3 mb-1 h-100 d-inline-block"
           placeholder="📍Ubicación"
           v-model="locationFilter"
-        ></input>
+        >
 
 
         <b-input
