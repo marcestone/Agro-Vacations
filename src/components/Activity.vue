@@ -17,7 +17,7 @@ dias que ya estan ocupados */
     >
       <b-card-text>
         <h5>
-          <strong style="color: green;">$ {{ prize }}</strong>
+          <strong style="color: green;">$ {{ parseInt(prize).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')   }}</strong>
           <br />
         </h5>
       </b-card-text>
@@ -77,7 +77,7 @@ dias que ya estan ocupados */
             <div class="col-7">
               <p style="text-align:justify">{{ description }}</p>
 
-              <strong style="color: green;">$ {{ prize }}</strong><br>
+              <strong style="color: green;">$ {{ parseInt(prize).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,') }}</strong><br>
 
               <router-link :to="'/perfilmiembros/' + userCreator">
                 <i>
@@ -86,7 +86,7 @@ dias que ya estan ocupados */
               </router-link>
               <p style="text-align:justify">
                 <i>
-                  <small>Publication date: {{ datePublish }}</small>
+                  <small>Location: {{ activityLocation }}</small>
                 </i>
               </p>
               <b-form-datepicker
@@ -146,6 +146,7 @@ export default {
     "prize",
     "activityKey",
     "rating",
+    "activityLocation",
 
     "pictures",
     "comments",
