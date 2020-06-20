@@ -150,7 +150,7 @@
                   <b-button
                     variant="danger"
                     type="submit"
-                    @click="cancelReservation(item.id)"
+                    @click.once="cancelReservation(item.id)"
                   >
                     <b-icon-dash-circle></b-icon-dash-circle>Cancelar
                   </b-button>
@@ -568,12 +568,35 @@ export default {
           }
         });
     }
-
   },
   methods: {
-  
+      messageAlert(message,variant){
+        const h = this.$createElement
+        const vNodesMsg = h(
+          'p',
+          { class: ['text-center', 'mb-0'] },
+          [
+            h('b-spinner', { props: { type: 'grow', small: true } }),
+            message,
+            h('b-spinner', { props: { type: 'grow', small: true } })
+          ]
+        )
+        const vNodesTitle = h(
+          'div',
+          { class: ['d-flex', 'flex-grow-1', 'align-items-baseline', 'mr-2'] },
+          [
+            h('strong', { class: 'mr-2' }, 'Approved'),
+            h('small', { class: 'ml-auto text-italics' }, '1 second ago')
+          ]
+        )
+        this.$bvToast.toast([vNodesMsg], {
+          title: [vNodesTitle],
+          solid: true,
+          variant: variant
+        })
+      },
       comment(id,activityRate,nComments){
-      const h = this.$createElement
+      
       var user = Firebase.auth().currentUser;
       if(user){
         var commentA = db.collection("activities").doc(id)
@@ -596,30 +619,7 @@ export default {
         commentA.update({
           activityRate: activityRate,
         })
-        const vNodesMsg = h(
-          'p',
-          { class: ['text-center', 'mb-0'] },
-          [
-            h('b-spinner', { props: { type: 'grow', small: true } }),
-            ' The comment has been aproved,',
-            h('b-spinner', { props: { type: 'grow', small: true } })
-          ]
-        )
-        const vNodesTitle = h(
-          'div',
-          { class: ['d-flex', 'flex-grow-1', 'align-items-baseline', 'mr-2'] },
-          [
-            h('strong', { class: 'mr-2' }, 'Approved'),
-            h('small', { class: 'ml-auto text-italics' }, '1 second ago')
-          ]
-        )
-        this.$bvToast.toast([vNodesMsg], {
-          title: [vNodesTitle],
-          solid: true,
-          variant: 'success'
-        })
-        
-        
+        this.messageAlert("The comment will be avalable soon","success")
       }
     }, 
   
@@ -634,12 +634,13 @@ export default {
           .update({
             isShowed: false
           })
-          .then(function() {
-            this.$router.replace("home"); 
+          .then(()=>{
+            this.$router.replace("home");
           })
           .catch(function(error) {
             console.error("Error actualizando el documento: ", error);
           });
+          this.messageAlert("the activity has been hidden","danger")
         db.collection("user")
           .doc(userId)
           .update({
@@ -678,12 +679,13 @@ export default {
           .update({
             isShowed: true
           })
-          .then(function() {
-            this.$router.replace("home");   
+          .then(()=>{
+            this.$router.replace("home");
           })
           .catch(function(error) {
             console.error("Error actualizando el documento: ", error);
           });
+          this.messageAlert("the activity has been restored","success")
       }
     },
     cancelReservation(id) {
@@ -744,8 +746,10 @@ export default {
                 });
             }
           });
-      }
+      }      
+      this.messageAlert("the reservation has been canceled","danger")
     },
+    
     createChat: function(otheruserID) {
       const info = {
       chatId: null,
@@ -848,6 +852,7 @@ export default {
     }
   }
 };
+
 </script>
 <style lang="scss">
 
