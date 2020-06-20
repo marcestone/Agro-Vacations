@@ -56,7 +56,7 @@
                     <small style="color:green">Contacta a quienes han reservado tu actividad</small>
                   </h3>
                 </template>
-                <div class="modal-body">
+                <div class="modal-body ">
                   <div v-for="item2 in item.activityReservationList" :key="item2.id">
                     <router-link
                       class="list-group-item list-group-item-action"
@@ -66,7 +66,16 @@
 
                       {{ item2.name }},
                       {{ item2.createdActivityReservationDate }}
+                      <router-link
+                       :to="'/messages'"
+                      >
+                      <button
+                      v-on:click="createChat(item2.reservationUserId)"
+                      class="buttonSsa button1Ss float-right"
+                      ><b-icon-chat-dots></b-icon-chat-dots> Chat</button>
+                      </router-link>
                     </router-link>
+
                   </div>
                 </div>
 
@@ -294,6 +303,12 @@ export default {
       newComment:"",
       ratingClient: 0,
       currentDate: cD,
+
+      chatId: null,
+      fromId: null,
+      receivedId: null,
+      dateMessage: null,
+      messages: [],
     };
   },
 
@@ -730,6 +745,106 @@ export default {
             }
           });
       }
+    },
+    createChat: function(otheruserID) {
+      const info = {
+      chatId: null,
+      fromId: null,
+      receivedId: null,
+      dateMessage: null,
+      messages: []
+      };
+      const now = new Date();
+      const today = new Date(now.getFullYear(), now.getMonth(), now.getDate(), now.getHours(), now.getMinutes(), now.getSeconds());
+      const minDate = new Date(today);
+      let documentChat = db.collection("chats").doc();
+      //var user = Firebase.auth().currentUser;
+
+      Firebase.auth().onAuthStateChanged(client => {
+      if (client) {
+        client.uid
+        db.collection("user")
+          .doc(client.uid)
+          .get()
+          .then(snapshot => {
+            let documentUser;
+            let messages = snapshot.data().messages;
+            let chatuser = snapshot.data().chatuser;
+
+            if (messages == null) {
+              messages = [];
+            }
+
+            if (chatuser == null) {
+              chatuser = [];
+            }
+
+
+            documentUser = db.collection("user").doc(client.uid);
+
+            documentChat.set({
+              fromId: client.uid,
+              receivedId: otheruserID,
+              messages: [],
+              chatId: documentChat.id
+            });
+
+            chatuser.push({
+              chatId: documentChat.id,
+              fromId: otheruserID
+            });
+
+            documentUser.update({
+                chatuser: chatuser
+              });  
+
+            info.dateMessage = minDate;
+            
+            messages.push({
+              ownerMessage: client.uid,
+              message: "Buenas, ¿en qué te puedo ayudar?",
+              dateMessage : info.dateMessage
+            });
+
+            db.collection("chats")
+              .doc(documentChat.id)
+              .update({
+                messages: messages
+              });  
+            
+            this.createFileFolder(documentChat.id);
+      
+          });
+
+        //var otheruserID = document.getElementById('userto').value;
+        var chatID = documentChat.id;
+
+        db.collection("user")
+          .doc(otheruserID)
+          .get()
+          .then(snapshot => {
+            let documentUserto;
+            let chatuser = snapshot.data().chatuser;
+            console.log(chatID,"3");
+
+            if (chatuser == null) {
+              chatuser = [];
+            }
+
+            documentUserto = db.collection("user").doc(otheruserID);
+
+
+            chatuser.push({
+              chatId: chatID,
+              fromId: client.uid
+            });
+
+            documentUserto.update({
+                chatuser: chatuser
+              });  
+          });
+      }
+    })
     }
   }
 };
@@ -794,6 +909,38 @@ div.commentsboxMyAct{
 }
 .AlertText span{
   margin: auto;
+}
+
+.buttonSsa {
+  background-color: #0d8517; /* Green */
+  border: none;
+  color: white;
+  padding: 0px 0px;
+  text-align: center;
+  display: inline-block;
+  font-size: 14px;
+  margin: 0px 0px;
+  transition-duration: 0.4s;
+  text-decoration: none;
+  border-radius: 50px;
+  cursor: pointer;
+}
+.button1Ss {
+  background-color: white; 
+  color: black; 
+  border: 2px solid #0d8517;
+  text-decoration: none;
+  width: 75px;
+  height: 25px;
+  
+}
+.button1Ss:hover {
+  background-color:#0d8517;
+  color: white;
+  text-decoration: none;
+  width: 75px;
+  height: 25px;
+
 }
 
 </style>
