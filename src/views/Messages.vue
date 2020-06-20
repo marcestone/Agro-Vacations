@@ -62,10 +62,167 @@ export default {
       userId:"",
     };
   },
+
+  methods: {
+    createChat: function() {
+      const info = {
+      chatId: null,
+      fromId: null,
+      receivedId: null,
+      dateMessage: null,
+      messages: []
+      };
+      const now = new Date();
+      const today = new Date(now.getFullYear(), now.getMonth(), now.getDate(), now.getHours(), now.getMinutes(), now.getSeconds());
+      const minDate = new Date(today);
+
+      var user = Firebase.auth().currentUser;
+      let documentChat = db.collection("chats").doc();
+      var otheruserID = document.getElementById('userto').value;
+
+      if (user != null) {
+        db.collection("user")
+          .doc(user.uid)
+          .get()
+          .then(snapshot => {
+            let documentUser;
+            let messages = snapshot.data().messages;
+            let chatuser = snapshot.data().chatuser;
+
+            if (messages == null) {
+              messages = [];
+            }
+
+            if (chatuser == null) {
+              chatuser = [];
+            }
+
+
+            documentUser = db.collection("user").doc(user.uid);
+
+            documentChat.set({
+              fromId: user.uid,
+              receivedId: otheruserID,
+              messages: [],
+              chatId: documentChat.id
+            });
+
+            chatuser.push({
+              chatId: documentChat.id,
+              fromId: otheruserID
+            });
+
+            documentUser.update({
+                chatuser: chatuser
+              });  
+
+            info.dateMessage = minDate;
+            
+            messages.push({
+              ownerMessage: otheruserID,
+              message: "Buenas, ¿en qué te puedo ayudar?",
+              dateMessage : info.dateMessage
+            });
+
+            db.collection("chats")
+              .doc(documentChat.id)
+              .update({
+                messages: messages
+              });  
+            
+            this.createFileFolder(documentChat.id);
+      
+          });
+
+
+        var chatID = documentChat.id;
+
+        db.collection("user")
+          .doc(otheruserID)
+          .get()
+          .then(snapshot => {
+            let documentUserto;
+            let chatuser = snapshot.data().chatuser;
+            console.log(chatID,"3");
+
+            if (chatuser == null) {
+              chatuser = [];
+            }
+
+            documentUserto = db.collection("user").doc(otheruserID);
+
+
+            chatuser.push({
+              chatId: chatID,
+              fromId: user.uid
+            });
+
+            documentUserto.update({
+                chatuser: chatuser
+              });  
+          });
+      }
+    },
+
+    sendMessage: function() {
+    
+      const info = {
+      chatId: null,
+      fromId: null,
+      receivedId: null,
+      dateMessage: null,
+      messages: []
+      };
+      const now = new Date();
+      const today = new Date(now.getFullYear(), now.getMonth(), now.getDate(), now.getHours(), now.getMinutes(), now.getSeconds());
+      const minDate = new Date(today);
+
+      var user = Firebase.auth().currentUser;
+      var chatID = document.getElementById('chatIdd').value;
+      console.log(chatID);
+
+      if (user != null) {
+        db.collection("chats")
+          .doc(chatID)
+          .get()
+          .then(snapshot => {
+            let documentChat;
+            let messages = snapshot.data().messages;
+
+            if (messages == null) {
+              messages = [];
+            }
+
+            documentChat = db.collection("chats").doc(chatID);
+
+            info.dateMessage = minDate;
+
+            var text = document.getElementById('message').value;
+
+            messages.push({
+              ownerMessage: user.uid,
+              message: text,
+              dateMessage : info.dateMessage
+            });
+
+            documentChat.update({
+                messages: messages
+              });  
+
+            document.getElementById('msg').innerHTML+=`
+            `;
+            document.getElementById('chatid').innerHTML+=`
+            `;
+          });
+      }
+    },  
+
+  }  
 }
 </script>
 
 <style>
+
 .container{max-width:1170px; margin:auto;}
 img{ max-width:100%;}
 .inbox_people {
@@ -200,5 +357,6 @@ img{ max-width:100%;}
 .msg_history {
   height: 516px;
   overflow-y: auto;
+
 }
 </style>
