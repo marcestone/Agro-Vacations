@@ -43,7 +43,8 @@ export default {
         const dd = String(now.getDate()).padStart(2, '0');
         const mm = String(now.getMonth() + 1).padStart(2, '0'); //January is 0!
         const yyyy = now.getFullYear();
-        const cD = mm + '/' + dd + '/' + yyyy;
+        const time = now.getHours() + ":" + now.getMinutes();
+        const cD = mm + '/' + dd + '/' + yyyy +' | ' + time;
         return {
             currentDate: cD,
             newMessage:""
@@ -53,7 +54,6 @@ export default {
         "messages","fromPicture","userId","chatId"
     ],
     mounted(){
-        
     },
     methods:{
         sendMessage() {
@@ -65,7 +65,9 @@ export default {
                     message: this.newMessage,
                     ownerMessage: this.userId,
                 })
-            })
+            }).then(()=>{
+                this.$router.replace("messages"); 
+            });
         }
     }
 }

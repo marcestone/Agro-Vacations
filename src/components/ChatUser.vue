@@ -1,6 +1,16 @@
 <template>
 <div>
-    <div class="chat_list active_chat">
+    <div class="chat_list">
+        <div class="chat_people" @click="toggleComponent">
+            <div class="chat_img"> <img :src="fromPicture" alt="Pic"> </div>
+            <div class="chat_ib">
+                <h5>{{fromName}} <span class="chat_date">{{LastMessage.lastdateMessage}}</span></h5>
+                <p>{{LastMessage.lastmessage}}</p>
+            </div>
+        </div>
+    </div>
+
+    <!--<div class="chat_list active_chat">
         <div class="chat_people" @click="toggleComponent">
             <div class="chat_img"> <img :src="fromPicture" alt="Pic"> </div>
             <div class="chat_ib">
@@ -8,7 +18,8 @@
                 <p>{{LastMessage.lastmessage}}</p>
             </div> 
         </div>
-    </div>
+    </div>-->
+
     <b-container id="container-mesgs">
     <div class="mesgs">
         <CloudMessages

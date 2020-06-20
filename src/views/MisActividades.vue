@@ -759,8 +759,11 @@ export default {
       messages: []
       };
       const now = new Date();
-      const today = new Date(now.getFullYear(), now.getMonth(), now.getDate(), now.getHours(), now.getMinutes(), now.getSeconds());
-      const minDate = new Date(today);
+        const dd = String(now.getDate()).padStart(2, '0');
+        const mm = String(now.getMonth() + 1).padStart(2, '0'); //January is 0!
+        const yyyy = now.getFullYear();
+        const time = now.getHours() + ":" + now.getMinutes();
+        const minDate = mm + '/' + dd + '/' + yyyy +' | ' + time;
       let documentChat = db.collection("chats").doc();
       //var user = Firebase.auth().currentUser;
 
@@ -773,14 +776,14 @@ export default {
           .then(snapshot => {
             let documentUser;
             let messages = snapshot.data().messages;
-            let chatuser = snapshot.data().chatuser;
+            let chats = snapshot.data().chats;
 
             if (messages == null) {
               messages = [];
             }
 
-            if (chatuser == null) {
-              chatuser = [];
+            if (chats == null) {
+              chats = [];
             }
 
 
@@ -793,13 +796,13 @@ export default {
               chatId: documentChat.id
             });
 
-            chatuser.push({
+            chats.push({
               chatId: documentChat.id,
               fromId: otheruserID
             });
 
             documentUser.update({
-                chatuser: chatuser
+                chats: chats
               });  
 
             info.dateMessage = minDate;
@@ -828,23 +831,23 @@ export default {
           .get()
           .then(snapshot => {
             let documentUserto;
-            let chatuser = snapshot.data().chatuser;
+            let chats = snapshot.data().chats;
             console.log(chatID,"3");
 
-            if (chatuser == null) {
-              chatuser = [];
+            if (chats == null) {
+              chats = [];
             }
 
             documentUserto = db.collection("user").doc(otheruserID);
 
 
-            chatuser.push({
+            chats.push({
               chatId: chatID,
               fromId: client.uid
             });
 
             documentUserto.update({
-                chatuser: chatuser
+                chats: chats
               });  
           });
       }
