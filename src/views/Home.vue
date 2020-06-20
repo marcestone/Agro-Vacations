@@ -44,14 +44,25 @@
           v-model="locationFilter"
         ></b-input>
 
-
-        <b-input
+    <!--    <b-input
           id="InputGuests"
            class="w-20 p-3 mb-1 h-100 d-inline-block"
           placeholder="✇ Tipo"
           v-model="typeFilter"
-        ></b-input>
-
+        ></b-input>-->
+      
+        <b-select v-model="typeFilter" id="Inputtypefilter">
+          <option value="" disabled selected>Tipo</option>
+          <option value="">Cualquiera</option>
+          <option value="Extreme">Extreme</option>
+          <option value="Ecological">Ecological</option>
+          <option value="Cultural">Cultural</option>
+          <option value="Familiar">Familiar</option>
+          <option value="Events">Events</option>
+          <option value="Rural">Rural</option>
+          <option value="Lodging">Lodging</option>
+        </b-select>
+      
         <b-form-datepicker
           id="ArriveDatePicker"
           v-model="dateFilter"
@@ -163,13 +174,18 @@
           <option value="Yes">Si</option>
           <option value="No">No</option>
         </select>
-
-        <b-input
-          style="margin-left: 2%; margin-right: 2%;"
+        <h4 style="margin-left: 2%; margin-right: 2%;  color: green;"><strong>Calificación: </strong></h4>
+        <select
           id="RatingStart"  
-          placeholder="☆ Calificación minima ☆"
-          v-model="ratingFilterStart"
-        ></b-input>
+          v-model="ratingFilterStart">
+          <option disabled selected>Calificación</option>
+          <option value="-1">Cualquiera</option>
+          <option value="1">1 ★</option>
+          <option value="2">2 ★</option>
+          <option value="3">3 ★</option>
+          <option value="4">4 ★</option>
+          <option value="5">5 ★</option>
+        </select>
 
         
 
@@ -277,8 +293,8 @@ import ImageFilter from "@/components/ImageFilter.vue";
 export default {
   name: "Home",
   props: ["client", "activities"],
-
   mounted() {
+    
     db.collection("activities").onSnapshot(snapshot => {
       const snapData = [];
       snapshot.forEach(doc => {
@@ -469,7 +485,16 @@ export default {
   margin-top: 17px;
   margin-left: 15px;
   height: 60px;
-  width: 120px;
+  width: 140px;
+}
+#Inputtypefilter{
+  width: 150px;
+  height: 40px;
+  border-color: #d8d8d8 !important;
+  margin-left:15px;
+  border-radius: 5px !important;
+  margin-top: 15px;
+  
 }
 .form-control-lg {
   font-size: 1rem;
@@ -485,7 +510,7 @@ export default {
   width: 140px;
   border-radius: 35px;
   margin-top: 13px;
-  margin-left: 20px;
+  margin-left: 25px;
 }
 
 .wrapper {
@@ -508,8 +533,7 @@ export default {
   //height: 40px;
   border-radius: 1px;
   border: 2px solid #47803e;
-  border-left: transparent;
-  border-right: transparent;
+  background-color: whitesmoke;
 }
 #ContainerActivities {
   margin-top: 2rem;
