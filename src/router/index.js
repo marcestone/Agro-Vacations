@@ -3,7 +3,6 @@ import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
 import LoginCliente from "../views/LoginCliente.vue";
 import PerfilCliente from "../views/PerfilCliente.vue";
-import EditarPerfil from "../views/EditarPerfil.vue";
 import RegistroCliente from "../views/RegistroCliente.vue";
 import CrearActividad from "../views/CrearActividad.vue";
 import PerfilMiembros from "../views/PerfilMiembros.vue";
@@ -41,11 +40,6 @@ const routes = [
     name: "PerfilMiembros",
     component: PerfilMiembros,
     props: true
-  },
-  {
-    path: "/editarperfil",
-    name: "EditarPerfil",
-    component: EditarPerfil
   },
   {
     path: "/registrocliente",
