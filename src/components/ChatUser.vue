@@ -2,7 +2,7 @@
 <div>
     <div class="chat_list">
         <div class="chat_people" @click="toggleComponent">
-            <div class="chat_img"> <img :src="fromPicture" alt="Pic"> </div>
+            <div class="chat_img"> <b-img v-bind="mainProps" :src="fromPicture" rounded="circle" alt="Pic"></b-img> </div>
             <div class="chat_ib">
                 <h5>{{fromName}} <span class="chat_date">{{LastMessage.lastdateMessage}}</span></h5>
                 <p>{{LastMessage.lastmessage}}</p>
@@ -24,7 +24,6 @@
     <div class="mesgs">
         <CloudMessages
             v-if="showComponent"
-            :messages="messages"
             :fromPicture="fromPicture"
             :userId="userId"
             :chatId="chatId"
@@ -66,6 +65,7 @@ export default {
     },
     data(){
         return{
+            mainProps: {  width: 40, height: 40, class: 'm1' },
             showComponent: false,
             messages:[],
             fromName:"",
@@ -78,6 +78,6 @@ export default {
 </script>
 <style>
 #container-mesgs{
-    margin-left: 0%;
+    max-width: 100%;
 }
 </style>

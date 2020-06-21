@@ -309,6 +309,7 @@ export default {
       receivedId: null,
       dateMessage: null,
       messages: [],
+      chats:[],
     };
   },
 
@@ -365,7 +366,6 @@ export default {
                 .get()
                 .then(snapshot => {
                   var k = 0;
-
                   var show = true;
                   for(k = 0; k < snapshot.data().comments.length ; ++k){
                     if(snapshot.data().comments[k].userId == currentUser.uid ){
@@ -750,7 +750,7 @@ export default {
       this.messageAlert("the reservation has been canceled","danger")
     },
     
-    createChat: function(otheruserID) {
+    createChat: function(otheruser) {
       const info = {
       chatId: null,
       fromId: null,
@@ -759,17 +759,27 @@ export default {
       messages: []
       };
       const now = new Date();
-        const dd = String(now.getDate()).padStart(2, '0');
-        const mm = String(now.getMonth() + 1).padStart(2, '0'); //January is 0!
-        const yyyy = now.getFullYear();
-        const time = now.getHours() + ":" + now.getMinutes();
-        const minDate = mm + '/' + dd + '/' + yyyy +' | ' + time;
+      const dd = String(now.getDate()).padStart(2, '0');
+      const mm = String(now.getMonth() + 1).padStart(2, '0'); //January is 0!
+      const yyyy = now.getFullYear();
+      const time = now.getHours() + ":" + now.getMinutes();
+      const minDate = mm + '/' + dd + '/' + yyyy +' | ' + time;
       let documentChat = db.collection("chats").doc();
+      let flag = true;
       //var user = Firebase.auth().currentUser;
 
       Firebase.auth().onAuthStateChanged(client => {
       if (client) {
         client.uid
+        db.collection("user").doc(client.uid).get().then(snapshot =>{
+            this.chats = snapshot.data().chats;
+            for(let i = 0;i<this.chats.length;i++){
+              if(this.chats[i].fromId == otheruser){
+                flag = false;
+              }
+            }
+
+        if(flag == true){
         db.collection("user")
           .doc(client.uid)
           .get()
@@ -786,19 +796,18 @@ export default {
               chats = [];
             }
 
-
             documentUser = db.collection("user").doc(client.uid);
 
             documentChat.set({
               fromId: client.uid,
-              receivedId: otheruserID,
+              receivedId: otheruser,
               messages: [],
               chatId: documentChat.id
             });
 
             chats.push({
               chatId: documentChat.id,
-              fromId: otheruserID
+              fromId: otheruser
             });
 
             documentUser.update({
@@ -818,27 +827,23 @@ export default {
               .update({
                 messages: messages
               });  
-            
-            this.createFileFolder(documentChat.id);
-      
           });
 
-        //var otheruserID = document.getElementById('userto').value;
+        //var otheruser = document.getElementById('userto').value;
         var chatID = documentChat.id;
 
         db.collection("user")
-          .doc(otheruserID)
+          .doc(otheruser)
           .get()
           .then(snapshot => {
             let documentUserto;
             let chats = snapshot.data().chats;
-            console.log(chatID,"3");
 
             if (chats == null) {
               chats = [];
             }
 
-            documentUserto = db.collection("user").doc(otheruserID);
+            documentUserto = db.collection("user").doc(otheruser);
 
 
             chats.push({
@@ -850,6 +855,9 @@ export default {
                 chats: chats
               });  
           });
+        }else{console.log("Chat creado anteriormente")}
+        })
+
       }
     })
     }

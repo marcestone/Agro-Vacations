@@ -642,12 +642,11 @@ div.icons{
 }
 #containerimages{
   width: 80%;
-  height: 350px;
+  height: 100%;
   background-color: #eeeeee;
   margin-top: -30px;
   box-shadow: 0px 3px 5px  #ccc;
   border-radius: 5px;
 }
-
 
 </style>

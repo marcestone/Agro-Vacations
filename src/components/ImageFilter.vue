@@ -33,7 +33,7 @@ export default {
     #ImageFilter{
      //  background-color: green;
         width: 22%;
-        height: 330px;
+        height: 100%;
         margin-top: 10px;
         border-radius: 5px;
     //    background-image: url(../assets/Ecological.png);
@@ -41,10 +41,10 @@ export default {
     }
     #titleImage{
         width: 100%;
-        height: 60px;
+        height: 100%;
         background-color:rgba(219, 219, 219, 0.5);
-        margin-top: 250px;
-        border-radius: 10px;
+        margin-top: 130%;
+        border-radius: 5%;
         
 
     }
@@ -52,14 +52,9 @@ export default {
         color: honeydew;
         opacity: 10 !important;
         text-align: center;
-        line-height: 3.5rem;
-        font-size: 2.5rem;
-        font-family: 'Oleo Script', cursive;
-        
+        line-height: 150%;
+        font-size: 250%;
+        font-family: 'Oleo Script', cursive;   
     }
-    #imageprop{
-        width: 100%;
-        height: 330px;
-        
-    }
+    
 </style>

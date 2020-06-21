@@ -1,11 +1,11 @@
 <template>
-<div>
+<div >
     <div class="msg_history">
 
         <div v-for="item in messages" :key="item.dateMessage">
-            
+        
             <div class="incoming_msg" v-if="item.ownerMessage != userId">
-                <div class="incoming_msg_img"> <img :src="fromPicture" alt="Pic"> </div>
+                <div class="incoming_msg_img"> <b-img v-bind="mainProps" rounded="circle"  :src="fromPicture" alt="Pic"></b-img> </div>
                 <div class="received_msg">
                     <div class="received_withd_msg">
                     <p>{{item.message}}</p>
@@ -29,8 +29,10 @@
                 <input type="text" class="write_msg" placeholder="Type a message" v-model="newMessage" />
                 <button class="msg_send_btn" type="button" @click="sendMessage">
                     <i class="fa fa-paper-plane-o" aria-hidden="true"></i>
+                    <b-icon icon="cursor-fill"></b-icon>
                 </button>
             </div>
+            <hr class="linechat">
         </div>
 </div>
 </template>
@@ -43,19 +45,35 @@ export default {
         const dd = String(now.getDate()).padStart(2, '0');
         const mm = String(now.getMonth() + 1).padStart(2, '0'); //January is 0!
         const yyyy = now.getFullYear();
-        const time = now.getHours() + ":" + now.getMinutes();
-        const cD = mm + '/' + dd + '/' + yyyy +' | ' + time;
+        const hours = now.getHours() + ":" 
+        const minutes = this.addZero(now.getMinutes());
+        const cD = mm + '/' + dd + '/' + yyyy +' | ' + hours + minutes;
         return {
+            mainProps: {  width: 30, height: 30, class: 'm1' },
+            renderMyComponent: true,
             currentDate: cD,
-            newMessage:""
+            newMessage:"",
+            messages:[]
         };
     },
     props:[
-        "messages","fromPicture","userId","chatId"
+        "fromPicture","userId","chatId"
     ],
     mounted(){
+        db.collection("chats").doc(this.chatId).get().then(snapshot =>{
+            this.messages = snapshot.data().messages;
+        })
     },
     methods:{
+        addZero(i) {
+            if (i < 10) {
+                i = "0" + i;
+            }
+            return i;
+        },
+        reRender(){
+            location.reload();
+        },
         sendMessage() {
             var send = db.collection("chats").doc(this.chatId)
             send.update({
@@ -66,9 +84,15 @@ export default {
                     ownerMessage: this.userId,
                 })
             }).then(()=>{
-                this.$router.replace("messages"); 
+                this.reRender(); 
             });
         }
     }
 }
 </script>
+<style>
+hr.lineFooter{
+  margin-top: 60px;
+  border: 1px solid rgb(153, 153, 153);
+}
+</style>

@@ -1,5 +1,6 @@
 <template>
-      <div class="container">
+<b-container fluid class="containerMessagesView">
+      <div class="containerMessages">
         <h3 class=" text-center"></h3>
         <div class="messaging">
 
@@ -7,11 +8,11 @@
             <div class="inbox_people">
               <div class="headind_srch">
                 <div class="recent_heading">
-                  <h4>Recent</h4>
+                  <h4> <b-icon icon="chat-square-fill"></b-icon> Mensajes Recientes</h4>
                 </div>
                 <div class="srch_bar">
                   <div class="stylish-input-group">
-                    <input type="text" class="search-bar"  placeholder="Search" >
+                    
                     <span class="input-group-addon">
                     <button type="button"> <i class="fa fa-search" aria-hidden="true"></i> </button>
                     </span> </div>
@@ -31,6 +32,7 @@
           </div>
         </div>  
       </div>
+    </b-container>
 </template>
 
 <script>
@@ -63,173 +65,29 @@ export default {
     };
   },
 
-  methods: {
-    createChat: function() {
-      const info = {
-      chatId: null,
-      fromId: null,
-      receivedId: null,
-      dateMessage: null,
-      messages: []
-      };
-      const now = new Date();
-      const today = new Date(now.getFullYear(), now.getMonth(), now.getDate(), now.getHours(), now.getMinutes(), now.getSeconds());
-      const minDate = new Date(today);
-
-      var user = Firebase.auth().currentUser;
-      let documentChat = db.collection("chats").doc();
-      var otheruserID = document.getElementById('userto').value;
-
-      if (user != null) {
-        db.collection("user")
-          .doc(user.uid)
-          .get()
-          .then(snapshot => {
-            let documentUser;
-            let messages = snapshot.data().messages;
-            let chatuser = snapshot.data().chatuser;
-
-            if (messages == null) {
-              messages = [];
-            }
-
-            if (chatuser == null) {
-              chatuser = [];
-            }
-
-
-            documentUser = db.collection("user").doc(user.uid);
-
-            documentChat.set({
-              fromId: user.uid,
-              receivedId: otheruserID,
-              messages: [],
-              chatId: documentChat.id
-            });
-
-            chatuser.push({
-              chatId: documentChat.id,
-              fromId: otheruserID
-            });
-
-            documentUser.update({
-                chatuser: chatuser
-              });  
-
-            info.dateMessage = minDate;
-            
-            messages.push({
-              ownerMessage: otheruserID,
-              message: "Buenas, ¿en qué te puedo ayudar?",
-              dateMessage : info.dateMessage
-            });
-
-            db.collection("chats")
-              .doc(documentChat.id)
-              .update({
-                messages: messages
-              });  
-            
-            this.createFileFolder(documentChat.id);
-      
-          });
-
-
-        var chatID = documentChat.id;
-
-        db.collection("user")
-          .doc(otheruserID)
-          .get()
-          .then(snapshot => {
-            let documentUserto;
-            let chatuser = snapshot.data().chatuser;
-            console.log(chatID,"3");
-
-            if (chatuser == null) {
-              chatuser = [];
-            }
-
-            documentUserto = db.collection("user").doc(otheruserID);
-
-
-            chatuser.push({
-              chatId: chatID,
-              fromId: user.uid
-            });
-
-            documentUserto.update({
-                chatuser: chatuser
-              });  
-          });
-      }
-    },
-
-    sendMessage: function() {
-    
-      const info = {
-      chatId: null,
-      fromId: null,
-      receivedId: null,
-      dateMessage: null,
-      messages: []
-      };
-      const now = new Date();
-      const today = new Date(now.getFullYear(), now.getMonth(), now.getDate(), now.getHours(), now.getMinutes(), now.getSeconds());
-      const minDate = new Date(today);
-
-      var user = Firebase.auth().currentUser;
-      var chatID = document.getElementById('chatIdd').value;
-      console.log(chatID);
-
-      if (user != null) {
-        db.collection("chats")
-          .doc(chatID)
-          .get()
-          .then(snapshot => {
-            let documentChat;
-            let messages = snapshot.data().messages;
-
-            if (messages == null) {
-              messages = [];
-            }
-
-            documentChat = db.collection("chats").doc(chatID);
-
-            info.dateMessage = minDate;
-
-            var text = document.getElementById('message').value;
-
-            messages.push({
-              ownerMessage: user.uid,
-              message: text,
-              dateMessage : info.dateMessage
-            });
-
-            documentChat.update({
-                messages: messages
-              });  
-
-            document.getElementById('msg').innerHTML+=`
-            `;
-            document.getElementById('chatid').innerHTML+=`
-            `;
-          });
-      }
-    },  
-
+  methods: { 
   }  
 }
 </script>
 
 <style>
-
-.container{max-width:1170px; margin:auto;}
+.containerMessagesView{
+  background-image: url("../assets/bc7.jpg");
+  background-size: cover;
+}
+.containerMessages{max-width:50%; margin:auto; }
 img{ max-width:100%;}
+@media all and (max-width: 1200px) {
+    .containerMessages {
+        max-width: 100%;
+        margin:auto;
+    }
+}
 .inbox_people {
   background: #f8f8f8 none repeat scroll 0 0;
   float: left;
   overflow: hidden;
-  width: 40%; border-right:1px solid #c4c4c4;
+  width: 100%; border-right:1px solid #c4c4c4;
 }
 .inbox_msg {
   border: 1px solid #c4c4c4;
@@ -245,10 +103,10 @@ img{ max-width:100%;}
   text-align: right;
   width: 60%;
 }
-.headind_srch{ padding:10px 29px 10px 20px; overflow:hidden; border-bottom:1px solid #c4c4c4;}
+.headind_srch{ padding:10px 29px 10px 20px; overflow:hidden; border-bottom:1px solid #ffffff; background-color: #27993a;}
 
 .recent_heading h4 {
-  color: #23b33b;
+  color: #ffffff;
   font-size: 21px;
   margin: auto;
 }
@@ -281,7 +139,7 @@ img{ max-width:100%;}
   margin: 0;
   padding: 18px 16px 10px;
 }
-.inbox_chat { height: 550px; overflow-y: scroll;}
+.inbox_chat { height: 550px; overflow-y: scroll; }
 
 .active_chat{ background:#ebebeb;}
 
@@ -353,9 +211,9 @@ img{ max-width:100%;}
   top: 11px;
   width: 33px;
 }
-.messaging { padding: 0 0 50px 0;}
+.messaging { padding: 0 0 50px 0; }
 .msg_history {
-  height: 516px;
+  height: 100%px;
   overflow-y: auto;
 
 }
