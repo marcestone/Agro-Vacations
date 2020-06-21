@@ -49,7 +49,7 @@ export default {
         const minutes = this.addZero(now.getMinutes());
         const cD = mm + '/' + dd + '/' + yyyy +' | ' + hours + minutes;
         return {
-            mainProps: {  width: 30, height: 30, class: 'm1' },
+            mainProps: {  width: 20, height: 20, class: 'm1' },
             renderMyComponent: true,
             currentDate: cD,
             newMessage:"",

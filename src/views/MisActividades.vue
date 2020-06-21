@@ -615,8 +615,8 @@ export default {
           })
         }).then(()=>{
           
-          this.$router.replace("home");
-                  
+          //this.$router.replace("misactividades");
+            location.reload();      
         });
 
         activityRate = ((activityRate*(nComments)) + this.ratingClient) / (nComments + 1);
@@ -639,40 +639,13 @@ export default {
             isShowed: false
           })
           .then(()=>{
-            this.$router.replace("home");
+            //this.$router.replace("misactividades");
+            location.reload();
           })
           .catch(function(error) {
             console.error("Error actualizando el documento: ", error);
           });
           this.messageAlert("the activity has been hidden","danger")
-        db.collection("user")
-          .doc(userId)
-          .update({
-            notifications: Firebase.firestore.FieldValue.arrayUnion({
-              activityId: id,
-              otherUserId: user.uid,
-              otherUsername: this.userCreatorName,
-              activityName: this.nameActivity,
-              type: "cancelacionActividad"
-            })
-          })
-          .then(function() {
-            console.log("El documento ha sido actualizado");
-          });
-        db.collection("user")
-          .doc(user.uid)
-          .update({
-            notifications: Firebase.firestore.FieldValue.arrayUnion({
-              activityId: id,
-              otherUserId: userId,
-              otherUsername: this.userCreatorName,
-              activityName: this.nameActivity,
-              type: "cancelacionActividad"
-            })
-          })
-          .then(function() {
-            console.log("El documento ha sido actualizado");
-          });
       }
     },
     reactivateActivity(id) {
@@ -684,7 +657,8 @@ export default {
             isShowed: true
           })
           .then(()=>{
-            this.$router.replace("home");
+            location.reload();
+            //this.$router.replace("misactividades");
           })
           .catch(function(error) {
             console.error("Error actualizando el documento: ", error);
@@ -830,7 +804,10 @@ export default {
               .doc(documentChat.id)
               .update({
                 messages: messages
-              });  
+              }).then(() => {
+                //location.href ="/messages"
+                location.reload();
+              })  
           });
 
         //var otheruser = document.getElementById('userto').value;
