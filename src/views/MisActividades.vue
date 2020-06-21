@@ -284,6 +284,9 @@ export default {
     Comments
   },
   name: "MisActividades",
+    props: [
+    "client"
+  ],
   data() {
       const now = new Date();
       const dd = String(now.getDate()).padStart(2, '0');
@@ -315,9 +318,9 @@ export default {
 
   mounted() {
     
-    
+    Firebase.auth().onAuthStateChanged(client => {
     var currentUser = Firebase.auth().currentUser;
-    if (currentUser != null) {     
+    if (client) {     
 
       db.collection("user")
         .doc(currentUser.uid)
@@ -568,6 +571,7 @@ export default {
           }
         });
     }
+})
   },
   methods: {
       messageAlert(message,variant){

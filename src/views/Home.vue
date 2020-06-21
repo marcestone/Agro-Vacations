@@ -30,26 +30,20 @@
 
     <div class="box" id="boxHome">
       <b-form inline>
-        <b-input
+        <input
           id="InputSearchA"
           class="w-25 p-3 mb-1 h-100 d-inline-block"
           placeholder=" ✈ Buscar por título"
           v-model="keyWordFilter"
-        ></b-input>
+        >
 
-        <b-input
+        <input
           id="InputGuests"
           class="w-20 p-3 mb-1 h-100 d-inline-block"
           placeholder="📍Ubicación"
           v-model="locationFilter"
-        ></b-input>
+        >
 
-    <!--    <b-input
-          id="InputGuests"
-           class="w-20 p-3 mb-1 h-100 d-inline-block"
-          placeholder="✇ Tipo"
-          v-model="typeFilter"
-        ></b-input>-->
       
         <b-select v-model="typeFilter" id="Inputtypefilter">
           <option value="" disabled selected>Tipo</option>
@@ -63,6 +57,7 @@
           <option value="Lodging">Lodging</option>
         </b-select>
       
+
         <b-form-datepicker
           id="ArriveDatePicker"
           v-model="dateFilter"
@@ -98,10 +93,10 @@
         ></b-input>-->
 
 
-        <b-button id="SearchBtn" variant="success" style="float: right;" v-on:click="search">
+        <button id="SearchBtn" variant="success" style="float: right;" v-on:click="search">
           <b-icon icon="search"></b-icon> Buscar
 
-        </b-button>
+        </button>
       </b-form>
     </div>
     <b-container id="containerimages">
@@ -174,6 +169,7 @@
           <option value="Yes">Si</option>
           <option value="No">No</option>
         </select>
+
         <h4 style="margin-left: 2%; margin-right: 2%;  color: green;"><strong>Calificación: </strong></h4>
         <select
           id="RatingStart"  
@@ -186,6 +182,7 @@
           <option value="4">4 ★</option>
           <option value="5">5 ★</option>
         </select>
+
 
         
 
@@ -216,6 +213,7 @@
           :comments="activity.comments"
           :userClient="activity.userClient"
           :currentDate="currentDate"
+          :activityLocation="activity.activityLocation"
         ></Activity>
       </b-row>
       <b-pagination
@@ -319,6 +317,7 @@ export default {
         var month = months[date.getMonth()];
         var formattedTime = "2020" + "-" + month + "-" + day;
         if (doc.data().isShowed == true) {
+          if (new Date(doc.data().dataEnd).getTime() > Date.now()) {
           snapData.push({
             id: doc.id,
             description: doc.data().description,
@@ -332,10 +331,11 @@ export default {
             rating: doc.data().activityRate,
             pictures: doc.data().pictures,
             comments: doc.data().comments,
-            userClient: doc.data().userClient
+            userClient: doc.data().userClient,
+            activityLocation: doc.data().activityLocation
           });
         }
-      });
+      }});
       this.activitiesD = snapData;
       this.rows = this.activitiesD.length;
       this.displayActivities = this.activitiesD.slice(0, 12);
@@ -429,6 +429,7 @@ export default {
             var month = months[date.getMonth()];
             var formattedTime = "2020" + "-" + month + "-" + day;
             if (doc.data().isShowed == true) {
+              if (new Date(doc.data().dataEnd).getTime() > Date.now()) {
               snapData.push({
                 id: doc.id,
                 description: doc.data().description,
@@ -442,9 +443,11 @@ export default {
                 rating: doc.data().activityRate,
                 pictures: doc.data().pictures,
                 comments: doc.data().comments,
-                userClient: doc.data().userClient
+                userClient: doc.data().userClient,
+                activityLocation:doc.data().activityLocation
               });
             }
+          }
           }
         });
         console.log(snapData.length);
@@ -510,7 +513,13 @@ export default {
   width: 140px;
   border-radius: 35px;
   margin-top: 13px;
-  margin-left: 25px;
+  margin-left: 20px;
+  background-color:green;  
+  color: white;
+}
+
+#SearchBtn:hover {
+  background-color: #47803e;
 }
 
 .wrapper {
