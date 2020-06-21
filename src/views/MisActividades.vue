@@ -56,7 +56,7 @@
                     <small style="color:green">Contacta a quienes han reservado tu actividad</small>
                   </h3>
                 </template>
-                <div class="modal-body">
+                <div class="modal-body ">
                   <div v-for="item2 in item.activityReservationList" :key="item2.id">
                     <router-link
                       class="list-group-item list-group-item-action"
@@ -66,7 +66,16 @@
 
                       {{ item2.name }},
                       {{ item2.createdActivityReservationDate }}
+                      <router-link
+                       :to="'/messages'"
+                      >
+                      <button
+                      v-on:click="createChat(item2.reservationUserId)"
+                      class="buttonSsa button1Ss float-right"
+                      ><b-icon-chat-dots></b-icon-chat-dots> Chat</button>
+                      </router-link>
                     </router-link>
+
                   </div>
                 </div>
 
@@ -141,7 +150,7 @@
                   <b-button
                     variant="danger"
                     type="submit"
-                    @click="cancelReservation(item.id)"
+                    @click.once="cancelReservation(item.id)"
                   >
                     <b-icon-dash-circle></b-icon-dash-circle>Cancelar
                   </b-button>
@@ -297,6 +306,13 @@ export default {
       newComment:"",
       ratingClient: 0,
       currentDate: cD,
+
+      chatId: null,
+      fromId: null,
+      receivedId: null,
+      dateMessage: null,
+      messages: [],
+      chats:[],
     };
   },
 
@@ -353,7 +369,6 @@ export default {
                 .get()
                 .then(snapshot => {
                   var k = 0;
-
                   var show = true;
                   for(k = 0; k < snapshot.data().comments.length ; ++k){
                     if(snapshot.data().comments[k].userId == currentUser.uid ){
@@ -559,9 +574,33 @@ export default {
 })
   },
   methods: {
-  
+      messageAlert(message,variant){
+        const h = this.$createElement
+        const vNodesMsg = h(
+          'p',
+          { class: ['text-center', 'mb-0'] },
+          [
+            h('b-spinner', { props: { type: 'grow', small: true } }),
+            message,
+            h('b-spinner', { props: { type: 'grow', small: true } })
+          ]
+        )
+        const vNodesTitle = h(
+          'div',
+          { class: ['d-flex', 'flex-grow-1', 'align-items-baseline', 'mr-2'] },
+          [
+            h('strong', { class: 'mr-2' }, 'Approved'),
+            h('small', { class: 'ml-auto text-italics' }, '1 second ago')
+          ]
+        )
+        this.$bvToast.toast([vNodesMsg], {
+          title: [vNodesTitle],
+          solid: true,
+          variant: variant
+        })
+      },
       comment(id,activityRate,nComments){
-      const h = this.$createElement
+      
       var user = Firebase.auth().currentUser;
       if(user){
         var commentA = db.collection("activities").doc(id)
@@ -584,30 +623,7 @@ export default {
         commentA.update({
           activityRate: activityRate,
         })
-        const vNodesMsg = h(
-          'p',
-          { class: ['text-center', 'mb-0'] },
-          [
-            h('b-spinner', { props: { type: 'grow', small: true } }),
-            ' The comment has been aproved,',
-            h('b-spinner', { props: { type: 'grow', small: true } })
-          ]
-        )
-        const vNodesTitle = h(
-          'div',
-          { class: ['d-flex', 'flex-grow-1', 'align-items-baseline', 'mr-2'] },
-          [
-            h('strong', { class: 'mr-2' }, 'Approved'),
-            h('small', { class: 'ml-auto text-italics' }, '1 second ago')
-          ]
-        )
-        this.$bvToast.toast([vNodesMsg], {
-          title: [vNodesTitle],
-          solid: true,
-          variant: 'success'
-        })
-        
-        
+        this.messageAlert("The comment will be avalable soon","success")
       }
     }, 
   
@@ -622,12 +638,13 @@ export default {
           .update({
             isShowed: false
           })
-          .then(function() {
-           // this.$router.replace("home"); 
+          .then(()=>{
+            this.$router.replace("home");
           })
           .catch(function(error) {
             console.error("Error actualizando el documento: ", error);
           });
+          this.messageAlert("the activity has been hidden","danger")
         db.collection("user")
           .doc(userId)
           .update({
@@ -666,12 +683,13 @@ export default {
           .update({
             isShowed: true
           })
-          .then(function() {
-           // this.$router.replace("home");   
+          .then(()=>{
+            this.$router.replace("home");
           })
           .catch(function(error) {
             console.error("Error actualizando el documento: ", error);
           });
+          this.messageAlert("the activity has been restored","success")
       }
     },
     cancelReservation(id) {
@@ -732,10 +750,124 @@ export default {
                 });
             }
           });
+      }      
+      this.messageAlert("the reservation has been canceled","danger")
+    },
+    
+    createChat: function(otheruser) {
+      const info = {
+      chatId: null,
+      fromId: null,
+      receivedId: null,
+      dateMessage: null,
+      messages: []
+      };
+      const now = new Date();
+      const dd = String(now.getDate()).padStart(2, '0');
+      const mm = String(now.getMonth() + 1).padStart(2, '0'); //January is 0!
+      const yyyy = now.getFullYear();
+      const time = now.getHours() + ":" + now.getMinutes();
+      const minDate = mm + '/' + dd + '/' + yyyy +' | ' + time;
+      let documentChat = db.collection("chats").doc();
+      let flag = true;
+      //var user = Firebase.auth().currentUser;
+
+      Firebase.auth().onAuthStateChanged(client => {
+      if (client) {
+        client.uid
+        db.collection("user").doc(client.uid).get().then(snapshot =>{
+            this.chats = snapshot.data().chats;
+            for(let i = 0;i<this.chats.length;i++){
+              if(this.chats[i].fromId == otheruser){
+                flag = false;
+              }
+            }
+
+        if(flag == true){
+        db.collection("user")
+          .doc(client.uid)
+          .get()
+          .then(snapshot => {
+            let documentUser;
+            let messages = snapshot.data().messages;
+            let chats = snapshot.data().chats;
+
+            if (messages == null) {
+              messages = [];
+            }
+
+            if (chats == null) {
+              chats = [];
+            }
+
+            documentUser = db.collection("user").doc(client.uid);
+
+            documentChat.set({
+              fromId: client.uid,
+              receivedId: otheruser,
+              messages: [],
+              chatId: documentChat.id
+            });
+
+            chats.push({
+              chatId: documentChat.id,
+              fromId: otheruser
+            });
+
+            documentUser.update({
+                chats: chats
+              });  
+
+            info.dateMessage = minDate;
+            
+            messages.push({
+              ownerMessage: client.uid,
+              message: "Buenas, ¿en qué te puedo ayudar?",
+              dateMessage : info.dateMessage
+            });
+
+            db.collection("chats")
+              .doc(documentChat.id)
+              .update({
+                messages: messages
+              });  
+          });
+
+        //var otheruser = document.getElementById('userto').value;
+        var chatID = documentChat.id;
+
+        db.collection("user")
+          .doc(otheruser)
+          .get()
+          .then(snapshot => {
+            let documentUserto;
+            let chats = snapshot.data().chats;
+
+            if (chats == null) {
+              chats = [];
+            }
+
+            documentUserto = db.collection("user").doc(otheruser);
+
+
+            chats.push({
+              chatId: chatID,
+              fromId: client.uid
+            });
+
+            documentUserto.update({
+                chats: chats
+              });  
+          });
+        }else{console.log("Chat creado anteriormente")}
+        })
+
       }
+    })
     }
   }
 };
+
 </script>
 <style lang="scss">
 
@@ -797,6 +929,38 @@ div.commentsboxMyAct{
 }
 .AlertText span{
   margin: auto;
+}
+
+.buttonSsa {
+  background-color: #0d8517; /* Green */
+  border: none;
+  color: white;
+  padding: 0px 0px;
+  text-align: center;
+  display: inline-block;
+  font-size: 14px;
+  margin: 0px 0px;
+  transition-duration: 0.4s;
+  text-decoration: none;
+  border-radius: 50px;
+  cursor: pointer;
+}
+.button1Ss {
+  background-color: white; 
+  color: black; 
+  border: 2px solid #0d8517;
+  text-decoration: none;
+  width: 75px;
+  height: 25px;
+  
+}
+.button1Ss:hover {
+  background-color:#0d8517;
+  color: white;
+  text-decoration: none;
+  width: 75px;
+  height: 25px;
+
 }
 
 </style>

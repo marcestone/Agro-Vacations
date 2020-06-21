@@ -125,7 +125,16 @@
                   font-weight: 700;
                   color: #ffffff;
                   margin:30px 0px 0px 63px">Enter event Type</p>
-                  <input type="text" placeholder="   ☠ Activity Type" id="inputType" v-model="activityType" />
+                  <!--  <input type="text" placeholder="   ☠ Activity Type" id="inputType" v-model="activityType" />-->
+                  <select v-model="activityType" id="inputType">
+                      <option value="Extreme">Extreme</option>
+                      <option value="Ecological">Ecological</option>
+                      <option value="Cultural">Cultural</option>
+                      <option value="Familiar">Familiar</option>
+                      <option value="Events">Events</option>
+                      <option value="Rural">Rural</option>
+                      <option value="Lodging">Lodging</option>
+                    </select>
                 </b-col>
                 
                 <b-col>         

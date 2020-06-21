@@ -110,7 +110,7 @@ dias que ya estan ocupados */
           <b-button variant="secondary" @click="cancel()">Cancel</b-button>
 
           <form @submit.prevent="reserve">
-            <b-button variant="primary" type="submit" @click="showMsgBoxTwo">
+            <b-button variant="primary" type="submit" @click="showMsgBoxTwo" >
               <b-icon icon="briefcase" type></b-icon> Reserve
             </b-button>
           </form>
@@ -155,7 +155,6 @@ export default {
   ],
   data() {
     return {
-      
       nComments:0,
       picture1: "", picture2: "", picture3: "",
 
