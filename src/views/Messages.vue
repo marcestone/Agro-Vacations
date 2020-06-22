@@ -76,7 +76,7 @@ export default {
   background-size: cover;
 }
 .containerMessages{max-width:50%; margin:auto; }
-img{ max-width:100%;}
+
 @media all and (max-width: 1200px) {
     .containerMessages {
         max-width: 100%;
