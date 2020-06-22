@@ -1,8 +1,8 @@
 <template>
-  <div class="bg">
+  <div class="bg" style="height:90%">
     <div class="wrapperForRegistro">
-      <div v-if="error" class="col-12 alert alert-danger px-3">{{ error }}</div>
-      <form class="form-registro" @submit.prevent="register">
+     <form class="form-registro" @submit.prevent="register">
+        <div v-if="error" style="margin:0px auto" class="col-10 alert alert-danger px-3">{{ error }}</div>
         <h2 class="form-registro-heading">Ingresar</h2>
         <input
           type="text"
@@ -136,7 +136,7 @@ html {
   margin-top: 0px;
   margin-bottom: 80px;
   padding-top: 10%;
-  padding-bottom: 10%;
+  height: 90%;
 }
 
 .form-registro {
