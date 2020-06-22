@@ -16,11 +16,18 @@
           v-model="locationFilter"
         >
 
-        <input
-          type="text"
-          placeholder="✇ Tipo"
-          v-model="typeFilter"
-        >
+        <b-select v-model="typeFilter" id="Inputtypefilter">
+          <option value="" disabled selected>Tipo</option>
+          <option value="">Cualquiera</option>
+          <option value="Extreme">Extreme</option>
+          <option value="Ecological">Ecological</option>
+          <option value="Cultural">Cultural</option>
+          <option value="Familiar">Familiar</option>
+          <option value="Events">Events</option>
+          <option value="Rural">Rural</option>
+          <option value="Lodging">Lodging</option>
+        </b-select>
+
         <button class="btnSearch1" v-on:click="search">
           <b-icon icon="search"></b-icon> Buscar
         </button>
@@ -125,7 +132,7 @@
 
         </button>
       </b-form>
-    </div>
+    </div>-->
     <b-container id="containerimages">
       
       <b-row id="rowImages">
@@ -135,7 +142,7 @@
         <ImageFilter picture="https://i.ibb.co/LRPfYzx/Familiar.png" type="Familiar"></ImageFilter>
       </b-row>
 
-    </b-container>-->
+    </b-container>
     <div class="box" id="boxFilters">
       <!-- <h3 align="center">-------------------- Filtros --------------------</h3>-->
 
@@ -161,7 +168,7 @@
           locale="en"
         ></b-form-datepicker>-->
 
-        <h5 style="margin-left: 2%; margin-right: 2%;  color: green;">
+        <h5 style="margin-left: 6%; margin-right: 2%;  color: green;">
           <strong>Precio:</strong>
         </h5>
         <select v-model="priceFilter">
@@ -189,7 +196,7 @@
           v-model="typeFilter"
         ></b-input>-->
 
-        <h5 style="margin-left: 2%; margin-right: 2%;  color: green;">
+        <h5 style="margin-left: 3%; margin-right: 2%;  color: green;">
           <strong>Transporte:</strong>
         </h5>
         <select v-model="transportFilter">
@@ -200,7 +207,7 @@
         </select>
 
 
-        <h4 style="margin-left: 2%; margin-right: 2%;  color: green;"><strong>Calificación: </strong></h4>
+        <h5 style="margin-left: 3%; margin-right: 2%;  color: green;"><strong>Calificación: </strong></h5>
         <select
           id="RatingStart"  
           v-model="ratingFilterStart">
@@ -217,6 +224,7 @@
 
         
         <b-form-datepicker
+          style="margin-bottom:1%; width: auto;"
           id="ArriveDatePicker"
           v-model="dateFilter"
           :min="min"
@@ -230,7 +238,7 @@
           locale="en"
         ></b-form-datepicker>
 
-        <b-button variant="success" style="margin-left: 2%;" v-on:click="search">
+        <b-button variant="success" style="margin-left: 2%; margin-top: 2%;" v-on:click="search">
           <b-icon icon="search"></b-icon>Añadir filtro
         </b-button>
       </b-form>
@@ -334,7 +342,7 @@
 import db from "../db.js";
 //import firebase from "firebase";
 import Activity from "@/components/Activity.vue";
-//import ImageFilter from "@/components/ImageFilter.vue";
+import ImageFilter from "@/components/ImageFilter.vue";
 export default {
   name: "Home",
   props: ["client", "activities"],
@@ -544,8 +552,8 @@ export default {
     }
   },
   components: {
-    Activity
-    //ImageFilter
+    Activity,
+    ImageFilter
   }
 };
 </script>
@@ -576,13 +584,12 @@ export default {
   width: 140px;
 }
 #Inputtypefilter{
-  width: 150px;
-  height: 40px;
+  width: 100%;
+  height: 50%;
   border-color: #d8d8d8 !important;
-  margin-left:15px;
   border-radius: 5px !important;
-  margin-top: 15px;
-  
+  margin-top: 1%;
+  margin-bottom: 5%;
 }
 .form-control-lg {
   font-size: 1rem;
@@ -622,11 +629,10 @@ export default {
   background-color: #f5f4f3;
 }
 #boxFilters {
-  margin-top: 50px;
+  margin-top: 3%;
   //width: 1349px;
   //height: 40px;
   border-radius: 1px;
-  border: 2px solid #47803e;
   background-color: whitesmoke;
 }
 #ContainerActivities {

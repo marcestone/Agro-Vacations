@@ -350,8 +350,7 @@ mounted(){
   top: -8%;
   left: 50%;
   margin-left: -45%;
-  width: 90% !important;
-  
+  max-width: 90% !important;
   border-radius: 10px;
   box-shadow: 5px 10px 10px #ccc;
 }
