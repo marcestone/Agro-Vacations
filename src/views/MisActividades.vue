@@ -28,7 +28,7 @@
           class="mb-3"
         >
           <div class="row">
-            <div class="col" style="max-width: 20rem;">
+            <div class="col-5" style="max-width: 20rem;">
               <img id="imgSize" :src="item.picture1" width="300" height="200" />
             </div>
             <div class="col" >
@@ -112,16 +112,6 @@
               <img id="imgSize" :src="item.picture1" width="300" height="200" />
               <br />
               <div class="text-center">
-
-                <form>
-                  <b-button
-                    variant="danger"
-                    type="submit"
-                    @click.once="cancelReservation(item.id)"
-                  >
-                    <b-icon-dash-circle></b-icon-dash-circle>Cancelar
-                  </b-button>
-                </form>
 
               </div>
             </div>
@@ -279,8 +269,8 @@ export default {
   },
 
   mounted() {
+    
     Firebase.auth().onAuthStateChanged(client => {
-
     var currentUser = Firebase.auth().currentUser;
     if (client) {     
 
@@ -331,140 +321,24 @@ export default {
                 .get()
                 .then(snapshot => {
                   var k = 0;
+
                   var show = true;
                   for(k = 0; k < snapshot.data().comments.length ; ++k){
                     if(snapshot.data().comments[k].userId == currentUser.uid ){
                       this.flagButton = false;   
                       show = this.flagButton;   
-
                     }
+                    
+                  }
 
-                    for (k = 0; k < snapshot.data().userClient.length; k++) {
-                      if (
-                        snapshot.data().userClient[k].name ==
-                        currentUser.displayName
-                      )
-                        var currentReservationDate = snapshot.data().userClient[
-                          k
-                        ].reservationDate;
-                    }
-                    let unix_timestamp = snapshot.data().datePublish;
-                    var date = new Date(unix_timestamp * 1000);
-                    var hours = date.getHours();
-                    var day = date.getDate() + 1;
-                    var months = [
-                      "Jan",
-                      "Feb",
-                      "Mar",
-                      "Apr",
-                      "May",
-                      "Jun",
-                      "Jul",
-                      "Aug",
-                      "Sep",
-                      "Oct",
-                      "Nov",
-                      "Dec"
-                    ];
-                    var month = months[date.getMonth()];
-                    var minutes = "0" + date.getMinutes();
-                    var seconds = "0" + date.getSeconds();
-                    var formattedTime =
-                      month +
-                      " " +
-                      day +
-                      " at " +
-                      hours +
-                      ":" +
-                      minutes.substr(-2) +
-                      ":" +
-                      seconds.substr(-2);
-                    this.finishedActivities.push({
-                      id: snapshot.id,
-                      description: snapshot.data().description,
-
-                      activityRate: snapshot.data().activityRate,
-
-                      userCreatorName: snapshot.data().userCreatorName,
-                      datePublish: formattedTime,
-                      nameActivity: snapshot.data().activityName,
-                      price: snapshot.data().price,
-
-                      comments: snapshot.data().comments,
-                      picture1: snapshot.data().pictures[0],
-                      picture2: snapshot.data().pictures[1],
-                      picture3: snapshot.data().pictures[2],
-                      flagButton: show,
-                      currentReservationDate: currentReservationDate.slice(0, 7)
-                    });
-                  });
-              if (Date.now() < new Date(realDate).getTime())
-                db.collection("activities")
-                  .doc(reservedActivityId)
-                  .get()
-                  .then(snapshot => {
-                    var k = 0;
-                    for (k = 0; k < snapshot.data().userClient.length; k++) {
-                      if (
-                        snapshot.data().userClient[k].name ==
-                        currentUser.displayName
-                      )
-                        var currentReservationDate = snapshot.data().userClient[
-                          k
-                        ].reservationDate;
-                    }
-                    let unix_timestamp = snapshot.data().datePublish;
-                    var date = new Date(unix_timestamp * 1000);
-                    var hours = date.getHours();
-                    var day = date.getDate() + 1;
-                    var months = [
-                      "Jan",
-                      "Feb",
-                      "Mar",
-                      "Apr",
-                      "May",
-                      "Jun",
-                      "Jul",
-                      "Aug",
-                      "Sep",
-                      "Oct",
-                      "Nov",
-                      "Dec"
-                    ];
-                    var month = months[date.getMonth()];
-                    var minutes = "0" + date.getMinutes();
-                    var seconds = "0" + date.getSeconds();
-                    var formattedTime =
-                      month +
-                      " " +
-                      day +
-                      " at " +
-                      hours +
-                      ":" +
-                      minutes.substr(-2) +
-                      ":" +
-                      seconds.substr(-2);
-                    this.reservedActivities.push({
-                      id: snapshot.id,
-                      description: snapshot.data().description,
-                      userCreatorName: snapshot.data().userCreatorName,
-                      datePublish: formattedTime,
-                      nameActivity: snapshot.data().activityName,
-                      price: snapshot.data().price,
-                      picture1: snapshot.data().pictures[0],
-                      picture2: snapshot.data().pictures[1],
-                      picture3: snapshot.data().pictures[2],
-                      currentReservationDate: currentReservationDate.slice(0, 7)
-                    });
-                  });
-            }
-            for (j = 0; j < snapshot.data().activitiesName.length; j++) {
-              var createdActivityId = snapshot.data().activitiesName[j].id;
-
-              db.collection("activities")
-                .doc(createdActivityId)
-                .get()
-                .then(snapshot => {
+                  for (k = 0; k < snapshot.data().userClient.length; k++) {
+                    if (
+                      snapshot.data().userClient[k].name ==
+                      currentUser.displayName
+                    )
+                      var currentReservationDate = snapshot.data().userClient[k]
+                        .reservationDate;
+                  }
                   let unix_timestamp = snapshot.data().datePublish;
                   var date = new Date(unix_timestamp * 1000);
                   var hours = date.getHours();
@@ -496,23 +370,75 @@ export default {
                     minutes.substr(-2) +
                     ":" +
                     seconds.substr(-2);
-                  var activityReservations = [];
-                  var l;
-                  for (l = 0; l < snapshot.data().userClient.length; l++) {
-                    activityReservations.push({
-                      id: l.toString() + name,
-                      name: snapshot.data().userClient[l].name,
-                      reservationUserId: snapshot.data().userClient[l].userId,
-                      createdActivityReservationDate: snapshot
-                        .data()
-                        .userClient[l].reservationDate.slice(0, 6)
-                    });
-                    this.numberOfReservations = this.numberOfReservations + 1;
-                  }
-                  //console.log(activityReservations);
-                  this.createdActivities.push({
+                  this.finishedActivities.push({
                     id: snapshot.id,
+                    description: snapshot.data().description,
 
+                    activityRate: snapshot.data().activityRate,
+
+                    userCreatorName: snapshot.data().userCreatorName,
+                    datePublish: formattedTime,
+                    nameActivity: snapshot.data().activityName,
+                    price: snapshot.data().price,
+
+                    comments: snapshot.data().comments,
+                    picture1: snapshot.data().pictures[0],
+                    picture2: snapshot.data().pictures[1],
+                    picture3: snapshot.data().pictures[2],
+                    flagButton: show,
+                    currentReservationDate: currentReservationDate.slice(0, 7)
+                  });
+
+
+                });
+            if (Date.now() < new Date(realDate).getTime())
+              db.collection("activities")
+                .doc(reservedActivityId)
+                .get()
+                .then(snapshot => {
+                  var k = 0;
+                  for (k = 0; k < snapshot.data().userClient.length; k++) {
+                    if (
+                      snapshot.data().userClient[k].name ==
+                      currentUser.displayName
+                    )
+                      var currentReservationDate = snapshot.data().userClient[k]
+                        .reservationDate;
+                  }
+                  let unix_timestamp = snapshot.data().datePublish;
+                  var date = new Date(unix_timestamp * 1000);
+                  var hours = date.getHours();
+                  var day = date.getDate() + 1;
+                  var months = [
+                    "Jan",
+                    "Feb",
+                    "Mar",
+                    "Apr",
+                    "May",
+                    "Jun",
+                    "Jul",
+                    "Aug",
+                    "Sep",
+                    "Oct",
+                    "Nov",
+                    "Dec"
+                  ];
+                  var month = months[date.getMonth()];
+                  var minutes = "0" + date.getMinutes();
+                  var seconds = "0" + date.getSeconds();
+                  var formattedTime =
+                    month +
+                    " " +
+                    day +
+                    " at " +
+                    hours +
+                    ":" +
+                    minutes.substr(-2) +
+                    ":" +
+                    seconds.substr(-2);
+                  this.reservedActivities.push({
+
+                    id: snapshot.id,
                     description: snapshot.data().description,
                     userCreatorName: snapshot.data().userCreatorName,
                     datePublish: formattedTime,
@@ -521,15 +447,84 @@ export default {
                     picture1: snapshot.data().pictures[0],
                     picture2: snapshot.data().pictures[1],
                     picture3: snapshot.data().pictures[2],
-                    activityReservationList: activityReservations,
-                    modalId: formattedTime,
-                    isShowed: snapshot.data().isShowed
+                    currentReservationDate: currentReservationDate.slice(0, 7)
                   });
                 });
-            }
-          });
-      }
-    });
+          }
+          for (j = 0; j < snapshot.data().activitiesName.length; j++) {
+            var createdActivityId = snapshot.data().activitiesName[j].id;
+
+            db.collection("activities")
+              .doc(createdActivityId)
+              .get()
+              .then(snapshot => {
+                let unix_timestamp = snapshot.data().datePublish;
+                var date = new Date(unix_timestamp * 1000);
+                var hours = date.getHours();
+                var day = date.getDate() + 1;
+                var months = [
+                  "Jan",
+                  "Feb",
+                  "Mar",
+                  "Apr",
+                  "May",
+                  "Jun",
+                  "Jul",
+                  "Aug",
+                  "Sep",
+                  "Oct",
+                  "Nov",
+                  "Dec"
+                ];
+                var month = months[date.getMonth()];
+                var minutes = "0" + date.getMinutes();
+                var seconds = "0" + date.getSeconds();
+                var formattedTime =
+                  month +
+                  " " +
+                  day +
+                  " at " +
+                  hours +
+                  ":" +
+                  minutes.substr(-2) +
+                  ":" +
+                  seconds.substr(-2);
+                var activityReservations = [];
+                var l;
+                for (l = 0; l < snapshot.data().userClient.length; l++) {
+                  activityReservations.push({
+                    id: l.toString() + name,
+                    name: snapshot.data().userClient[l].name,
+                    reservationUserId: snapshot.data().userClient[l].userId,
+                    createdActivityReservationDate: snapshot
+                      .data()
+                      .userClient[l].reservationDate.slice(0, 6)
+                  });
+                  this.numberOfReservations = this.numberOfReservations + 1;
+                }
+                //console.log(activityReservations);
+                this.createdActivities.push({
+
+                  id: snapshot.id,
+
+                  description: snapshot.data().description,
+                  userCreatorName: snapshot.data().userCreatorName,
+                  datePublish: formattedTime,
+                  nameActivity: snapshot.data().activityName,
+                  price: snapshot.data().price,
+                  picture1: snapshot.data().pictures[0],
+                  picture2: snapshot.data().pictures[1],
+                  picture3: snapshot.data().pictures[2],
+                  activityReservationList: activityReservations,
+                  modalId: formattedTime,
+                  isShowed: snapshot.data().isShowed
+
+                });
+              });
+          }
+        });
+    }
+})
   },
   methods: {
 
