@@ -35,7 +35,7 @@ dias que ya estan ocupados */
          <b-icon icon="chat-dots"></b-icon>
       </template>
       <a href="javascript:void(0)" class="stretched-link" v-b-modal="activityKey"></a>
-      <b-modal v-bind:id="activityKey" centered size="lg">
+      <b-modal v-bind:id="activityKey" centered size="md">
         <template v-slot:modal-header>
           <h3>
             <strong>{{ nameActivity }}</strong>
@@ -46,8 +46,7 @@ dias que ya estan ocupados */
 
         </template>
         <div class="modal-body">
-          <div class="row">
-            <div class="col-5">
+
               <b-carousel
                 id="carousel-fade"
                 style="text-shadow: 0px 0px 2px #000"
@@ -63,6 +62,8 @@ dias que ya estan ocupados */
                 <b-carousel-slide :img-src="picture3"></b-carousel-slide>
               </b-carousel>
               <br />
+
+              <p style="text-align:justify">{{ description }}</p>
               <div class="commentsbox" >
                 <Comments 
                   v-for="commentary in comments"
@@ -73,10 +74,7 @@ dias que ya estan ocupados */
                   :rate="commentary.rate"
                 ></Comments>
               </div>
-            </div>
-            <div class="col-7">
-              <p style="text-align:justify">{{ description }}</p>
-
+              <h4>
               <strong style="color: green;">$ {{ parseInt(prize).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,') }}</strong><br>
 
               <router-link :to="'/perfilmiembros/' + userCreator">
@@ -89,6 +87,7 @@ dias que ya estan ocupados */
                   <small>Location: {{ activityLocation }}</small>
                 </i>
               </p>
+              </h4>
               <b-form-datepicker
                 id="reservationDate"
                 v-model="ReservationValue"
@@ -103,14 +102,14 @@ dias que ya estan ocupados */
                 }"
                 locale="en"
               ></b-form-datepicker>
-            </div>
-          </div>
+            
+          
         </div>
         <template v-slot:modal-footer="{ cancel }">
           <b-button variant="secondary" @click="cancel()">Cancel</b-button>
 
           <form @submit.prevent="reserve">
-            <b-button variant="primary" type="submit" @click="showMsgBoxTwo">
+            <b-button variant="primary" type="submit" @click="showMsgBoxTwo" >
               <b-icon icon="briefcase" type></b-icon> Reserve
             </b-button>
           </form>
@@ -155,7 +154,6 @@ export default {
   ],
   data() {
     return {
-      
       nComments:0,
       picture1: "", picture2: "", picture3: "",
 
@@ -199,6 +197,7 @@ mounted(){
           headerClass: "p-2 border-bottom-0",
           footerClass: "p-2 border-top-0",
           centered: true
+          
         })
         .then(value => {
           this.boxTwo = value;
@@ -348,11 +347,10 @@ mounted(){
 }
 .card-img-top {
   position: absolute;
-  top: -30px;
+  top: -8%;
   left: 50%;
-  margin-left: -113px;
-  width: 90% !important;
-  height: 15vw;
+  margin-left: -45%;
+  max-width: 90% !important;
   border-radius: 10px;
   box-shadow: 5px 10px 10px #ccc;
 }
@@ -372,7 +370,7 @@ mounted(){
 div.commentsbox{
   margin-top: 20px;
   background-color: white;
-  width: 310px;
+  width: 100%;
   height: 210px;
   overflow: auto;
   
