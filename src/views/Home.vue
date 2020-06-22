@@ -179,7 +179,7 @@
           <option value="300000">$200.000 - $300.000</option>
           <option value="400000">$300.000 - $400.000</option>
           <option value="500000">$400.000 - $500.000</option>
-          <option value="600001">más de 500.000</option>
+          <option value="500001">más de 500.000</option>
         </select>
 
         <!-- <b-input
@@ -238,7 +238,7 @@
           locale="en"
         ></b-form-datepicker>
 
-        <b-button variant="success" style="margin-left: 2%; margin-top: 2%;" v-on:click="search">
+        <b-button id="buttonSize" variant="success" style="margin-left: 2%; " v-on:click="search">
           <b-icon icon="search"></b-icon>Añadir filtro
         </b-button>
       </b-form>
@@ -461,11 +461,11 @@ export default {
             (this.priceFilter == "" ||
               (this.priceFilter != "" &&
                 (parseInt(this.priceFilter, 10) == 0 ||
-                  (parseInt(this.priceFilter, 10) != 600001 &&
+                  (parseInt(this.priceFilter, 10) != 500001 &&
                     doc.data().price <= parseInt(this.priceFilter, 10) &&
                     doc.data().price >=
                       parseInt(this.priceFilter, 10) - 100000) ||
-                  (parseInt(this.priceFilter, 10) == 600001 &&
+                  (parseInt(this.priceFilter, 10) == 500001 &&
                     parseInt(this.priceFilter, 10) <= doc.data().price)))) &&
             (this.locationFilter == "" ||
               (this.locationFilter != "" &&
@@ -559,6 +559,13 @@ export default {
 </script>
 
 <style lang="scss">
+
+@media all and (max-width: 1200px) {
+  #buttonSize {
+    margin-left: 2%; 
+    margin-top: 2%;
+  }
+}
 #footerButton {
   background-color: #725922;
   height: 50px;

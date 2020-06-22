@@ -56,5 +56,10 @@ export default {
         font-size: 250%;
         font-family: 'Oleo Script', cursive;   
     }
+    @media all and (max-width: 1200px) {
+  div.title {
+    font-size: 100%;
+  }
+}
     
 </style>

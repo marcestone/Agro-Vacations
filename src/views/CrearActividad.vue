@@ -141,7 +141,7 @@
                     style="font-size: 25px;
                   font-weight: 700;
                   color: #ffffff;
-                  margin:30px 0px 0px 63px">Enter event Type</p>
+                  ">Enter event Type</p>
                   <!--  <input type="text" placeholder="   ☠ Activity Type" id="inputType" v-model="activityType" />-->
                   <select v-model="activityType" id="inputType">
                       <option value="Extreme">Extreme</option>
@@ -158,7 +158,7 @@
                   <p
                     style="font-size: 25px; 
                     font-weight: 700;
-                    color: #01a026;
+                    color: #ffff;
                     margin:0px 0px 0px 0px"
                   >Transport</p>
                 </b-col>
@@ -174,12 +174,7 @@
               </b-row>
               <b-row>
                 <b-col cols="4" align="center">
-                  <input
-                    type="text"
-                    placeholder="   ☠ Activity Type"
-                    id="inputType"
-                    v-model="activityType"
-                  />
+  
                 </b-col>
                 <b-col cols="4" align="center">
                   <select v-model="activityTransport" id="inputTransport">
