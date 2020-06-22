@@ -550,7 +550,6 @@ hr.divisorline{
 .carousel-fade .carousel-item {
   width: 100%;
   height: 250px !important;
-
 }
 
 
