@@ -77,4 +77,7 @@ export default {
 <style lang="scss">
 $primary: #47803e;
 @import "node_modules/bootstrap/scss/bootstrap";
+#app{
+  height: 100%;
+}
 </style>

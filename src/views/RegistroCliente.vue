@@ -1,6 +1,42 @@
 <template>
-  <div class="bg">
-    <div class="container">
+  <div class="bg" style="height:90%">
+    <div class="wrapperForRegistro">
+     <form class="form-registro" @submit.prevent="register">
+        <div v-if="error" style="margin:0px auto" class="col-10 alert alert-danger px-3">{{ error }}</div>
+        <h2 class="form-registro-heading">Ingresar</h2>
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Nombre"
+          name="displayName"
+          required
+          v-model="displayName"
+        />
+
+        <input
+          class="form-control"
+          type="text"
+          placeholder="E-mail"
+          required
+          name="email"
+          v-model="email"
+        />
+
+        <input class="form-control" type="password" placeholder="Password" v-model="passOne" />
+
+        <input
+          class="form-control"
+          type="password"
+          required
+          placeholder="Repeat password"
+          v-model="passTwo"
+        />
+
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Registrarse</button>
+      </form>
+    </div>
+
+    <!--<div class="container">
       <div
         class="card mt-1"
         style="width: 50%;margin-left: 55%; border: white;"
@@ -74,18 +110,18 @@
           </p>
         </div>
       </div>
-    </div>
+    </div>-->
   </div>
 </template>
 
-<style lang="css" scoped>
+<style lang="scss" >
 body,
 html {
   height: 100%;
 }
 .bg {
   /* The image used */
-  background-image: url("../assets/RegisterBg.jpg");
+  background-image: url("../assets/bc10.jpg");
 
   /* Full height */
   height: 100%;
@@ -94,6 +130,46 @@ html {
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
+}
+
+.wrapperForRegistro {
+  margin-top: 0px;
+  margin-bottom: 80px;
+  padding-top: 10%;
+  height: 90%;
+}
+
+.form-registro {
+  max-width: 380px;
+  padding: 15px 35px 45px;
+  margin: 0 auto;
+  background-color: #fff;
+  border: 1px solid green;
+  border-radius: 10%;
+
+  .form-registro-heading,
+  .form-control-registro {
+    position: relative;
+    font-size: 16px;
+    height: auto;
+    padding: 10px;
+
+    &:focus {
+      z-index: 2;
+    }
+  }
+
+  input[type="textLogin"] {
+    margin-bottom: -1px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+
+  input[type="passwordlogin"] {
+    margin-bottom: 20px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
 }
 </style>
 
@@ -130,10 +206,7 @@ export default {
                 .updateProfile({
                   displayName: info.displayName
                 })
-                .then(() => {
-                  this.$router.replace("home");
-                  location.reload();
-                });
+
             },
             error => {
               this.error = error.message;
@@ -160,6 +233,10 @@ export default {
                   pictures:
                     "https://firebasestorage.googleapis.com/v0/b/agrovacations-c213d.appspot.com/o/profile%2FDefaultprofileimage.png?alt=media&token=f5a1ab31-7474-47eb-83ba-5488ca711b35",
                   notifications: []
+                })
+                  .then(() => {
+                  this.$router.replace("home");
+                  location.reload();
                 });
             }
           }
@@ -179,6 +256,6 @@ export default {
         this.error = null;
       }
     }
-  },
+  }
 };
 </script>

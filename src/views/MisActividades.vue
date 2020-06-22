@@ -1,7 +1,6 @@
 <template>
-
   <div>
-    <div class="sidenav text-center">
+    <!--<div class="sidenav text-center">
       <h5 style=" margin-left:3%; margin-right:3%; margin-top:15%;">
         <a href="#createdActivities">Actividades creadas</a>
       </h5>
@@ -11,7 +10,7 @@
       <h5 style="margin-left:3%; margin-right:3%;margin-top:10%;">
         <a href="#finishedActivities">Actividades culminadas</a>
       </h5>
-    </div>
+    </div>-->
     <div id="createdActivities" class="mt-4;" style="margin-left:15%;">
       <h2 style=" margin-left:3%; margin-top: 2%; margin-right: 8%;">
         <strong style="color:  green;">Actividades creadas</strong>
@@ -30,43 +29,36 @@
         >
           <div class="row">
             <div class="col-5" style="max-width: 20rem;">
-              <b-carousel
-                id="carousel-fade"
-                style="text-shadow: 0px 0px 2px #000"
-                fade
-                indicators
-                img-width="600"
-                img-height="500 "
-              >
-                <b-carousel-slide :img-src="item.picture1"></b-carousel-slide>
-                <b-carousel-slide :img-src="item.picture2"></b-carousel-slide>
-                <b-carousel-slide :img-src="item.picture3"></b-carousel-slide>
-              </b-carousel>
+              <img id="imgSize" :src="item.picture1" width="300" height="200" />
+            </div>
+            <div class="col" >
               <br />
-              <div class="text-center">
-                <b-button v-b-modal="item.modalId" variant="success">
-
-                  <b-icon-person-check-fill></b-icon-person-check-fill> Reservas
-
-                </b-button>
-              </div>
+              <div class="text-center"></div>
               <b-modal v-bind:id="item.modalId" centered size="md">
                 <template v-slot:modal-header>
                   <h3>
                     <small style="color:green">Contacta a quienes han reservado tu actividad</small>
                   </h3>
                 </template>
-                <div class="modal-body">
+                <div class="modal-body ">
                   <div v-for="item2 in item.activityReservationList" :key="item2.id">
                     <router-link
                       class="list-group-item list-group-item-action"
                       :to="'/perfilmiembros/' + item2.reservationUserId"
                     >
                       <b-icon-person-check-fill></b-icon-person-check-fill>
-
                       {{ item2.name }},
                       {{ item2.createdActivityReservationDate }}
+                      <router-link
+                       :to="'/messages'"
+                      >
+                      <button
+                      v-on:click="createChat(item2.reservationUserId)"
+                      class="buttonSsa button1Ss float-right"
+                      ><b-icon-chat-dots></b-icon-chat-dots> Chat</button>
+                      </router-link>
                     </router-link>
+
                   </div>
                 </div>
 
@@ -74,38 +66,33 @@
                   <b-button variant="secondary" @click="cancel()">Ok</b-button>
                 </template>
               </b-modal>
-            </div>
-            <div class="col-8">
-              <h2>{{ item.nameActivity }}</h2>
-              <p style="text-align:justify">{{ item.description }}</p>
+
+              <h2 id="pSize2">{{ item.nameActivity }}</h2>
+              <!-- <p id="pSize" style="text-align:justify">{{ item.description }}</p>-->
               <strong style="color: green;">$ {{ item.price }}</strong>
               <p class="mt-4" style="text-align:justify">
                 <i>
-                  <small>Publish date: {{ item.datePublish }}</small>
+                  <small>Fecha de publicación: {{ item.datePublish }}</small>
                 </i>
               </p>
 
               <form>
+                <b-button v-b-modal="item.modalId" style="margin-right:2%" variant="success">
+                  <b-icon-person-check-fill></b-icon-person-check-fill>Reservas
+                </b-button>
                 <b-button
                   v-if="item.isShowed == true"
                   variant="danger"
                   type="submit"
                   @click="cancelActivity(item.id, item.userCreator)"
-                >
-                  Eliminar
-                </b-button>
-              </form>
-              <form>
+                >Eliminar</b-button>
                 <b-button
                   v-if="item.isShowed == false"
                   variant="success"
                   type="submit"
                   @click="reactivateActivity(item.id)"
-                >
-                  reactivar
-                </b-button>
+                >reactivar</b-button>
               </form>
-
             </div>
           </div>
         </b-card>
@@ -119,57 +106,40 @@
         <b-card
           style=" margin-left:3%; margin-top: 2%; margin-right: 8%;border-color:  rgba(46, 124, 1, 0.5);"
           class="mb-3"
-
         >
           <div class="row">
-            <div class="col-5" style="max-width: 20rem;">
-              <b-carousel
-                id="carousel-fade"
-                style="text-shadow: 0px 0px 2px #000"
-                fade
-                indicators
-                img-width="600"
-                img-height="500 "
-              >
-                <b-carousel-slide :img-src="item.picture1"></b-carousel-slide>
-                <b-carousel-slide :img-src="item.picture2"></b-carousel-slide>
-                <b-carousel-slide :img-src="item.picture3"></b-carousel-slide>
-              </b-carousel>
+            <div class="col" style="max-width: 20rem;">
+              <img id="imgSize" :src="item.picture1" width="300" height="200" />
               <br />
               <div class="text-center">
-                <form>
-                  <b-button
-                    variant="danger"
-                    type="submit"
-                    @click="cancelReservation(item.id)"
-                  >
-                    <b-icon-dash-circle></b-icon-dash-circle>Cancelar
-                  </b-button>
-                </form>
+
               </div>
             </div>
-            <div class="col-8">
-              <h2>{{ item.nameActivity }}</h2>
-              <p style="text-align:justify">{{ item.description }}</p>
+            <div class="col">
+              <h2 id="pSize2">
+                {{ item.nameActivity }} /
+                <small>Fecha: {{ item.currentReservationDate }} / 2020</small>
+              </h2>
+              <!--  <p id="pSize" style="text-align:justify">{{ item.description }}</p>-->
               <strong style="color: green;">$ {{ item.price }}</strong>
               <p class="mt-4" style="text-align:justify">
                 <i>
                   <small>Host: {{ item.userCreatorName }}</small>
                 </i>
               </p>
-              <p style="text-align:justify">
+              <!-- <p style="text-align:justify">
                 <i>
                   <small>Publish date: {{ item.datePublish }}</small>
                 </i>
-              </p>
-              <p style="text-align:justify">
+              </p>-->
+              <!-- <p style="text-align:justify">
                 <i>
-                  <small>
-                    Reservation date: {{ item.currentReservationDate }} /
-                    2020
-                  </small>
+                  <small>Reservation date: {{ item.currentReservationDate }} / 2020</small>
                 </i>
-              </p>
+              </p>-->
+              <b-button variant="danger" type="submit" @click="cancelReservation(item.id)">
+                <b-icon-dash-circle></b-icon-dash-circle>Cancelar
+              </b-button>
             </div>
           </div>
         </b-card>
@@ -183,31 +153,20 @@
         <b-card
           style=" margin-left:3%; margin-top: 2%; margin-right: 8%;border-block-color:  rgba(46, 124, 1, 0.5);"
           class="mb-3"
-
         >
           <div class="row">
             <div class="col-5" style="max-width: 20rem;">
-              <b-carousel
-                id="carousel-fade"
-                style="text-shadow: 0px 0px 2px #000"
-                fade
-                indicators
-                img-width="600"
-                img-height="500 "
-              >
-                <b-carousel-slide :img-src="item.picture1"></b-carousel-slide>
-                <b-carousel-slide :img-src="item.picture2"></b-carousel-slide>
-                <b-carousel-slide :img-src="item.picture3"></b-carousel-slide>
-              </b-carousel>
+              <img id="imgSize" :src="item.picture1" width="300" height="200" />
               <br />
-
+              <h2 id="pSize4">{{ item.nameActivity}}</h2>
               <b-container id="commentInputBox">
                 <center style="color: green;">Did you take it? ¡Vote now!</center>
                 <span>
                   <b-form-rating v-model="ratingClient" variant="warning" class="mb-2"></b-form-rating>
                 </span>
                 <textarea
-                  id="commentInput"
+                  id="commentInputSize"
+                  class="commentInput"
                   rows="10"
                   cols="5"
                   placeholder="How was the experience ?,            let us know"
@@ -215,32 +174,35 @@
                 ></textarea>
                 <b-button
                   v-if="item.flagButton == true"
-                  id="commentButton"
+                  id="commentButtonSize"
+                  class="commentButton"
                   variant="primary"
                   type="submit"
                   @click.once="comment(item.id,item.activityRate,item.comments.length)"
-                ><b-icon icon="cursor-fill" type></b-icon>Send</b-button>
+                >
+                  <b-icon icon="cursor-fill" type></b-icon>Enviar
+                </b-button>
                 <b-container v-else-if="item.flagButton == false" id="AlertComment">
-                  <div class="AlertText"
-                    style="color: white; text-align:center;"
-                  ><span>Ya calificaste esta actividad</span></div>
+                  <div class="AlertText" style="color: white; text-align:center;">
+                    <span>Ya calificaste esta actividad</span>
+                  </div>
                 </b-container>
                 <b-container v-if="item.flagButton == true" id="AlertComment2">
-                  <div class="AlertText"
-                    style="color: white; text-align:center;"
-                  ><span>Solo puedes calificar una vez</span></div>
+                  <div class="AlertText" style="color: white; text-align:center;">
+                    <span>Solo puedes calificar una vez</span>
+                  </div>
                 </b-container>
               </b-container>
             </div>
-            <div class="col-8">
-              <h2>{{ item.nameActivity}}</h2>
-              <p style="text-align:justify">{{ item.description }}</p>
+            <div class="col">
+              <h2 id="pSize3">{{ item.nameActivity}}</h2>
+              <!--<p id="pSize" style="text-align:justify">{{ item.description }}</p>-->
               <strong style="color: green;">$ {{ item.price }}</strong>
-              <div class="commentsboxMyAct" >
-                <Comments 
+              <div  id="commentSize"  class="commentsboxMyAct">
+                <Comments
                   v-for="commentary in item.comments"
                   :key="commentary.userId"
-                  :userId="commentary.userId" 
+                  :userId="commentary.userId"
                   :comment="commentary.comment"
                   :dateComment="commentary.dateComment"
                   :rate="commentary.rate"
@@ -248,11 +210,11 @@
               </div>
               <p class="mt-4" style="text-align:justify">
                 <i>
-                  <small>Host: {{ item.userCreatorName }} ||
-                    Publish date: {{ item.datePublish }} ||
-                    Reservation date: {{ item.currentReservationDate }} /
-                    2020 
-
+                  <small>
+                    Host: {{ item.userCreatorName }} ||
+                    Fecha de publicación: {{ item.datePublish }} ||
+                    Fecha de reserva: {{ item.currentReservationDate }} /
+                    2020
                   </small>
                 </i>
               </p>
@@ -265,7 +227,6 @@
 </template>
 
   <script>
-  
 import Firebase from "firebase";
 import db from "../db.js";
 import * as firebase from "firebase/app";
@@ -275,13 +236,14 @@ export default {
     Comments
   },
   name: "MisActividades",
+  props: ["client"],
   data() {
-      const now = new Date();
-      const dd = String(now.getDate()).padStart(2, '0');
-      const mm = String(now.getMonth() + 1).padStart(2, '0'); //January is 0!
-      const yyyy = now.getFullYear();
-      const cD = mm + '/' + dd + '/' + yyyy;
-      
+    const now = new Date();
+    const dd = String(now.getDate()).padStart(2, "0");
+    const mm = String(now.getMonth() + 1).padStart(2, "0"); //January is 0!
+    const yyyy = now.getFullYear();
+    const cD = mm + "/" + dd + "/" + yyyy;
+
     return {
       reservedActivities: [],
       createdActivities: [],
@@ -290,18 +252,27 @@ export default {
 
       currentNumberOfReservations: 0,
       nClients: 0,
-      flagButton:true,
-      newComment:"",
+      flagButton: true,
+      newComment: "",
       ratingClient: 0,
+
       currentDate: cD,
+
+      chatId: null,
+      fromId: null,
+      receivedId: null,
+      dateMessage: null,
+      messages: [],
+      chats:[],
+
     };
   },
 
   mounted() {
     
-    
+    Firebase.auth().onAuthStateChanged(client => {
     var currentUser = Firebase.auth().currentUser;
-    if (currentUser != null) {     
+    if (client) {     
 
       db.collection("user")
         .doc(currentUser.uid)
@@ -553,12 +524,39 @@ export default {
           }
         });
     }
-
+})
   },
   methods: {
-  
+
+      messageAlert(message,variant){
+        const h = this.$createElement
+        const vNodesMsg = h(
+          'p',
+          { class: ['text-center', 'mb-0'] },
+          [
+            h('b-spinner', { props: { type: 'grow', small: true } }),
+            message,
+            h('b-spinner', { props: { type: 'grow', small: true } })
+          ]
+        )
+
+        const vNodesTitle = h(
+          "div",
+          { class: ["d-flex", "flex-grow-1", "align-items-baseline", "mr-2"] },
+          [
+            h("strong", { class: "mr-2" }, "Approved"),
+            h("small", { class: "ml-auto text-italics" }, "1 second ago")
+          ]
+        );
+        this.$bvToast.toast([vNodesMsg], {
+          title: [vNodesTitle],
+          solid: true,
+
+          variant: variant
+        })
+      },
       comment(id,activityRate,nComments){
-      const h = this.$createElement
+      
       var user = Firebase.auth().currentUser;
       if(user){
         var commentA = db.collection("activities").doc(id)
@@ -573,41 +571,19 @@ export default {
           })
         }).then(()=>{
           
-          this.$router.replace("home");
-                  
+          //this.$router.replace("misactividades");
+            location.reload();      
         });
 
         activityRate = ((activityRate*(nComments)) + this.ratingClient) / (nComments + 1);
         commentA.update({
           activityRate: activityRate,
         })
-        const vNodesMsg = h(
-          'p',
-          { class: ['text-center', 'mb-0'] },
-          [
-            h('b-spinner', { props: { type: 'grow', small: true } }),
-            ' The comment has been aproved,',
-            h('b-spinner', { props: { type: 'grow', small: true } })
-          ]
-        )
-        const vNodesTitle = h(
-          'div',
-          { class: ['d-flex', 'flex-grow-1', 'align-items-baseline', 'mr-2'] },
-          [
-            h('strong', { class: 'mr-2' }, 'Approved'),
-            h('small', { class: 'ml-auto text-italics' }, '1 second ago')
-          ]
-        )
-        this.$bvToast.toast([vNodesMsg], {
-          title: [vNodesTitle],
-          solid: true,
-          variant: 'success'
-        })
-        
-        
+        this.messageAlert("The comment will be avalable soon","success")
+
       }
-    }, 
-  
+    },
+
     cancelActivity(id, userId) {
       var user = Firebase.auth().currentUser;
       if (user) {
@@ -619,40 +595,16 @@ export default {
           .update({
             isShowed: false
           })
-          .then(function() {
-            this.$router.replace("home"); 
+
+          .then(()=>{
+            //this.$router.replace("misactividades");
+            location.reload();
+
           })
           .catch(function(error) {
             console.error("Error actualizando el documento: ", error);
           });
-        db.collection("user")
-          .doc(userId)
-          .update({
-            notifications: Firebase.firestore.FieldValue.arrayUnion({
-              activityId: id,
-              otherUserId: user.uid,
-              otherUsername: this.userCreatorName,
-              activityName: this.nameActivity,
-              type: "cancelacionActividad"
-            })
-          })
-          .then(function() {
-            console.log("El documento ha sido actualizado");
-          });
-        db.collection("user")
-          .doc(user.uid)
-          .update({
-            notifications: Firebase.firestore.FieldValue.arrayUnion({
-              activityId: id,
-              otherUserId: userId,
-              otherUsername: this.userCreatorName,
-              activityName: this.nameActivity,
-              type: "cancelacionActividad"
-            })
-          })
-          .then(function() {
-            console.log("El documento ha sido actualizado");
-          });
+          this.messageAlert("the activity has been hidden","danger")
       }
     },
     reactivateActivity(id) {
@@ -663,12 +615,16 @@ export default {
           .update({
             isShowed: true
           })
-          .then(function() {
-            this.$router.replace("home");   
+
+          .then(()=>{
+            location.reload();
+            //this.$router.replace("misactividades");
+
           })
           .catch(function(error) {
             console.error("Error actualizando el documento: ", error);
           });
+          this.messageAlert("the activity has been restored","success")
       }
     },
     cancelReservation(id) {
@@ -729,12 +685,173 @@ export default {
                 });
             }
           });
+      }      
+      this.messageAlert("the reservation has been canceled","danger")
+    },
+    
+    createChat: function(otheruser) {
+      const info = {
+      chatId: null,
+      fromId: null,
+      receivedId: null,
+      dateMessage: null,
+      messages: []
+      };
+      const now = new Date();
+      const dd = String(now.getDate()).padStart(2, '0');
+      const mm = String(now.getMonth() + 1).padStart(2, '0'); //January is 0!
+      const yyyy = now.getFullYear();
+      const time = now.getHours() + ":" + now.getMinutes();
+      const minDate = mm + '/' + dd + '/' + yyyy +' | ' + time;
+      let documentChat = db.collection("chats").doc();
+      let flag = true;
+      //var user = Firebase.auth().currentUser;
+
+      Firebase.auth().onAuthStateChanged(client => {
+      if (client) {
+        client.uid
+        db.collection("user").doc(client.uid).get().then(snapshot =>{
+            this.chats = snapshot.data().chats;
+            for(let i = 0;i<this.chats.length;i++){
+              if(this.chats[i].fromId == otheruser){
+                flag = false;
+              }
+            }
+
+        if(flag == true){
+        db.collection("user")
+          .doc(client.uid)
+          .get()
+          .then(snapshot => {
+            let documentUser;
+            let messages = snapshot.data().messages;
+            let chats = snapshot.data().chats;
+
+            if (messages == null) {
+              messages = [];
+            }
+
+            if (chats == null) {
+              chats = [];
+            }
+
+            documentUser = db.collection("user").doc(client.uid);
+
+            documentChat.set({
+              fromId: client.uid,
+              receivedId: otheruser,
+              messages: [],
+              chatId: documentChat.id
+            });
+
+            chats.push({
+              chatId: documentChat.id,
+              fromId: otheruser
+            });
+
+            documentUser.update({
+                chats: chats
+              });  
+
+            info.dateMessage = minDate;
+            
+            messages.push({
+              ownerMessage: client.uid,
+              message: "Buenas, ¿en qué te puedo ayudar?",
+              dateMessage : info.dateMessage
+            });
+
+            db.collection("chats")
+              .doc(documentChat.id)
+              .update({
+                messages: messages
+              }).then(() => {
+                //location.href ="/messages"
+                location.reload();
+              })  
+          });
+
+        //var otheruser = document.getElementById('userto').value;
+        var chatID = documentChat.id;
+
+        db.collection("user")
+          .doc(otheruser)
+          .get()
+          .then(snapshot => {
+            let documentUserto;
+            let chats = snapshot.data().chats;
+
+            if (chats == null) {
+              chats = [];
+            }
+
+            documentUserto = db.collection("user").doc(otheruser);
+
+
+            chats.push({
+              chatId: chatID,
+              fromId: client.uid
+            });
+
+            documentUserto.update({
+                chats: chats
+              });  
+          });
+        }else{console.log("Chat creado anteriormente")}
+        })
+
       }
+    })
     }
   }
 };
+
 </script>
 <style lang="scss">
+
+#pSize4{
+  font-size: 0%;
+}
+
+@media all and (max-width: 1200px) {
+  #pSize {
+    font-size: 0%;
+  }
+  #pSize2 {
+    font-size: 90%;
+  }
+  #pSize3 {
+    font-size: 0%;  
+  }
+  #pSize4 {
+    font-size: 150%;
+    margin-top: 30px;
+    margin-bottom: 30px;
+  }
+  #imgSize {
+    height: 100px;
+    width: 200px;
+  }
+  #commentSize {
+    width: 230px;
+    height: 210px;
+  }
+  #commentInputSize {
+    height: 150px;
+    width: 200px;
+  }
+  #commentButtonSize {
+  height: 40px;
+  width: 100px;
+  margin-top: -80px;
+  margin-left: 95px;
+  border-radius: 30px;
+}
+  #commentInputBox {
+  padding-left: 0%;
+}
+  
+}
 
 html {
   scroll-behavior: smooth;
@@ -756,13 +873,11 @@ html {
   border-right: 5px solid green;
 }
 
-
-#commentInput {
+.commentInput {
   height: 150px;
   width: 260px;
-  
 }
-#commentButton {
+.commentButton {
   height: 40px;
   width: 100px;
   margin-top: -80px;
@@ -773,27 +888,58 @@ html {
   margin-top: 10px;
   background: #47803e;
   border-radius: 20px;
-  height: 40px;
-  
+  height: 50px;
 }
 #AlertComment2 {
   margin-top: 5px;
   background: #47803e;
   border-radius: 20px;
-  height: 40px;
-  
+  height: 50px;
 }
 
-div.commentsboxMyAct{
+div.commentsboxMyAct {
   margin-top: 20px;
   background-color: white;
   width: 620px;
   height: 210px;
   overflow: auto;
-  
 }
-.AlertText span{
+.AlertText span {
   margin: auto;
 }
+
+
+.buttonSsa {
+  background-color: #0d8517; /* Green */
+  border: none;
+  color: white;
+  padding: 0px 0px;
+  text-align: center;
+  display: inline-block;
+  font-size: 14px;
+  margin: 0px 0px;
+  transition-duration: 0.4s;
+  text-decoration: none;
+  border-radius: 50px;
+  cursor: pointer;
+}
+.button1Ss {
+  background-color: white; 
+  color: black; 
+  border: 2px solid #0d8517;
+  text-decoration: none;
+  width: 75px;
+  height: 25px;
+  
+}
+.button1Ss:hover {
+  background-color:#0d8517;
+  color: white;
+  text-decoration: none;
+  width: 75px;
+  height: 25px;
+
+}
+
 
 </style>

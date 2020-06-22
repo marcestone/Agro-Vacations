@@ -14,42 +14,39 @@
 
           <b-collapse id="nav-collapse" is-nav>
           <b-nav-item id="welcome" href="#" to="/perfilcliente" v-if="client" > 
-            Welcome back <span class="font-weight-bold text-success">{{client.displayName}}</span> 
+            Bienvenido <span class="font-weight-bold text-success">{{client.displayName}}</span> 
             </b-nav-item>
             <!-- Right aligned nav items -->
             <b-navbar-nav class="ml-auto">
               <b-navbar-nav>
 
                 <b-nav-item href="#" to="/logincliente" v-if="!client"
-                  ><b-icon icon="person-fill"></b-icon> Log In</b-nav-item
+                  ><b-icon icon="person-fill"></b-icon> Ingresar</b-nav-item
                 >
                 <b-nav-item href="#" to="/registrocliente" v-if="!client"
-                  ><b-icon icon="person-plus-fill"></b-icon> Sign In</b-nav-item
-                >
-                <b-nav-item href="#" to="/"
-                  ><b-icon icon="exclamation-circle"></b-icon> Help</b-nav-item
+                  ><b-icon icon="person-plus-fill"></b-icon> Registrarse</b-nav-item
                 >
               </b-navbar-nav>
 
               <b-nav-item-dropdown text="Me" right v-if="client">
                 <template v-slot:button-content>
-                  <b-icon icon="person-fill" aria-hidden="true"></b-icon> Me
+                  <b-icon icon="person-fill" aria-hidden="true"></b-icon> Usuario
                 </template>
                 <b-dropdown-item href="#" to="/perfilcliente">
                   <b-icon icon="person-lines-fill"></b-icon>
-                  Profile</b-dropdown-item
+                  Perfil</b-dropdown-item
                 >
                 <b-dropdown-item href="#" to="/misactividades">
                   <b-icon icon="calendar"></b-icon>
-                   My Activities</b-dropdown-item
+                   Mis actividades</b-dropdown-item
                 >
                 <b-dropdown-item href="#" to="/messages">
                   <b-icon-chat-dots></b-icon-chat-dots>
-                   Messages</b-dropdown-item
+                   Mensajes</b-dropdown-item
                 >
                 <b-dropdown-divider></b-dropdown-divider>
                 <b-dropdown-item href="#" variant="danger" @click="$emit('logout')">
-                  <b-icon icon="power"></b-icon> Log Out</b-dropdown-item
+                  <b-icon icon="power"></b-icon> Salir</b-dropdown-item
                 >
               </b-nav-item-dropdown>
 
@@ -59,7 +56,7 @@
                 style="margin-right: 60px; margin-left: 50px; "
                 to="/registrocliente"
                 v-if="!client"
-                >Discover adventures</router-link
+                >Descubre aventuras</router-link
               >
               <router-link
                 type="button"
@@ -67,7 +64,7 @@
                 style="margin-right: 60px; margin-left: 50px; "
                 to="/crearactividad"
                 v-if="client"
-                >Publish Now</router-link
+                >Publica ahora</router-link
               >
               
             </b-navbar-nav>

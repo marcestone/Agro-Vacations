@@ -1,65 +1,71 @@
 <template>
   <div class="contenL" >
-      <div class="box" id="boxLogin">
-        <form class="mt-4" @submit.prevent="login">
-          <div class="row justify-content-center">
-            <div class="box" id="boxLogin2">
-            <div class="h4" id="h4_">
-              Log into your account
-            </div>
-            </div>
-            <div class="box" id="boxLogin3">
-              <div class="card-body">
-                <section class="form-group">
-                  <div class="box" id="boxerror">
-                    <div class="col-10 alert alert-danger px-3" v-if="error">
-                      Usuario y/o contraseña incorrectos
+      <div class="row justify-content-center">
+        <div class="col" align="center" style="max-width:30%;min-width:400px">
+          <div class="box" id="boxLogin">
+            <form class="mt-4" @submit.prevent="login">
+              
+              
+                <div class="box" id="boxLogin2">
+                <div class="h4" id="h4_">
+                  Ingresa a tu cuenta
+                </div>
+                </div>
+                <div class="box" id="boxLogin3">
+                  <div class="card-body" style="padding-bottom:0">
+                    <section class="form-group" style="margin:0">
+                      <div class="box" id="boxerror">
+                        <div class="col-10 alert alert-danger px-3" v-if="error">
+                          Usuario y/o contraseña incorrectos
+                        </div>
+                      </div>
+                      <div class="box" id="boxUser">
+                        <label class="form-control-label sr-only" for="Email"
+                          >Email
+                        </label>
+                        <input
+                          required
+                          class="form-control"
+                          style="margin-bottom:0"
+                          type="email"
+                          id="email"
+                          placeholder="Correo electrónico"
+                          v-model="email"
+                        />
+                      </div>
+                    </section>
+                    <section class="form-group" variant="success" style="margin:0">
+                      <div class="box" id="boxPssw">
+                        <input
+                        required
+                        class="form-control"
+                        type="password"
+                        style="margin-bottom:0"
+                        placeholder="Contraseña"
+                        v-model="password"
+                      />
+                      </div>
+                    </section>
+                    <div class="box" id="boxB">
+                      <b-button pill variant="success" size="lg" type="submit">
+                        <hbotton>Log in</hbotton>
+                      </b-button>
                     </div>
                   </div>
-                  <div class="box" id="boxUser">
-                    <label class="form-control-label sr-only" for="Email"
-                      >Email
-                    </label>
-                    <input
-                      required
-                      class="form-control"
-                      type="email"
-                      id="email"
-                      placeholder="Correo electrónico"
-                      v-model="email"
-                    />
-                  </div>
-                </section>
-                <section class="form-group" variant="success">
-                  <div class="box" id="boxPssw">
-                    <input
-                    required
-                    class="form-control"
-                    type="password"
-                    placeholder="Contraseña"
-                    v-model="password"
-                  />
-                  </div>
-                </section>
-                <div class="box" id="boxB">
-                  <b-button pill variant="success" size="lg" type="submit">
-                    <hbotton>Log in</hbotton>
-                  </b-button>
                 </div>
-              </div>
+            </form>
+            <div class="box" id="boxLogin4">
+            <p class="text-center mt-1">
+              or
+              <router-link to="/registrocliente" id="rl">
+              register
+              </router-link>
+              now
+            </p>
             </div>
           </div>
-        </form>
-        <div class="box" id="boxLogin4">
-        <p class="text-center mt-1">
-          or
-          <router-link to="/registrocliente" id="rl">
-          register
-          </router-link>
-          now
-        </p>
         </div>
-      </div>
+      </div>  
     </div>
 </template>
 
@@ -99,9 +105,9 @@ export default {
 
 .contenL{
   background-image: url("../assets/backgroundLogin.jpg");
-  width: 100%;
-  height: 587px;
   background-size: cover;
+  height: 90%;
+  padding: 10% 0 10% 0;
 }
 
 #rl{
@@ -120,110 +126,59 @@ export default {
 }
 
 #boxerror {
-  position: absolute;
-  top: 10px;
-  left: 5px;
-  width: 350px;
-  height: 20px;
   border: 3px solid #ffffff00;
   background-color: #f7f7f700;
 }
 
 #boxLogin {
-  position: absolute;
-
-
-  top: 170px;
-  left: 460px;
-  width: 460px;
-  height: 360px;
   border-radius: 70px;
   border: 3px solid #3b3b3bfd;
   background-color: #d1cdcd;
 }
 
 #boxLogin2 {
-  position: absolute;
-  top: 20px;
-  left: 87px;
-  width: 300px;
-  height: 300px;
   border-radius: 70px;
   border: 3px solid #eaf1ec00;
   background-color: #f7f7f700;
 }
 
 #boxLogin3 {
-  position: absolute;
-  top: 50px;
-  left: 80px;
-  width: 350px;
-  height: 300px;
   border-radius: 70px;
   border: 3px solid #eaf1ec00;
   background-color: #f7f7f700;
 }
 
 #boxLogin4 {
-  position: absolute;
-  top: 310px;
-  left: 80px;
-  width: 300px;
-  height: 100px;
   border-radius: 70px;
   border: 3px solid #eaf1ec00;
   background-color: #f7f7f700;
 }
 
 #boxB {
-  position: absolute;
-  top: 190px;
-  left: 100px;
-  width: 300px;
-  height: 100px;
   border-radius: 70px;
   border: 3px solid #eaf1ec00;
   background-color: #f7f7f700;
 }
 
 #boxLogin5 {
-  position: absolute;
-  top: 390px;
-  left: 400px;
-  width: 300px;
-  height: 100px;
-
   border-radius: 70px;
   border: 3px solid #eaf1ec00;
   background-color: #f7f7f700;
 }
 
 #boxUser {
-  position: absolute;
-  top: 80px;
-  left: 00px;
-  width: 300px;
-  height: 300px;
   border-radius: 70px;
   border: 3px solid #eaf1ec00;
   background-color: #f7f7f700;
 }
 
 #boxPssw {
-  position: absolute;
-  top: 130px;
-  left: 00px;
-  width: 300px;
-  height: 300px;
   border-radius: 70px;
   border: 3px solid #eaf1ec00;
   background-color: #f7f7f700;
 }
 
 #boxButton{
-  position: absolute;
-  top: 370px;
-  left: 400px;
   width: 300px;
   height: 300px;
 }
