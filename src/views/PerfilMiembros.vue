@@ -134,13 +134,13 @@ export default {
 .conten{
   background-image: url("../assets/margen1.png");
   width: 100%;
-  height: 1200px;
+  height: 100%;
   background-size: cover;
 }
 
 .conten::before{
   width: 100%;
-  height: 1200px;
+  height: 100%;
   position: absolute;
   size: cover;
   opacity: 0.3;
@@ -169,112 +169,6 @@ export default {
   color: #0d8517;
   font-size: 15px;
   font-family: 'Lucida Sans';
-}
-
-#boxTitle {
-  position: absolute;
-  top: 100px;
-  left: 245px;
-  width: 850px;
-  height: 130px;
-  border: #ffffff00;
-  background-color: #ffffff00;
-}
-
-#boxImage {
-  position: absolute;
-  top: 280px;
-  left: 548px;
-  width: 254px;
-  height: 254px;
-  border-radius: 0px;
-  border: 1px solid #363636a8;
-  background-color: #ffffffda;
-}
-
-#boxAboutMe {
-  position: absolute;
-  top: 700px;
-  left: 245px;
-  width: 880px;
-  height: 380px;
-  border-radius: 50px;
-  border: #11131200;
-  background-color: #ffffffda;
-}
-
-#rectangule1 {
-  position: absolute;
-  top: 580px;
-  left: 648px;
-  width: 54px;
-  height: 54px;
-}
-
-#rectangule2 {
-  position: absolute;
-  top: 850px;
-  left: 648px;
-  width: 54px;
-  height: 54px;
-  border-radius: 0px;
-}
-
-#boxImage4 {
-  position: absolute;
-  top: 980px;
-  left: 660px;
-  width: 50px;
-  height: 200px;
-  border-radius: 0px;
-}
-
-#pre-aboutme {
-  position: absolute;
-  top: 630px;
-  left: 642px;
-  width: 100px;
-  height: 54px;
-  border-radius: 0px;
-}
-
-#pre-personalInfo {
-  position: absolute;
-  top: 900px;
-  left: 625px;
-  width: 190px;
-  height: 54px;
-  border-radius: 0px;
-}
-
-#personalInfo {
-  position: absolute;
-  top: 1000px;
-  left: 485px;
-  width: 150px;
-  height: 150px;
-  border-radius: 0px;
-
-}
-
-#personalInfo2 {
-  position: absolute;
-  top: 1000px;
-  left: 725px;
-  width: 200px;
-  height: 150px;
-  border-radius: 0px;
-
-}
-
-#boxButton {
-  position: absolute;
-  top: 1200px;
-  left: 640px;
-  width: 200px;
-  height: 150px;
-  border-radius: 0px;
-
 }
 
 .buttonSa {
