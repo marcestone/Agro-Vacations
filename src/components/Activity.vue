@@ -84,7 +84,7 @@ dias que ya estan ocupados */
               </router-link>
               <p style="text-align:justify">
                 <i>
-                  <small>Location: {{ activityLocation }}</small>
+                  <small>Ubicación: {{ activityLocation }}</small>
                 </i>
               </p>
               </h4>
@@ -94,7 +94,7 @@ dias que ya estan ocupados */
                 size="sm"
                 :min="dataStart"
                 :max="dataEnd"
-                placeholder="Choose reservation date"
+                placeholder="Escoge una fecha de reserva"
                 :date-format-options="{
                   year: 'numeric',
                   month: 'numeric',
@@ -106,11 +106,11 @@ dias que ya estan ocupados */
           
         </div>
         <template v-slot:modal-footer="{ cancel }">
-          <b-button variant="secondary" @click="cancel()">Cancel</b-button>
+          <b-button variant="secondary" @click="cancel()">Cancelar</b-button>
 
           <form @submit.prevent="reserve">
             <b-button variant="primary" type="submit" @click="showMsgBoxTwo" >
-              <b-icon icon="briefcase" type></b-icon> Reserve
+              <b-icon icon="briefcase" type></b-icon> Reservar
             </b-button>
           </form>
         </template>

@@ -289,39 +289,39 @@
       </b-row>
       <b-row>
           <div class="descriptionFooter">
-            <b-col>Plan, Search and find perfect activities for you and yours<br> 
-            in the best locations, Agrovacations allows you to <br>
-            publish your activities and contact those who wish<br> 
-            to take them Live a new experience, <br>meet and receive an extra income.</b-col>
+            <b-col>Planifique, busque y encuentre actividades perfectas para usted y los suyos <br> 
+            en las mejores ubicaciones, Agrovacations le permite  <br>
+            publicar sus actividades y contactar a aquellos que deseen<br> 
+            a vivir una nueva experiencia, <br>conocer y recibir un ingreso extra.</b-col>
           </div>
         <b-col>
           <ul class="listF">
             <li>
-              <router-link to="/perfilcliente" style="color: white;">Profile</router-link>
+              <router-link to="/perfilcliente" style="color: white;">Perfil</router-link>
             </li>
             <li>
-              <router-link to="/home" style="color: white;">Activities</router-link>
+              <router-link to="/home" style="color: white;">Actividades</router-link>
             </li>
             <li>
-              <router-link to="/logincliente" style="color: white;">Log in</router-link>
+              <router-link to="/logincliente" style="color: white;">Ingresar</router-link>
             </li>
             <li>
-              <router-link to="/registrocliente" style="color: white;">Sign in</router-link>
+              <router-link to="/registrocliente" style="color: white;">Registrarse</router-link>
             </li>
           </ul>
         </b-col>
         <b-col>
             <div class="aList">
-              Extreme<br>
-              Ecological<br>
+              Extrema<br>
+              Ecológica<br>
               Cultural<br>
               Familiar<br>
               Rural<br>
             </div>
         </b-col>
         <b-col>
-          <b-button id="footerButton" to="/registrocliente" v-if="!client">Publish Now</b-button>
-          <b-button id="footerButton" to="/crearactividad" v-if="client">Publish Now</b-button>
+          <b-button id="footerButton" to="/registrocliente" v-if="!client">Publicar ahora</b-button>
+          <b-button id="footerButton" to="/crearactividad" v-if="client">Publicar ahora</b-button>
         </b-col>
       </b-row>
       <hr class="lineFooter" />

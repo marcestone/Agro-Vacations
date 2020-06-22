@@ -8,7 +8,7 @@
               
                 <div class="box" id="boxLogin2">
                 <div class="h4" id="h4_">
-                  Log into your account
+                  Ingresa a tu cuenta
                 </div>
                 </div>
                 <div class="box" id="boxLogin3">

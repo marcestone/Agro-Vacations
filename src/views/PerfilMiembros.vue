@@ -32,7 +32,7 @@
     <div class="row justify-content-center">
       <div class="col-6" align="center">
         <div class="box" id="pre-aboutme">
-          <div class="h3" id="title_short">About me</div>
+          <div class="h3" id="title_short">Mi descripción</div>
         </div>
       </div>
     </div>
@@ -56,7 +56,7 @@
     <div class="row justify-content-center">
       <div class="col-6" align="center">
         <div class="box" id="pre-personalInfo">
-          <div class="h3" id="title_short">Personal INFO</div>
+          <div class="h3" id="title_short">Información personal</div>
         </div>
       </div>
     </div>
@@ -65,11 +65,11 @@
       <div class="col-5" style="width: 50%;padding-right: 1%;padding-top:20px">
         <div class="box" id="personalInfo">
           <p style="text-align:right;">
-            Phone:
-            <br />Status:
-            <br />Gender:
-            <br />Ubication:
-            <br />Address
+            Teléfono:
+            <br />Estado:
+            <br />Género:
+            <br />Ubicación:
+            <br />Dirección
             <br />e-mail:
           </p>
         </div>

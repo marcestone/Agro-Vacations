@@ -7,7 +7,7 @@
             href="https://fonts.googleapis.com/css2?family=Lobster&display=swap"
             rel="stylesheet"
           />
-          <div class="titlePublish">Publish your activity</div>
+          <div class="titlePublish">Publica tu actividad</div>
         </b-container>
         <div class="row">
           <b-container id="area1">
@@ -16,8 +16,7 @@
                 <b-row>
                   <input
                     type="text"
-                    placeholder="       
-                                Activity Name"
+                    placeholder="Nombre de la actividad "
                     id="inputName"
                     v-model="activityName"
                   />
@@ -25,9 +24,7 @@
                     id="description"
                     rows="10"
                     cols="50"
-                    placeholder="                                  
-                    
-                                  Activity Description"
+                    placeholder="Descripción de la actividad"
                     v-model="description"
                   ></textarea>
                 </b-row>
@@ -53,7 +50,7 @@
                   <b-form-file
                     id="dropImagesInput"
                     size="sm"
-                    placeholder="Drop your activity images"
+                    placeholder="Sube las imágenes de tu actividad"
                     drop-placeholder="Drop the image file"
                     style="width:65%;height:100%;margin:10px 0 0 0"
                     @change="onSelectedFile"
@@ -64,7 +61,7 @@
                     variant="success"
                     v-on:click="addFile"
                   >
-                    Upload
+                    Cargar
                     <b-icon icon="cloud-upload" type></b-icon>
                   </b-button>
                 </b-row>
@@ -82,10 +79,10 @@
                       <p
                         style="font-size: 25px; 
                         font-weight: 700;
-                        color: #01a026; 
+                        color: #ffff; 
                         text-align: center; 
                         margin:25px -20px 0px 0px"
-                      >Event date</p>
+                      >Fecha de la actividad</p>
                     </b-col>
                     <b-col id="dateCol2" cols="8" style="display:flex;align-items: center">
                       <div id="dateRow">
@@ -93,7 +90,7 @@
                           type="time"
                           id="time1"
                           :min="min"
-                          placeholder="Start Date"
+                          placeholder="Fecha de inicio"
                           v-model="dateStart"
                           style="width:100%; height:100%"
                         ></b-form-datepicker>
@@ -101,7 +98,7 @@
                           type="time"
                           id="time2"
                           :min="min"
-                          placeholder="End Date"
+                          placeholder="Fecha final"
                           v-model="dateEnd"
                           style="width:100%; height:100%"
                         ></b-form-datepicker>
@@ -115,14 +112,14 @@
                       <p
                         style="font-size: 25px;  
                       font-weight: 700;
-                      color: #01a026;
+                      color: #ffff;
                       margin:25px 0px 0px 0px"
-                      >Enter event price</p>
+                      >Precio de la actividad</p>
                     </b-col>
                     <b-col cols="6" style="display:flex;align-items: center">
                       <input
                         type="number"
-                        placeholder=" 💰 Select the activity's price"
+                        placeholder=" 💰 Precio"
                         id="inputPrice"
                         v-model="activityPrice"
                         max="10000000"
@@ -141,7 +138,7 @@
                     style="font-size: 25px;
                   font-weight: 700;
                   color: #ffffff;
-                  ">Enter event Type</p>
+                  ">Ingresa el tipo de actividad</p>
                   <!--  <input type="text" placeholder="   ☠ Activity Type" id="inputType" v-model="activityType" />-->
                   <select v-model="activityType" id="inputType">
                       <option value="Extreme">Extreme</option>
@@ -160,7 +157,7 @@
                     font-weight: 700;
                     color: #ffff;
                     margin:0px 0px 0px 0px"
-                  >Transport</p>
+                  >Transporte</p>
                 </b-col>
 
                 <b-col cols="4" align="center">
@@ -169,7 +166,7 @@
                     font-weight: 700;
                     color: #ffff;
                     margin:0px 0px 0px 0px"
-                  >Enter event location</p>
+                  >Ubicación</p>
                 </b-col>
               </b-row>
               <b-row>
@@ -185,7 +182,7 @@
                 <b-col cols="4" align="center">
                   <input
                     type="text"
-                    placeholder="     ✈ Location"
+                    placeholder="     ✈ Ubicación"
                     id="inputLocation"
                     v-model="activityLocation"
                   />
@@ -205,7 +202,7 @@
                   v-on:click="addActivity"
                   class="btn btn-success"
                   style="width:200px;height:50px; border-radius:15px"
-                >Publish</button>
+                >Publicar</button>
               </div>
             </b-row>
           </b-container>

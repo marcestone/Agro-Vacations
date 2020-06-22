@@ -34,7 +34,7 @@
             <div class="col" >
               <br />
               <div class="text-center"></div>
-              <b-modal v-bind:id="item.modalId" centered size="sm">
+              <b-modal v-bind:id="item.modalId" centered size="md">
                 <template v-slot:modal-header>
                   <h3>
                     <small style="color:green">Contacta a quienes han reservado tu actividad</small>
@@ -72,7 +72,7 @@
               <strong style="color: green;">$ {{ item.price }}</strong>
               <p class="mt-4" style="text-align:justify">
                 <i>
-                  <small>Publish date: {{ item.datePublish }}</small>
+                  <small>Fecha de publicación: {{ item.datePublish }}</small>
                 </i>
               </p>
 
@@ -180,7 +180,7 @@
                   type="submit"
                   @click.once="comment(item.id,item.activityRate,item.comments.length)"
                 >
-                  <b-icon icon="cursor-fill" type></b-icon>Send
+                  <b-icon icon="cursor-fill" type></b-icon>Enviar
                 </b-button>
                 <b-container v-else-if="item.flagButton == false" id="AlertComment">
                   <div class="AlertText" style="color: white; text-align:center;">
@@ -212,8 +212,8 @@
                 <i>
                   <small>
                     Host: {{ item.userCreatorName }} ||
-                    Publish date: {{ item.datePublish }} ||
-                    Reservation date: {{ item.currentReservationDate }} /
+                    Fecha de publicación: {{ item.datePublish }} ||
+                    Fecha de reserva: {{ item.currentReservationDate }} /
                     2020
                   </small>
                 </i>

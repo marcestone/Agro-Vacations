@@ -32,7 +32,7 @@
     <div class="row justify-content-center">
       <div class="col-6" align="center">
         <div class="box" id="pre-aboutme">
-          <div class="h3" id="title_short">About me</div>
+          <div class="h3" id="title_short">Mi descripción</div>
         </div>
       </div>
     </div>
@@ -56,7 +56,7 @@
     <div class="row justify-content-center">
       <div class="col-6" align="center">
         <div class="box" id="pre-personalInfo">
-          <div class="h3" id="title_short">Personal INFO</div>
+          <div class="h3" id="title_short">Información personal</div>
         </div>
       </div>
     </div>
@@ -65,11 +65,11 @@
       <div class="col-5" style="width: 50%;padding-right: 1%;padding-top:20px">
         <div class="box" id="personalInfo">
           <p style="text-align:right;">
-            Phone:
-            <br />Status:
-            <br />Gender:
-            <br />Ubication:
-            <br />Address
+            Teléfono:
+            <br />Estado:
+            <br />Género:
+            <br />Ubicación:
+            <br />Dirección
             <br />e-mail:
           </p>
         </div>
@@ -90,7 +90,7 @@
       <div class="col-6" align="center">
         <div class="box" id="boxButton1">
           <a href="#editprofile" class="buttonSsa button1Ss">
-            Edit
+            Editar
             <b-icon-pencil-square id="icon"></b-icon-pencil-square>
           </a>
         </div>
@@ -125,7 +125,7 @@
                 class="h3"
                 id="title_short"
                 style="margin-left: 50px; font-weight: bold; font-size: 30px;"
-              >Edit your profile</div>
+              >Editar tu perfil</div>
               <section class="mt-5 col-sm-9 form-group" id="profession_"></section>
               <section class="mt-5 col-sm-11 form-group" id="aboutme_"></section>
               <section class="mt-5 col-sm-9 form-group" id="phone_"></section>
@@ -134,7 +134,7 @@
               <section class="mt-5 col-sm-9 form-group" id="ubication_"></section>
               <section class="mt-5 col-sm-9 form-group" id="address_"></section>
               <div class="form-group text-center mt-5">
-                <button class="btn btn-outline-success" type="submit">Save changes</button>
+                <button class="btn btn-outline-success" type="submit">Guardar cambios</button>
               </div>
             </div>
             <a href="#perfilcliente" class="buttonclose">X</a>
