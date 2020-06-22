@@ -84,7 +84,7 @@
       </div>
 
       <div class="container-all" id="editprofile">
-      <form class="mt-4" @submit.prevent="editprofile_">
+      <form class="mt-4">
         <div class="popup">
           <div class="img">
             <div class="box" id="boxpopupimg">
@@ -130,12 +130,20 @@
 
             </section>
             <div class="form-group text-center mt-5">
-              <button class="btn btn-outline-success" type="submit" >
-                Save changes
+                      <router-link
+                       :to="'/perfilcliente'"
+                      >
+              <button 
+              v-on:click="editprofile_"           
+              class="btn btn-outline-success"
+              href="#perfilcliente">
+              Save changes
               </button>
+                      </router-link>
+
             </div>
           </div>
-          <a href="#perfilcliente" class="buttonclose">X</a>
+          <a href="#perfilcliente" class="buttonclose1">X</a>
         </div> 
       </form>    
     </div>
@@ -407,8 +415,8 @@ export default {
           gender: gender,
           ubication: ubication,
           address: address
-      })
-      .then(function() {
+          })
+            .then(function() {
           console.log("Document successfully updated!");
           location.reload();
       })
@@ -550,7 +558,7 @@ export default {
   font-size: 16px;
 }
 
-.buttonclose{
+.buttonclose1{
   width: 50px;
   height: 50px;
   position: absolute;
@@ -563,7 +571,7 @@ export default {
   line-height: 10px;
 }
 
-.buttonclose:hover {
+.buttonclose1:hover {
   background-color:#bb0505;
   color: rgb(255, 255, 255);
   text-decoration: none;

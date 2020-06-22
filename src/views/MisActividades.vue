@@ -40,7 +40,7 @@
                     <small style="color:green">Contacta a quienes han reservado tu actividad</small>
                   </h3>
                 </template>
-                <div class="modal-body">
+                <div class="modal-body ">
                   <div v-for="item2 in item.activityReservationList" :key="item2.id">
                     <router-link
                       class="list-group-item list-group-item-action"
@@ -49,7 +49,16 @@
                       <b-icon-person-check-fill></b-icon-person-check-fill>
                       {{ item2.name }},
                       {{ item2.createdActivityReservationDate }}
+                      <router-link
+                       :to="'/messages'"
+                      >
+                      <button
+                      v-on:click="createChat(item2.reservationUserId)"
+                      class="buttonSsa button1Ss float-right"
+                      ><b-icon-chat-dots></b-icon-chat-dots> Chat</button>
+                      </router-link>
                     </router-link>
+
                   </div>
                 </div>
 
@@ -103,7 +112,17 @@
               <img id="imgSize" :src="item.picture1" width="300" height="200" />
               <br />
               <div class="text-center">
-                <form></form>
+
+                <form>
+                  <b-button
+                    variant="danger"
+                    type="submit"
+                    @click.once="cancelReservation(item.id)"
+                  >
+                    <b-icon-dash-circle></b-icon-dash-circle>Cancelar
+                  </b-button>
+                </form>
+
               </div>
             </div>
             <div class="col">
@@ -246,70 +265,78 @@ export default {
       flagButton: true,
       newComment: "",
       ratingClient: 0,
-      currentDate: cD
+
+      currentDate: cD,
+
+      chatId: null,
+      fromId: null,
+      receivedId: null,
+      dateMessage: null,
+      messages: [],
+      chats:[],
+
     };
   },
 
   mounted() {
     Firebase.auth().onAuthStateChanged(client => {
-      var currentUser = Firebase.auth().currentUser;
-      if (client) {
-        db.collection("user")
-          .doc(currentUser.uid)
-          .get()
-          .then(snapshot => {
-            var i;
-            var j;
-            for (i = 0; i < snapshot.data().activitiesReserved.length; i++) {
-              var reservedActivityId = snapshot.data().activitiesReserved[i].id;
-              var reservationDate = snapshot.data().activitiesReserved[i]
-                .reservationDate;
-              var realMonth;
-              var realDate;
-              if (reservationDate.slice(0, 3) == "Jan") realMonth = "01";
-              if (reservationDate.slice(0, 3) == "Feb") realMonth = "02";
-              if (reservationDate.slice(0, 3) == "Mar") realMonth = "03";
-              if (reservationDate.slice(0, 3) == "Apr") realMonth = "04";
-              if (reservationDate.slice(0, 3) == "May") realMonth = "05";
-              if (reservationDate.slice(0, 3) == "Jun") realMonth = "06";
-              if (reservationDate.slice(0, 3) == "Jul") realMonth = "07";
-              if (reservationDate.slice(0, 3) == "Aug") realMonth = "08";
-              if (reservationDate.slice(0, 3) == "Sep") realMonth = "09";
-              if (reservationDate.slice(0, 3) == "Oct") realMonth = "10";
-              if (reservationDate.slice(0, 3) == "Nov") realMonth = "11";
-              if (reservationDate.slice(0, 3) == "Dec") realMonth = "12";
-              if (
-                Number(reservationDate.slice(4, 5)) <= 9 &&
-                reservationDate.slice(5, 6) == " "
-              )
-                realDate =
-                  "2020/" +
-                  realMonth +
-                  "/0" +
-                  reservationDate.slice(4, 5) +
-                  " 19:00:00";
-              else
-                realDate =
-                  "2020/" +
-                  realMonth +
-                  "/" +
-                  reservationDate.slice(4, 6) +
-                  " 19:00:00";
-              if (Date.now() > new Date(realDate).getTime())
-                db.collection("activities")
-                  .doc(reservedActivityId)
-                  .get()
-                  .then(snapshot => {
-                    var k = 0;
 
-                    var show = true;
-                    for (k = 0; k < snapshot.data().comments.length; ++k) {
-                      if (
-                        snapshot.data().comments[k].userId == currentUser.uid
-                      ) {
-                        this.flagButton = false;
-                        show = this.flagButton;
-                      }
+    var currentUser = Firebase.auth().currentUser;
+    if (client) {     
+
+      db.collection("user")
+        .doc(currentUser.uid)
+        .get()
+        .then(snapshot => {
+          var i;
+          var j;
+          for (i = 0; i < snapshot.data().activitiesReserved.length; i++) {
+            var reservedActivityId = snapshot.data().activitiesReserved[i].id;
+            var reservationDate = snapshot.data().activitiesReserved[i]
+              .reservationDate;
+            var realMonth;
+            var realDate;
+            if (reservationDate.slice(0, 3) == "Jan") realMonth = "01";
+            if (reservationDate.slice(0, 3) == "Feb") realMonth = "02";
+            if (reservationDate.slice(0, 3) == "Mar") realMonth = "03";
+            if (reservationDate.slice(0, 3) == "Apr") realMonth = "04";
+            if (reservationDate.slice(0, 3) == "May") realMonth = "05";
+            if (reservationDate.slice(0, 3) == "Jun") realMonth = "06";
+            if (reservationDate.slice(0, 3) == "Jul") realMonth = "07";
+            if (reservationDate.slice(0, 3) == "Aug") realMonth = "08";
+            if (reservationDate.slice(0, 3) == "Sep") realMonth = "09";
+            if (reservationDate.slice(0, 3) == "Oct") realMonth = "10";
+            if (reservationDate.slice(0, 3) == "Nov") realMonth = "11";
+            if (reservationDate.slice(0, 3) == "Dec") realMonth = "12";
+            if (
+              Number(reservationDate.slice(4, 5)) <= 9 &&
+              reservationDate.slice(5, 6) == " "
+            )
+              realDate =
+                "2020/" +
+                realMonth +
+                "/0" +
+                reservationDate.slice(4, 5) +
+                " 19:00:00";
+            else
+              realDate =
+                "2020/" +
+                realMonth +
+                "/" +
+                reservationDate.slice(4, 6) +
+                " 19:00:00";
+            if (Date.now() > new Date(realDate).getTime())
+              db.collection("activities")
+                .doc(reservedActivityId)
+                .get()
+                .then(snapshot => {
+                  var k = 0;
+                  var show = true;
+                  for(k = 0; k < snapshot.data().comments.length ; ++k){
+                    if(snapshot.data().comments[k].userId == currentUser.uid ){
+                      this.flagButton = false;   
+                      show = this.flagButton;   
+
                     }
 
                     for (k = 0; k < snapshot.data().userClient.length; k++) {
@@ -505,35 +532,19 @@ export default {
     });
   },
   methods: {
-    comment(id, activityRate, nComments) {
-      const h = this.$createElement;
-      var user = Firebase.auth().currentUser;
-      if (user) {
-        var commentA = db.collection("activities").doc(id);
 
-        commentA
-          .update({
-            comments: firebase.firestore.FieldValue.arrayUnion({
-              comment: this.newComment,
-              dateComment: this.currentDate,
-              rate: this.ratingClient,
-              userId: user.uid
-            })
-          })
-          .then(() => {
-            this.$router.replace("home");
-          });
+      messageAlert(message,variant){
+        const h = this.$createElement
+        const vNodesMsg = h(
+          'p',
+          { class: ['text-center', 'mb-0'] },
+          [
+            h('b-spinner', { props: { type: 'grow', small: true } }),
+            message,
+            h('b-spinner', { props: { type: 'grow', small: true } })
+          ]
+        )
 
-        activityRate =
-          (activityRate * nComments + this.ratingClient) / (nComments + 1);
-        commentA.update({
-          activityRate: activityRate
-        });
-        const vNodesMsg = h("p", { class: ["text-center", "mb-0"] }, [
-          h("b-spinner", { props: { type: "grow", small: true } }),
-          " The comment has been aproved,",
-          h("b-spinner", { props: { type: "grow", small: true } })
-        ]);
         const vNodesTitle = h(
           "div",
           { class: ["d-flex", "flex-grow-1", "align-items-baseline", "mr-2"] },
@@ -545,8 +556,36 @@ export default {
         this.$bvToast.toast([vNodesMsg], {
           title: [vNodesTitle],
           solid: true,
-          variant: "success"
+
+          variant: variant
+        })
+      },
+      comment(id,activityRate,nComments){
+      
+      var user = Firebase.auth().currentUser;
+      if(user){
+        var commentA = db.collection("activities").doc(id)
+        
+        commentA.update({
+          comments: firebase.firestore.FieldValue.arrayUnion(
+          {
+            comment: this.newComment,
+            dateComment: this.currentDate,
+            rate: this.ratingClient,
+            userId: user.uid
+          })
+        }).then(()=>{
+          
+          //this.$router.replace("misactividades");
+            location.reload();      
         });
+
+        activityRate = ((activityRate*(nComments)) + this.ratingClient) / (nComments + 1);
+        commentA.update({
+          activityRate: activityRate,
+        })
+        this.messageAlert("The comment will be avalable soon","success")
+
       }
     },
 
@@ -561,40 +600,16 @@ export default {
           .update({
             isShowed: false
           })
-          .then(function() {
-            // this.$router.replace("home");
+
+          .then(()=>{
+            //this.$router.replace("misactividades");
+            location.reload();
+
           })
           .catch(function(error) {
             console.error("Error actualizando el documento: ", error);
           });
-        db.collection("user")
-          .doc(userId)
-          .update({
-            notifications: Firebase.firestore.FieldValue.arrayUnion({
-              activityId: id,
-              otherUserId: user.uid,
-              otherUsername: this.userCreatorName,
-              activityName: this.nameActivity,
-              type: "cancelacionActividad"
-            })
-          })
-          .then(function() {
-            console.log("El documento ha sido actualizado");
-          });
-        db.collection("user")
-          .doc(user.uid)
-          .update({
-            notifications: Firebase.firestore.FieldValue.arrayUnion({
-              activityId: id,
-              otherUserId: userId,
-              otherUsername: this.userCreatorName,
-              activityName: this.nameActivity,
-              type: "cancelacionActividad"
-            })
-          })
-          .then(function() {
-            console.log("El documento ha sido actualizado");
-          });
+          this.messageAlert("the activity has been hidden","danger")
       }
     },
     reactivateActivity(id) {
@@ -605,12 +620,16 @@ export default {
           .update({
             isShowed: true
           })
-          .then(function() {
-            // this.$router.replace("home");
+
+          .then(()=>{
+            location.reload();
+            //this.$router.replace("misactividades");
+
           })
           .catch(function(error) {
             console.error("Error actualizando el documento: ", error);
           });
+          this.messageAlert("the activity has been restored","success")
       }
     },
     cancelReservation(id) {
@@ -671,10 +690,127 @@ export default {
                 });
             }
           });
+      }      
+      this.messageAlert("the reservation has been canceled","danger")
+    },
+    
+    createChat: function(otheruser) {
+      const info = {
+      chatId: null,
+      fromId: null,
+      receivedId: null,
+      dateMessage: null,
+      messages: []
+      };
+      const now = new Date();
+      const dd = String(now.getDate()).padStart(2, '0');
+      const mm = String(now.getMonth() + 1).padStart(2, '0'); //January is 0!
+      const yyyy = now.getFullYear();
+      const time = now.getHours() + ":" + now.getMinutes();
+      const minDate = mm + '/' + dd + '/' + yyyy +' | ' + time;
+      let documentChat = db.collection("chats").doc();
+      let flag = true;
+      //var user = Firebase.auth().currentUser;
+
+      Firebase.auth().onAuthStateChanged(client => {
+      if (client) {
+        client.uid
+        db.collection("user").doc(client.uid).get().then(snapshot =>{
+            this.chats = snapshot.data().chats;
+            for(let i = 0;i<this.chats.length;i++){
+              if(this.chats[i].fromId == otheruser){
+                flag = false;
+              }
+            }
+
+        if(flag == true){
+        db.collection("user")
+          .doc(client.uid)
+          .get()
+          .then(snapshot => {
+            let documentUser;
+            let messages = snapshot.data().messages;
+            let chats = snapshot.data().chats;
+
+            if (messages == null) {
+              messages = [];
+            }
+
+            if (chats == null) {
+              chats = [];
+            }
+
+            documentUser = db.collection("user").doc(client.uid);
+
+            documentChat.set({
+              fromId: client.uid,
+              receivedId: otheruser,
+              messages: [],
+              chatId: documentChat.id
+            });
+
+            chats.push({
+              chatId: documentChat.id,
+              fromId: otheruser
+            });
+
+            documentUser.update({
+                chats: chats
+              });  
+
+            info.dateMessage = minDate;
+            
+            messages.push({
+              ownerMessage: client.uid,
+              message: "Buenas, ¿en qué te puedo ayudar?",
+              dateMessage : info.dateMessage
+            });
+
+            db.collection("chats")
+              .doc(documentChat.id)
+              .update({
+                messages: messages
+              }).then(() => {
+                //location.href ="/messages"
+                location.reload();
+              })  
+          });
+
+        //var otheruser = document.getElementById('userto').value;
+        var chatID = documentChat.id;
+
+        db.collection("user")
+          .doc(otheruser)
+          .get()
+          .then(snapshot => {
+            let documentUserto;
+            let chats = snapshot.data().chats;
+
+            if (chats == null) {
+              chats = [];
+            }
+
+            documentUserto = db.collection("user").doc(otheruser);
+
+
+            chats.push({
+              chatId: chatID,
+              fromId: client.uid
+            });
+
+            documentUserto.update({
+                chats: chats
+              });  
+          });
+        }else{console.log("Chat creado anteriormente")}
+        })
+
       }
+    })
     }
   }
 };
+
 </script>
 <style lang="scss">
 
@@ -776,4 +912,39 @@ div.commentsboxMyAct {
 .AlertText span {
   margin: auto;
 }
+
+
+.buttonSsa {
+  background-color: #0d8517; /* Green */
+  border: none;
+  color: white;
+  padding: 0px 0px;
+  text-align: center;
+  display: inline-block;
+  font-size: 14px;
+  margin: 0px 0px;
+  transition-duration: 0.4s;
+  text-decoration: none;
+  border-radius: 50px;
+  cursor: pointer;
+}
+.button1Ss {
+  background-color: white; 
+  color: black; 
+  border: 2px solid #0d8517;
+  text-decoration: none;
+  width: 75px;
+  height: 25px;
+  
+}
+.button1Ss:hover {
+  background-color:#0d8517;
+  color: white;
+  text-decoration: none;
+  width: 75px;
+  height: 25px;
+
+}
+
+
 </style>
