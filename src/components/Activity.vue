@@ -109,7 +109,7 @@ dias que ya estan ocupados */
           <b-button variant="secondary" @click="cancel()">Cancelar</b-button>
 
           <form @submit.prevent="reserve">
-            <b-button variant="primary" type="submit" @click="showMsgBoxTwo" >
+            <b-button  variant="primary" type="submit" @click="showMsgBoxTwo" >
               <b-icon icon="briefcase" type></b-icon> Reservar
             </b-button>
           </form>
@@ -150,7 +150,7 @@ export default {
     "pictures",
     "comments",
     "currentDate",
-    "userClient"
+    "userClient",
   ],
   data() {
     return {
@@ -189,7 +189,7 @@ mounted(){
     showMsgBoxTwo() {
       this.boxTwo = "";
       this.$bvModal
-        .msgBoxOk("Data was submitted successfully", {
+        .msgBoxOk("¡Reservado!", {
           title: "Confirmation",
           size: "sm",
           buttonSize: "sm",
@@ -350,7 +350,8 @@ mounted(){
   top: -8%;
   left: 50%;
   margin-left: -45%;
-  max-width: 90% !important;
+  width: 90% !important;
+  height: 50%;
   border-radius: 10px;
   box-shadow: 5px 10px 10px #ccc;
 }

@@ -45,9 +45,9 @@ describe("registro" , () => {
 
         wrapper.vm.$options.watch.passTwo.call(wrapper.vm)
 
-        expect(wrapper.vm.displayName).toBe(wrapper.find('#displayName').element.value)
+        expect(wrapper.vm.displayName).toBe(wrapper.findAll('input').at(0).element.value)
 
-        expect(wrapper.vm.email).toBe(wrapper.find('#email').element.value)
+        expect(wrapper.vm.email).toBe(wrapper.findAll('input').at(1).element.value)
     })
 
     it("Coincidencia de contraseñas", () => {

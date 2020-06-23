@@ -293,20 +293,20 @@
             en las mejores ubicaciones, Agrovacations le permite  <br>
             publicar sus actividades y contactar a aquellos que deseen<br> 
             a vivir una nueva experiencia, <br>conocer y recibir un ingreso extra.</b-col>
-          </div>
+          </div><br>
         <b-col>
           <ul class="listF">
-            <li>
-              <router-link to="/perfilcliente" style="color: white;">Perfil</router-link>
+            <li v-if="client">
+              <router-link to="/perfilcliente" style="color: white;" >Perfil</router-link>
             </li>
-            <li>
-              <router-link to="/home" style="color: white;">Actividades</router-link>
+            <li v-if="client">
+              <router-link to="/home" style="color: white;" >Actividades</router-link>
             </li>
-            <li>
+            <li v-if="!client">
               <router-link to="/logincliente" style="color: white;">Ingresar</router-link>
             </li>
-            <li>
-              <router-link to="/registrocliente" style="color: white;">Registrarse</router-link>
+            <li v-if="!client">
+              <router-link to="/registrocliente" style="color: white;" >Registrarse</router-link>
             </li>
           </ul>
         </b-col>
@@ -340,14 +340,12 @@
 
 <script>
 import db from "../db.js";
-//import firebase from "firebase";
 import Activity from "@/components/Activity.vue";
 import ImageFilter from "@/components/ImageFilter.vue";
 export default {
   name: "Home",
   props: ["client", "activities"],
   mounted() {
-    
     db.collection("activities").onSnapshot(snapshot => {
       const snapData = [];
       snapshot.forEach(doc => {
@@ -564,7 +562,7 @@ export default {
   #buttonSize {
     margin-left: 2%; 
     margin-top: 2%;
-  }
+  }   
 }
 #footerButton {
   background-color: #725922;
@@ -733,7 +731,7 @@ div.imageFooter {
   background-size: cover;
   background-position: center;
   width: 100%;
-  height: 460px;
+  height: 100%;
   margin-top: 50px;
 }
 div.icons {
@@ -762,7 +760,7 @@ div.icons {
 
 .bg-img {
   /* The image used */
-  background-image: url("../assets/bc8.jpg");
+  background-image: url("../assets/bc8-2.jpg");
 
   /* Control the height of the image */
   min-height: 600px;
@@ -809,6 +807,15 @@ div.icons {
 .btn:hover {
   opacity: 1;
 }
-
+@media all and (max-width: 1200px) {
+  #ImageFilter {
+    width: 80%;
+  }
+   #footerButton{
+    height: 100%;
+    width: 50%
+  }
+ 
+}
 
 </style>

@@ -19,6 +19,7 @@
                     placeholder="Nombre de la actividad "
                     id="inputName"
                     v-model="activityName"
+                    required
                   />
                   <textarea
                     id="description"
@@ -26,6 +27,7 @@
                     cols="50"
                     placeholder="Descripción de la actividad"
                     v-model="description"
+                    required
                   ></textarea>
                 </b-row>
               </b-col>
@@ -77,14 +79,15 @@
                   <b-row>
                     <b-col id="dateCol">
                       <p
+                        id="FirstTitleColumn"
                         style="font-size: 25px; 
                         font-weight: 700;
                         color: #ffff; 
                         text-align: center; 
-                        margin:25px -20px 0px 0px"
+                        margin:25px 0px 0px 0px"
                       >Fecha de la actividad</p>
                     </b-col>
-                    <b-col id="dateCol2" cols="8" style="display:flex;align-items: center">
+                    <b-col id="dateCol2" cols="8" style="display:flex;align-items: center; align:center;">
                       <div id="dateRow">
                         <b-form-datepicker
                           type="time"
@@ -93,6 +96,7 @@
                           placeholder="Fecha de inicio"
                           v-model="dateStart"
                           style="width:100%; height:100%"
+                          required
                         ></b-form-datepicker>
                         <b-form-datepicker
                           type="time"
@@ -101,6 +105,7 @@
                           placeholder="Fecha final"
                           v-model="dateEnd"
                           style="width:100%; height:100%"
+                          required
                         ></b-form-datepicker>
                       </div>
                     </b-col>
@@ -108,15 +113,16 @@
                 </b-col>
                 <b-col cols="6">
                   <b-row>
-                    <b-col id="priceCol" cols="6" style="display:flex;align-items: center">
+                    <b-col id="minpricecol" cols="6"  align="center">
                       <p
-                        style="font-size: 25px;  
+                      id="FirstTitleColumn2"
+                      style="font-size: 25px;  
                       font-weight: 700;
                       color: #ffff;
                       margin:25px 0px 0px 0px"
                       >Precio de la actividad</p>
                     </b-col>
-                    <b-col cols="6" style="display:flex;align-items: center">
+                    <b-col id="minpricecol" cols="6" style="display:flex;align-items: center">
                       <input
                         type="number"
                         placeholder=" 💰 Precio"
@@ -124,7 +130,8 @@
                         v-model="activityPrice"
                         max="10000000"
                         min="50000"
-                        step="50000"
+                        step="10000"
+                        required
                       />
                     </b-col>
                   </b-row>
@@ -135,12 +142,39 @@
               <b-row>
                 <b-col cols="4" align="center">
                   <p
-                    style="font-size: 25px;
-                  font-weight: 700;
-                  color: #ffffff;
-                  ">Ingresa el tipo de actividad</p>
+                  id="divLastCol"
+                  style="font-size: 25px;
+                  font-weight: 650;
+                  color: #ffffff;"
+                  >Tipo de actividad</p>
                   <!--  <input type="text" placeholder="   ☠ Activity Type" id="inputType" v-model="activityType" />-->
-                  <select v-model="activityType" id="inputType">
+                  
+                </b-col>
+
+                <b-col cols="4" align="center">
+                  <p
+                    id="divLastCol"
+                    style="font-size: 25px; 
+                    font-weight: 650;
+                    color: #ffff;
+                    margin:0px 0px 0px 0px"
+                  >Transporte</p>
+                </b-col>
+
+                <b-col cols="4" align="center">
+                  <p
+                    id="divLastCol"
+                    style="font-size: 25px; 
+                    font-weight: 650;
+                    color: #ffff;
+                    margin:0px 0px 0px 0px"
+                  >Ubicación</p>
+                </b-col>
+              </b-row>
+              <b-row>
+                
+                <b-col cols="4" align="center">
+                <select v-model="activityType" id="inputType" required>
                       <option value="Extreme">Extreme</option>
                       <option value="Ecological">Ecological</option>
                       <option value="Cultural">Cultural</option>
@@ -149,38 +183,16 @@
                       <option value="Rural">Rural</option>
                       <option value="Lodging">Lodging</option>
                     </select>
-                </b-col>
-
+                  </b-col>
                 <b-col cols="4" align="center">
-                  <p
-                    style="font-size: 25px; 
-                    font-weight: 700;
-                    color: #ffff;
-                    margin:0px 0px 0px 0px"
-                  >Transporte</p>
-                </b-col>
-
-                <b-col cols="4" align="center">
-                  <p
-                    style="font-size: 25px; 
-                    font-weight: 700;
-                    color: #ffff;
-                    margin:0px 0px 0px 0px"
-                  >Ubicación</p>
-                </b-col>
-              </b-row>
-              <b-row>
-                <b-col cols="4" align="center">
-  
-                </b-col>
-                <b-col cols="4" align="center">
-                  <select v-model="activityTransport" id="inputTransport">
+                  <select v-model="activityTransport" id="inputTransport" required>
                     <option value="Yes">Yes</option>
                     <option value="No">No</option>
                   </select>
                 </b-col>
                 <b-col cols="4" align="center">
                   <input
+                    required
                     type="text"
                     placeholder="     ✈ Ubicación"
                     id="inputLocation"
@@ -227,7 +239,6 @@ export default {
     const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
     // 15th two months prior
     const minDate = new Date(today);
-    console.log("TEST");
     return {
       activityName: null,
       activityType: null,
@@ -238,7 +249,7 @@ export default {
       dateActivity: null,
       activityLocation: null,
       activityTransport: null,
-      activityPrice: null,
+      activityPrice: 50000,
       userCreatorName: null,
       activityRate: null,
       selectedFile: null,
@@ -265,10 +276,17 @@ export default {
       };
       //var date = new Date(document.getElementById("time1").value);
       //var timestamp = date.getTime();
-
+      var actPrice = null;
+        try {
+          actPrice = parseInt(info.activityPrice);
+        } catch (error) {
+        console.log(error);
+      }
       var user = Firebase.auth().currentUser;
-
-      if (user != null) {
+      if (user != null && this.activityName != null && this.activityType != null
+      && this.description != null && this.dateStart != null
+      && this.dateEnd != null && this.activityTransport != null && this.activityLocation != null
+      && this.activityPrice != null && !isNaN(actPrice)==true) {
         db.collection("user")
           .doc(user.uid)
           .get()
@@ -287,13 +305,7 @@ export default {
               id: document.id
             });
 
-            var actPrice = 0;
-
-            try {
-              actPrice = parseInt(info.activityPrice);
-            } catch (error) {
-              console.log(error);
-            }
+            
 
             document.set({
               datePublish: new Date(),
@@ -592,8 +604,23 @@ hr.divisorline {
   }
   #inputprice{
     margin: 10px 70%;
+    width: 100%;
   }
   #time1 div, #time2 div{
+    min-width: 100%;
+  }
+  #divLastCol{
+    font-size: 17px !important;
+  }
+  #FirstTitleColumn{
+    color:#28a745 !important;
+  }
+  #FirstTitleColumn1{
+    font-size: 20px !important;
+    color:#ffff !important;
+  }
+  #area2 .col-6 {
+    max-width: 0%;
     min-width: 100%;
   }
 }

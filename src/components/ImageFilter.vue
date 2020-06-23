@@ -50,7 +50,6 @@ export default {
     }
     div.title{
         color: honeydew;
-        opacity: 10 !important;
         text-align: center;
         line-height: 150%;
         font-size: 250%;
@@ -58,8 +57,10 @@ export default {
     }
     @media all and (max-width: 1200px) {
   div.title {
-    font-size: 100%;
+    font-size: 130%;
+    line-height: 350%;
   }
+ 
 }
     
 </style>

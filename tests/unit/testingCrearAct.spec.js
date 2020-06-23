@@ -32,10 +32,10 @@ describe("registro" , () => {
     })  
 
     it("Nombre actividad" ,() => {
-        wrapper.find("#inputType").setValue("Extrema");  
+        wrapper.find("#inputType").findAll("option").at(0).setSelected();  
         const submit = wrapper.find("button");
         submit.trigger('click');
-        expect(wrapper.vm.$data.activityType).toBe("Extrema");
+        expect(wrapper.vm.$data.activityType).toBe("Extreme");
     })  
 
     it("Nombre actividad" ,() => {
@@ -64,7 +64,7 @@ describe("registro" , () => {
 
         wrapper.find("#inputName").setValue("Paseo");  
         wrapper.find("#inputPrice").setValue("100000");  
-        wrapper.find("#inputType").setValue("Extrema");  
+        wrapper.find("#inputType").findAll("option").at(0).setSelected();  
         wrapper.find("#inputLocation").setValue("Bogota");  
         wrapper.find("#inputTransport").findAll("option").at(0).setSelected();
         wrapper.find("#description").setValue("Descripción de prueba");
@@ -80,7 +80,7 @@ describe("registro" , () => {
 
         expect(wrapper.vm.$data.activityName).toBe("Paseo");
         expect(wrapper.vm.$data.activityPrice).toBe("100000");
-        expect(wrapper.vm.$data.activityType).toBe("Extrema");
+        expect(wrapper.vm.$data.activityType).toBe("Extreme");
         expect(wrapper.vm.$data.activityLocation).toBe("Bogota");
         expect(wrapper.vm.$data.activityTransport).toBe("Yes");
         expect(wrapper.vm.$data.description).toBe("Descripción de prueba");
