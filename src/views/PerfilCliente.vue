@@ -409,9 +409,9 @@ export default {
               ubication: ubication,
               address: address
             })
-            .then(function() {
-              console.log("Document successfully updated!");
-              location.reload();
+           .then(()=>{
+            this.$router.replace("perfilcliente");
+            location.reload();      
             })
             .catch(function(error) {
               // The document probably doesn't exist.

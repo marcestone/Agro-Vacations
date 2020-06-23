@@ -232,7 +232,8 @@ export default {
                   address: "User address",
                   pictures:
                     "https://firebasestorage.googleapis.com/v0/b/agrovacations-c213d.appspot.com/o/profile%2FDefaultprofileimage.png?alt=media&token=f5a1ab31-7474-47eb-83ba-5488ca711b35",
-                  notifications: []
+                  notifications: [],
+                  chats:[]
                 })
                   .then(() => {
                   this.$router.replace("home");

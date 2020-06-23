@@ -226,7 +226,7 @@
   </div>
 </template>
 
-  <script>
+ <script>
 import Firebase from "firebase";
 import db from "../db.js";
 import * as firebase from "firebase/app";
@@ -682,11 +682,18 @@ export default {
                       reservationDate: reservationDate
                     }
                   )
-                });
+                })
+                .then(()=>{
+                location.reload();
+                //this.$router.replace("misactividades");
+
+          })
+
             }
           });
       }      
       this.messageAlert("the reservation has been canceled","danger")
+      
     },
     
     createChat: function(otheruser) {
