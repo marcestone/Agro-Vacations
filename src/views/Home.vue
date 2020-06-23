@@ -1,4 +1,4 @@
-<template>
+<template> <!-- Esta es la última -->
   <div class="wrapper">
     <div class="bg-img">
       <form  class="containerFilterBox">
