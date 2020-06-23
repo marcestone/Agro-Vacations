@@ -239,6 +239,7 @@ export default {
     const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
     // 15th two months prior
     const minDate = new Date(today);
+    console.log("TEST");
     return {
       activityName: null,
       activityType: null,
@@ -249,7 +250,7 @@ export default {
       dateActivity: null,
       activityLocation: null,
       activityTransport: null,
-      activityPrice: 50000,
+      activityPrice: null,
       userCreatorName: null,
       activityRate: null,
       selectedFile: null,
@@ -276,13 +277,18 @@ export default {
       };
       //var date = new Date(document.getElementById("time1").value);
       //var timestamp = date.getTime();
-      var actPrice = null;
-        try {
-          actPrice = parseInt(info.activityPrice);
-        } catch (error) {
-        console.log(error);
-      }
+
       var user = Firebase.auth().currentUser;
+
+      var actPrice = 0;
+
+            try {
+              actPrice = parseInt(info.activityPrice);
+            } catch (error) {
+              console.log(error);
+
+            }
+
       if (user != null && this.activityName != null && this.activityType != null
       && this.description != null && this.dateStart != null
       && this.dateEnd != null && this.activityTransport != null && this.activityLocation != null
@@ -304,8 +310,8 @@ export default {
               name: info.activityName,
               id: document.id
             });
-
             
+
 
             document.set({
               datePublish: new Date(),
@@ -319,10 +325,10 @@ export default {
               activityLocation: info.activityLocation,
               activityType: info.activityType,
               userClient: [],
-              comments: [],
+              comments:[],
               userCreator: user.uid,
               userCreatorName: snapshot.data().name,
-              isShowed: true
+              isShowed: true,
             });
 
             db.collection("user")
@@ -354,10 +360,13 @@ export default {
       this.selectedFile = event.target.files[0];
     },
     addFile: function() {
+
+      
       if (this.images.length < 3) {
         this.images.push(this.selectedFile);
         console.log(this.images);
-      } else {
+      }else{
+
         this.images = this.images.slice(1, 2);
         this.images.push(this.selectedFile);
         console.log(this.images);
@@ -367,30 +376,31 @@ export default {
 
       var preview = null;
 
-      if (this.imagesLen % 3 == 1) {
-        preview = document.getElementById("image1").querySelector("img");
-      } else if (this.imagesLen % 3 == 2) {
-        preview = document.getElementById("image2").querySelector("img");
-      } else if (this.imagesLen % 3 == 0) {
-        preview = document.getElementById("image3").querySelector("img");
-      }
+        if ( this.imagesLen % 3 == 1) {
+          preview = document.getElementById("image1").querySelector("img");
+        } else if ( this.imagesLen % 3 == 2) {
+          preview = document.getElementById("image2").querySelector("img");
+        } else if ( this.imagesLen % 3 == 0) {
+          preview = document.getElementById("image3").querySelector("img");
+        }
 
-      var file = this.selectedFile;
-      var reader = new FileReader();
+        var file = this.selectedFile;
+        var reader = new FileReader();
 
-      reader.addEventListener(
-        "load",
-        function() {
-          preview.src = reader.result;
-          preview.style.width = "600px";
-          preview.style.height = "400px";
-        },
-        false
-      );
+        reader.addEventListener(
+          "load",
+          function() {
+            preview.src = reader.result;
+            preview.style.width = "600px";
+            preview.style.height = "400px";
+          },
+          false
+        );
 
-      if (file) {
-        reader.readAsDataURL(file);
-      }
+        if (file) {
+          reader.readAsDataURL(file);
+        }
+
 
       console.log(this.images.length);
     },
@@ -430,7 +440,6 @@ export default {
   }
 };
 </script>
-
 <style lang="scss">
 .mainC {
   position: relative;
