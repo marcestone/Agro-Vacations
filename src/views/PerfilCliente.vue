@@ -188,9 +188,19 @@ export default {
               document.getElementById("subtitle").innerHTML += `
                     ${doc.data().profession}
                     `;
-              document.getElementById("sinrellenar").innerHTML += `
-                    ${doc.data().aboutme}
+              let aboutme1 = `${doc.data().aboutme}`
+              if(aboutme1.length <= 50){
+                console.log("1")
+              document.getElementById("boxAboutMe1").innerHTML = `
+                    <p align="center" style=" color: black;">${doc.data().aboutme}</p>
+                     `;
+              }else{
+                console.log("2")
+                document.getElementById("boxAboutMe1").innerHTML = `
+                    <p align="justify" style=" color: black;">${doc.data().aboutme}</p>
                     `;
+                    }
+
               document.getElementById("profession_").innerHTML += `
                         <label for="profession" style="font-weight: bold;"
                           >Profession
